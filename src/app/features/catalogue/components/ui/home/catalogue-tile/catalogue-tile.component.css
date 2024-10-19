@@ -1,0 +1,50 @@
+/* a 'card' with a tray */
+article {
+    display               : grid;
+    grid-template-columns : 1fr;
+    grid-template-rows    : 1fr 0.2fr;
+}
+
+img {
+    grid-column : 1;
+    grid-row    : 1;
+    height      : 100%;
+    width       : 100%;
+    z-index     : -1;
+}
+
+/* The button should cover the whole image of the card.*/
+/* <1> The border should apply to the whole article, but that doesn't seem to work ?*/
+button {
+    background-color      : transparent;
+    border                : none;
+    border-radius         : 0.5rem 0.5rem 0 0; /* <1> */
+    color                 : blue;
+    cursor                : pointer;
+    display               : grid;
+    font-size             : 1.5rem;
+    grid-column           : 1;
+    grid-row              : 1;
+    grid-template-columns : repeat(3, 1fr);
+    grid-template-rows    : repeat(3, 1fr);
+    height                : 100%;
+    padding               : 0.5rem;
+    width                 : 100%;
+
+    &:hover {
+        background-color : rgba(0, 0, 0, .20);
+    }
+
+    i {
+        align-content    : center;
+        background-color : white;
+        border-radius    : 100%;
+        grid-column      : 1;
+        grid-row         : 3;
+        text-align       : center;
+    }
+}
+
+label {
+    align-content : center;
+}
