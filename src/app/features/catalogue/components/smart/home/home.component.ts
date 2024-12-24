@@ -7,7 +7,7 @@ import {Component} from '@angular/core';
 })
 export class HomeComponent {
 
-  public catalogues: String[] = [
+  public playlists: String[] = [
     'foo',
     'bar','foo',
     'bar','foo',

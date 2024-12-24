@@ -1,19 +1,19 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {CatalogueTileComponent} from './catalogue-tile/catalogue-tile.component';
-import {NewCatalogueTileComponent} from './new-catalogue-tile/new-catalogue-tile.component';
+import {PlaylistTileComponent} from './playlist-tile/playlist-tile.component';
+import {NewPlaylistTileComponent} from './new-playlist-tile/new-playlist-tile.component';
 
 @NgModule({
   declarations: [
-    CatalogueTileComponent,
-    NewCatalogueTileComponent
+    PlaylistTileComponent,
+    NewPlaylistTileComponent
   ],
   imports: [
     CommonModule
   ],
   exports: [
-    CatalogueTileComponent,
-    NewCatalogueTileComponent
+    PlaylistTileComponent,
+    NewPlaylistTileComponent
   ]
 })
 export class HomeModule {
