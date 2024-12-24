@@ -1,6 +1,5 @@
 <main>
-<!--    Insert the add new catalogue card here-->
-    <app-new-playlist-tile/>
+    <app-new-playlist-tile (createdPlaylist)="createPlaylist()"/>
     <app-playlist-tile
             *ngFor="let playlist of playlists"
             name="{{playlist}}"

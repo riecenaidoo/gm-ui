@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 
 @Component({
   selector: 'app-new-playlist-tile',
@@ -6,5 +6,11 @@ import {Component} from '@angular/core';
   styleUrl: './new-playlist-tile.component.css'
 })
 export class NewPlaylistTileComponent {
+
+  @Output() createdPlaylist: EventEmitter<void> = new EventEmitter();
+
+  protected createPlaylistEvent(): void {
+    this.createdPlaylist.emit();
+  }
 
 }
