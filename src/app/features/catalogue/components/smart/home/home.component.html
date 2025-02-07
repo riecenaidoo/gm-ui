@@ -1,7 +1,7 @@
 <main>
     <app-new-playlist-tile (createdPlaylist)="createPlaylist()"/>
     <app-playlist-tile
-            *ngFor="let playlist of playlists"
-            name="{{playlist}}"
+            *ngFor="let playlist of (playlists$ | async)"
+            name="{{playlist.name}}"
     />
 </main>
