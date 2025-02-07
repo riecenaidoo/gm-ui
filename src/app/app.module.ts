@@ -6,6 +6,7 @@ import {AppComponent} from './app.component';
 import {HomeComponent} from './features/catalogue/components/smart/home/home.component';
 import {LayoutModule} from "./core/layout/layout.module";
 import {HomeModule} from "./features/catalogue/components/ui/home/home.module";
+import {provideHttpClient} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -18,7 +19,7 @@ import {HomeModule} from "./features/catalogue/components/ui/home/home.module";
     LayoutModule,
     HomeModule,
   ],
-  providers: [],
+  providers: [provideHttpClient()],
   bootstrap: [AppComponent]
 })
 export class AppModule {
