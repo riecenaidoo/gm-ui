@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {PlaylistRepositoryService} from "../../../../../core/catalogue/services/resources/playlist-repository.service";
 import {BehaviorSubject, Observable} from "rxjs";
 import {EMPTY_PLAYLIST, Playlist} from "../../../../../core/catalogue/models/playlist";
-import {SubscriptionComponent} from "../../../../../core/catalogue/components/subscription-component";
+import {SubscriptionComponent} from "../../../../../shared/components/subscription-component";
 
 @Component({
   selector: 'app-home',
