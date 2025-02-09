@@ -1,0 +1,14 @@
+/* TODO Some of these options should be in a modal class, or in the `DialogComponent`.*/
+aside {
+    background    : whitesmoke;
+    border-radius : 0.5rem;
+    left          : 50%;
+    padding       : 3rem;
+    position      : absolute;
+    top           : 50%;
+    /* Moves it 50% to the left and 50% up, so that it is now centered at its point */
+    transform     : translate(-50%, -50%);
+    z-index       : 2;
+}
+
+/* TODO Figure out the overlay to mask the background. */

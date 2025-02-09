@@ -1,8 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {PlaylistRepositoryService} from "../../../../../core/catalogue/services/resources/playlist-repository.service";
 import {BehaviorSubject, Observable} from "rxjs";
 import {EMPTY_PLAYLIST, Playlist} from "../../../../../core/catalogue/models/playlist";
 import {SubscriptionComponent} from "../../../../../shared/components/subscription-component";
+import {CreatePlaylistRequest} from "../../../models/requests/create-playlist-request";
+import {CreatePlaylistDialogComponent} from "../../ui/home/create-playlist-dialog/create-playlist-dialog.component";
 
 @Component({
   selector: 'app-home',
@@ -14,32 +16,54 @@ export class HomeComponent extends SubscriptionComponent implements OnInit {
   /**
    * TODO: Consider whether we should use an `Observable` rather.
    */
-  private readonly _playlists$: BehaviorSubject<Playlist[]>;
+  readonly #playlists$: BehaviorSubject<Playlist[]>;
 
+  @ViewChild("createPlaylistDialog")
+  private createPlaylistDialog!: CreatePlaylistDialogComponent;
+
+  /**
+   * I find the instantiation using `EMPTY_PLAYLIST` to be messy.
+   * <br>
+   * TODO Consider whether we should pass `playlists$` in as an `@Input`.
+   *
+   * @param {PlaylistRepositoryService} playlistRepository
+   */
   public constructor(private playlistRepository: PlaylistRepositoryService) {
     super();
-    this._playlists$ = new BehaviorSubject([EMPTY_PLAYLIST]);
+    this.#playlists$ = new BehaviorSubject([EMPTY_PLAYLIST]);
   }
 
-  /**
-   * TODO Consider whether we should pass `playlists$` in as an `@Input`.
-   */
   public ngOnInit(): void {
-    let fetchPlaylists = this.playlistRepository.findAll()
-                             .subscribe((playlists: Playlist[]) => this._playlists$.next(playlists));
-    this.registerSubscription(fetchPlaylists);
+    this.fetchPlaylists();
   }
+
+  // ------ API ------
 
   public get playlists$(): Observable<Playlist[]> {
-    return this._playlists$;
+    return this.#playlists$;
   }
 
-  /**
-   * TODO Open up a modal to receive input (the name of the new Playlist) and then call our service.
-   * Remember to refresh whatever we are observing to get our Playlists.
-   */
-  protected createPlaylist(): void {
+  // ------ Event Handling ------
 
+  /**
+   * The user has created a playlist, and we must coordinate with the service to issue the request.
+   */
+  protected createPlaylist(playlist: CreatePlaylistRequest): void {
+    let createdPlaylist = this.playlistRepository.createPlaylist(playlist)
+                              .subscribe((_) => {
+                                this.fetchPlaylists();
+                                this.createPlaylistDialog.clearInputs();
+                                this.createPlaylistDialog.hideDialog();
+                              })
+    this.registerSubscription(createdPlaylist);
+  }
+
+  // ------ Internal ------
+
+  private fetchPlaylists(): void {
+    let fetchedPlaylists = this.playlistRepository.findAll()
+                               .subscribe((playlists: Playlist[]) => this.#playlists$.next(playlists));
+    this.registerSubscription(fetchedPlaylists);
   }
 
 }

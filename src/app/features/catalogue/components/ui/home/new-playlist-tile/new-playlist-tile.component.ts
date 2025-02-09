@@ -7,10 +7,13 @@ import {Component, EventEmitter, Output} from '@angular/core';
 })
 export class NewPlaylistTileComponent {
 
-  @Output() createdPlaylist: EventEmitter<void> = new EventEmitter();
+  @Output()
+  private creatingPlaylist: EventEmitter<void> = new EventEmitter();
 
-  protected createPlaylistEvent(): void {
-    this.createdPlaylist.emit();
+  // ------ Events ------
+
+  protected creatingPlaylistEvent(): void {
+    this.creatingPlaylist.emit();
   }
 
 }
