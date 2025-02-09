@@ -11,7 +11,7 @@ import {provideHttpClient} from "@angular/common/http";
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -20,6 +20,7 @@ import {provideHttpClient} from "@angular/common/http";
     HomeModule,
   ],
   providers: [provideHttpClient()],
+  exports: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {

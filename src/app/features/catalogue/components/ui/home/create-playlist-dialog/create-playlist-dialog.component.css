@@ -10,5 +10,3 @@ aside {
     transform     : translate(-50%, -50%);
     z-index       : 2;
 }
-
-/* TODO Figure out the overlay to mask the background. */
