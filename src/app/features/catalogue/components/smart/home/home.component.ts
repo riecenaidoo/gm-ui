@@ -58,6 +58,14 @@ export class HomeComponent extends SubscriptionComponent implements OnInit {
     this.registerSubscription(createdPlaylist);
   }
 
+  /**
+   * The user has selected a `Playlist` to view.
+   */
+  protected openPlaylist(playlist: Playlist): void {
+    // TODO: Impl
+    console.log(`Opening: ${JSON.stringify(playlist)}`)
+  }
+
   // ------ Internal ------
 
   private fetchPlaylists(): void {

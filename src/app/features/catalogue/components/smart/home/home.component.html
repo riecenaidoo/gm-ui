@@ -2,7 +2,8 @@
     <app-new-playlist-tile (creatingPlaylist)="createPlaylistDialog.showDialog()"/>
     <app-playlist-tile
             *ngFor="let playlist of (playlists$ | async)"
-            name="{{playlist.name}}"
+            [playlist]="playlist"
+            (openingPlaylist)="openPlaylist($event)"
     />
     <app-create-playlist-form #createPlaylistDialog
                               (createdPlaylist)="createPlaylist($event)"
