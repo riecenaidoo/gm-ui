@@ -1,5 +1,6 @@
 /* a 'card' with a tray */
 article {
+    border-bottom         : 0.25rem solid var(--palette-accent);
     display               : grid;
     grid-template-columns : 1fr;
     grid-template-rows    : 1fr 0.2fr;

@@ -1,6 +1,7 @@
 header {
     align-content    : center;
     background-color : var(--palette-bg-darker);
+    border-bottom : 0.25rem solid var(--palette-accent);
     min-height       : 5rem;
     text-align       : center;
 }
