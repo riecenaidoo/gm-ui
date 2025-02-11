@@ -2,15 +2,14 @@ import {Component, HostListener, Input} from "@angular/core";
 import {Dialog} from "../../../models/dialog";
 
 /**
- * Wraps component to present it as dialog.
+ * Wraps component to present it as dialog. Unstyled.
  * <p>
  * Use `@ViewChild` to get a reference to the `DialogComponent` if you need more control over when
  * and how it displays, otherwise pass in `[display]="true"` into the selector to have it immediately display.
  */
 @Component({
   selector: 'app-dialog',
-  templateUrl: './dialog.component.html',
-  styleUrl: './dialog.component.css'
+  templateUrl: './dialog.component.html'
 })
 export class DialogComponent implements Dialog {
 
