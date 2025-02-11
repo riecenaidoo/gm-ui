@@ -1,4 +1,4 @@
-<ng-template [ngIf]="display">
+<app-dialog #dialog>
     <aside>
         <!--https://angular.dev/tutorials/learn-angular/16-form-control-values-->
         <form>
@@ -8,6 +8,4 @@
             <button (click)="createPlaylist()">Create Playlist</button>
         </form>
     </aside>
-
-    <app-overlay (interactedWithOverlay)="hideDialog()"></app-overlay>
-</ng-template>
+</app-dialog>

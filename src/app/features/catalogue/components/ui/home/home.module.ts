@@ -4,7 +4,7 @@ import {PlaylistTileComponent} from './playlist-tile/playlist-tile.component';
 import {NewPlaylistTileComponent} from './new-playlist-tile/new-playlist-tile.component';
 import {CreatePlaylistDialogComponent} from "./create-playlist-dialog/create-playlist-dialog.component";
 import {FormsModule} from "@angular/forms";
-import {OverlayComponent} from "../../../../../shared/components/overlay/overlay.component";
+import {DialogModule} from "../../../../../shared/components/dialog/dialog.module";
 
 @NgModule({
   declarations: [
@@ -15,7 +15,7 @@ import {OverlayComponent} from "../../../../../shared/components/overlay/overlay
   imports: [
     CommonModule,
     FormsModule,
-    OverlayComponent
+    DialogModule
   ],
   exports: [
     PlaylistTileComponent,
