@@ -10,7 +10,6 @@ article {
 button {
     border                : none;
     border-radius         : 0.5rem;
-    color                 : blue;
     cursor                : pointer;
     display               : grid;
     font-size             : 1.5rem;
@@ -28,7 +27,7 @@ button {
 
     i {
         align-content    : center;
-        background-color : white;
+        background-color : var(--palette-accent);
         border-radius    : 100%;
         grid-column      : 2;
         grid-row         : 2;

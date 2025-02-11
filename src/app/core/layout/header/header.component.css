@@ -1,7 +1,6 @@
 header {
-    background-color : black;
-    color            : white;
-    align-content: center;
+    align-content    : center;
+    background-color : var(--palette-bg-darker);
     min-height       : 5rem;
     text-align       : center;
 }
