@@ -1,10 +1,12 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {PlaylistRepositoryService} from "../../../../../core/catalogue/services/resources/playlist-repository.service";
+import {SubscriptionComponent} from "../../../../../../shared/components/subscription-component";
 import {BehaviorSubject, Observable} from "rxjs";
-import {EMPTY_PLAYLIST, Playlist} from "../../../../../core/catalogue/models/playlist";
-import {SubscriptionComponent} from "../../../../../shared/components/subscription-component";
-import {CreatePlaylistRequest} from "../../../models/requests/create-playlist-request";
-import {CreatePlaylistDialogComponent} from "../../ui/home/create-playlist-dialog/create-playlist-dialog.component";
+import {EMPTY_PLAYLIST, Playlist} from "../../../../../../core/catalogue/models/playlist";
+import {CreatePlaylistDialogComponent} from "../../ui/create-playlist-dialog/create-playlist-dialog.component";
+import {
+  PlaylistRepositoryService
+} from "../../../../../../core/catalogue/services/resources/playlist-repository.service";
+import {CreatePlaylistRequest} from "../../../../models/requests/create-playlist-request";
 
 @Component({
   selector: 'app-home',
