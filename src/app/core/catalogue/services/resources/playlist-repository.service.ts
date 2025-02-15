@@ -18,6 +18,10 @@ export class PlaylistRepositoryService {
     return this.http.get<Playlist[]>("http://localhost:8080/api/v1/playlists").pipe();
   }
 
+  public findById(id: number): Observable<Playlist> {
+    return this.http.get<Playlist>(`http://localhost:8080/api/v1/playlists/${id}`).pipe();
+  }
+
   /**
    * If our API returns the ID, we should be able to construct a `Playlist` using the request & response.
    * <br>

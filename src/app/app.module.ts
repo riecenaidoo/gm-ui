@@ -6,6 +6,7 @@ import {AppComponent} from './app.component';
 import {LayoutModule} from "./core/layout/layout.module";
 import {HomeModule} from "./features/catalogue/components/home/home.module";
 import {provideHttpClient} from "@angular/common/http";
+import {PlaylistDashboardModule} from "./features/catalogue/components/playlist-dashboard/playlist-dashboard.module";
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import {provideHttpClient} from "@angular/common/http";
     AppRoutingModule,
     LayoutModule,
     HomeModule,
+    PlaylistDashboardModule
   ],
   providers: [provideHttpClient()],
   exports: [],

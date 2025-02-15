@@ -7,6 +7,7 @@ import {
   PlaylistRepositoryService
 } from "../../../../../../core/catalogue/services/resources/playlist-repository.service";
 import {CreatePlaylistRequest} from "../../../../models/requests/create-playlist-request";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-home',
@@ -29,8 +30,10 @@ export class HomeComponent extends SubscriptionComponent implements OnInit {
    * TODO Consider whether we should pass `playlists$` in as an `@Input`.
    *
    * @param {PlaylistRepositoryService} playlistRepository
+   * @param {Router} router
    */
-  public constructor(private playlistRepository: PlaylistRepositoryService) {
+  public constructor(private playlistRepository: PlaylistRepositoryService,
+                     private router: Router) {
     super();
     this.#playlists$ = new BehaviorSubject([EMPTY_PLAYLIST]);
   }
@@ -64,8 +67,14 @@ export class HomeComponent extends SubscriptionComponent implements OnInit {
    * The user has selected a `Playlist` to view.
    */
   protected openPlaylist(playlist: Playlist): void {
-    // TODO: Impl
-    console.log(`Opening: ${JSON.stringify(playlist)}`)
+    this.router.navigate(["playlists", playlist.id])
+        .then((routed: boolean) => {
+          if (!routed) {
+            // TODO Add toasts
+            // TODO This will be a common `.then` block. Extract it somehow.
+            console.log("Failed to load requested route.")
+          }
+        });
   }
 
   // ------ Internal ------
