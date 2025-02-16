@@ -2,13 +2,14 @@ import {Component, EventEmitter, Output, ViewChild} from '@angular/core';
 import {CreatePlaylistRequest} from "../../../../models/requests/create-playlist-request";
 import {DialogComponent} from "../../../../../../shared/components/dialog/dialog/dialog.component";
 import {Dialog} from "../../../../../../shared/models/dialog";
+import {Form} from "../../../../../../shared/models/form";
 
 @Component({
   selector: 'app-create-playlist-form',
   templateUrl: './create-playlist-dialog.component.html',
   styleUrl: './create-playlist-dialog.component.css'
 })
-export class CreatePlaylistDialogComponent implements Dialog {
+export class CreatePlaylistDialogComponent implements Dialog, Form {
 
   public name: string;
 
@@ -37,8 +38,6 @@ export class CreatePlaylistDialogComponent implements Dialog {
 
   /**
    * Clear inputs on the form.
-   * <br>
-   * TODO Consider whether this would be a useful method on a form interface to define in future for myself.
    */
   public clearInputs(): void {
     this.name = ""
