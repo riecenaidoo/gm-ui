@@ -3,7 +3,6 @@ import {SubscriptionComponent} from "../../../../shared/components/subscription-
 import {BehaviorSubject, Observable} from "rxjs";
 import {EMPTY_PLAYLIST, Playlist} from "../../../../core/catalogue/models/playlist";
 import {PlaylistRepositoryService} from "../../../../core/catalogue/services/resources/playlist-repository.service";
-import {CreatePlaylistRequest} from "../../models/requests/create-playlist-request";
 import {Router} from "@angular/router";
 import {CreatePlaylistFormDialogComponent} from "./create-playlist-form-dialog/create-playlist-form-dialog.component";
 
@@ -49,7 +48,7 @@ export class HomeComponent extends SubscriptionComponent implements OnInit {
   /**
    * The user has created a playlist, and we must coordinate with the service to issue the request.
    */
-  protected createPlaylist(playlist: CreatePlaylistRequest): void {
+  protected createPlaylist(playlist: Playlist): void {
     let createdPlaylist = this.playlistRepository.createPlaylist(playlist)
                               .subscribe((_) => {
                                 this.fetchPlaylists();

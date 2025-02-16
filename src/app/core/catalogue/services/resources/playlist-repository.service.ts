@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {map, Observable} from "rxjs";
 import {Playlist} from "../../models/playlist";
 import {HttpClient} from "@angular/common/http";
-import {CreatePlaylistRequest} from "../../../../features/catalogue/models/requests/create-playlist-request";
+import {PlaylistsCreateRequest} from "../../models/requests/playlists-create-request";
 import {Song} from "../../models/song";
 import {PatchOperation} from "../../models/requests/patch-operation";
 import {PlaylistsSongsPatchRequest} from "../../models/requests/playlists-songs-patch-request";
@@ -34,10 +34,10 @@ export class PlaylistRepositoryService {
    * <br>
    * TODO return `Observable<Playlist>`
    *
-   * @param {CreatePlaylistRequest} playlist
+   * @param {PlaylistsCreateRequest} playlist
    * @returns {Observable<void>}
    */
-  public createPlaylist(playlist: CreatePlaylistRequest): Observable<void> {
+  public createPlaylist(playlist: PlaylistsCreateRequest): Observable<void> {
     return this.http.post("http://localhost:8080/api/v1/playlists", playlist).pipe(
             map((_) => undefined)
     );

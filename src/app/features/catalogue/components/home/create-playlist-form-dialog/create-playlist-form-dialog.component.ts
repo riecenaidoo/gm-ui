@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Output, ViewChild} from '@angular/core';
-import {CreatePlaylistRequest} from "../../../models/requests/create-playlist-request";
 import {DialogComponent} from "../../../../../shared/components/dialog/dialog/dialog.component";
 import {Dialog} from "../../../../../shared/models/dialog";
 import {Form} from "../../../../../shared/models/form";
+import {Playlist} from "../../../../../core/catalogue/models/playlist";
 
 @Component({
   selector: 'app-create-playlist-form-dialog',
@@ -14,7 +14,7 @@ export class CreatePlaylistFormDialogComponent implements Form, Dialog {
   public name: string = "";
 
   @Output()
-  private createdPlaylist: EventEmitter<CreatePlaylistRequest> = new EventEmitter<CreatePlaylistRequest>;
+  private createdPlaylist: EventEmitter<Playlist> = new EventEmitter();
 
   @ViewChild("dialog")
   private dialog!: DialogComponent;
@@ -41,10 +41,10 @@ export class CreatePlaylistFormDialogComponent implements Form, Dialog {
    * The user has created a playlist.
    */
   public createPlaylist(): void {
-    const request: CreatePlaylistRequest = {
+    const playlist: Playlist = {
       name: this.name
     }
-    this.createdPlaylist.emit(request)
+    this.createdPlaylist.emit(playlist)
   }
 
 }
