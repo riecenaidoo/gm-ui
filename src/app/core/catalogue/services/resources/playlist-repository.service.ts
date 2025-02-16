@@ -16,15 +16,15 @@ export class PlaylistRepositoryService {
   // ------ API ------
 
   public findAll(): Observable<Playlist[]> {
-    return this.http.get<Playlist[]>("http://localhost:8080/api/v1/playlists").pipe();
+    return this.http.get<Playlist[]>("http://localhost:8080/api/v1/playlists");
   }
 
   public findById(id: number): Observable<Playlist> {
-    return this.http.get<Playlist>(`http://localhost:8080/api/v1/playlists/${id}`).pipe();
+    return this.http.get<Playlist>(`http://localhost:8080/api/v1/playlists/${id}`);
   }
 
   public getPlaylistSongs(id: number): Observable<Song[]> {
-    return this.http.get<Song[]>(`http://localhost:8080/api/v1/playlists/${id}/songs`).pipe();
+    return this.http.get<Song[]>(`http://localhost:8080/api/v1/playlists/${id}/songs`);
   }
 
   /**
