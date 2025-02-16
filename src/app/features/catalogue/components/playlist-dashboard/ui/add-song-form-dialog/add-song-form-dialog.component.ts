@@ -5,11 +5,11 @@ import {Dialog} from '../../../../../../shared/models/dialog';
 import {DialogComponent} from "../../../../../../shared/components/dialog/dialog/dialog.component";
 
 @Component({
-  selector: 'app-add-song-dialog',
-  templateUrl: './add-song-dialog.component.html',
-  styleUrl: './add-song-dialog.component.css'
+  selector: 'app-add-song-form-dialog',
+  templateUrl: './add-song-form-dialog.component.html',
+  styleUrl: './add-song-form-dialog.component.css'
 })
-export class AddSongDialogComponent implements Dialog, Form {
+export class AddSongFormDialogComponent implements Form, Dialog {
 
   public url: string = "";
 

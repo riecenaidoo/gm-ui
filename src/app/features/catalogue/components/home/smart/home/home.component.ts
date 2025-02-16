@@ -2,12 +2,14 @@ import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {SubscriptionComponent} from "../../../../../../shared/components/subscription-component";
 import {BehaviorSubject, Observable} from "rxjs";
 import {EMPTY_PLAYLIST, Playlist} from "../../../../../../core/catalogue/models/playlist";
-import {CreatePlaylistDialogComponent} from "../../ui/create-playlist-dialog/create-playlist-dialog.component";
 import {
   PlaylistRepositoryService
 } from "../../../../../../core/catalogue/services/resources/playlist-repository.service";
 import {CreatePlaylistRequest} from "../../../../models/requests/create-playlist-request";
 import {Router} from "@angular/router";
+import {
+  CreatePlaylistFormDialogComponent
+} from "../../ui/create-playlist-form-dialog/create-playlist-form-dialog.component";
 
 @Component({
   selector: 'app-home',
@@ -17,25 +19,16 @@ import {Router} from "@angular/router";
 export class HomeComponent extends SubscriptionComponent implements OnInit {
 
   /**
-   * TODO: Consider whether we should use an `Observable` rather.
-   */
-  readonly #playlists$: BehaviorSubject<Playlist[]>;
-
-  @ViewChild("createPlaylistDialog")
-  private createPlaylistDialog!: CreatePlaylistDialogComponent;
-
-  /**
    * I find the instantiation using `EMPTY_PLAYLIST` to be messy.
-   * <br>
-   * TODO Consider whether we should pass `playlists$` in as an `@Input`.
-   *
-   * @param {PlaylistRepositoryService} playlistRepository
-   * @param {Router} router
    */
+  readonly #playlists$: BehaviorSubject<Playlist[]> = new BehaviorSubject([EMPTY_PLAYLIST]);
+
+  @ViewChild("createPlaylistForm")
+  private createPlaylistForm!: CreatePlaylistFormDialogComponent;
+
   public constructor(private playlistRepository: PlaylistRepositoryService,
                      private router: Router) {
     super();
-    this.#playlists$ = new BehaviorSubject([EMPTY_PLAYLIST]);
   }
 
   public ngOnInit(): void {
@@ -51,8 +44,8 @@ export class HomeComponent extends SubscriptionComponent implements OnInit {
   // ------ Hotkeys ------
 
   @HostListener("window:keydown.alt.1")
-  protected showCreatePlaylistDialog(): void{
-    this.createPlaylistDialog.showDialog();
+  protected showCreatePlaylistDialog(): void {
+    this.createPlaylistForm.showDialog();
   }
 
   // ------ Event Handling ------
@@ -64,8 +57,8 @@ export class HomeComponent extends SubscriptionComponent implements OnInit {
     let createdPlaylist = this.playlistRepository.createPlaylist(playlist)
                               .subscribe((_) => {
                                 this.fetchPlaylists();
-                                this.createPlaylistDialog.clearInputs();
-                                this.createPlaylistDialog.hideDialog();
+                                this.createPlaylistForm.clearInputs();
+                                this.createPlaylistForm.hideDialog();
                               })
     this.registerSubscription(createdPlaylist);
   }

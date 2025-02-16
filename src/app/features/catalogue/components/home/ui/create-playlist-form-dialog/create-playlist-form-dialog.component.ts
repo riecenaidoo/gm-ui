@@ -5,34 +5,19 @@ import {Dialog} from "../../../../../../shared/models/dialog";
 import {Form} from "../../../../../../shared/models/form";
 
 @Component({
-  selector: 'app-create-playlist-form',
-  templateUrl: './create-playlist-dialog.component.html',
-  styleUrl: './create-playlist-dialog.component.css'
+  selector: 'app-create-playlist-form-dialog',
+  templateUrl: './create-playlist-form-dialog.component.html',
+  styleUrl: './create-playlist-form-dialog.component.css'
 })
-export class CreatePlaylistDialogComponent implements Dialog, Form {
+export class CreatePlaylistFormDialogComponent implements Form, Dialog {
 
-  public name: string;
+  public name: string = "";
 
   @Output()
-  private createdPlaylist: EventEmitter<CreatePlaylistRequest>
+  private createdPlaylist: EventEmitter<CreatePlaylistRequest> = new EventEmitter<CreatePlaylistRequest>;
 
-  /**
-   * Technically, we could just expose this as public and give direct access
-   * to the `showDialog` and `hideDialog` method.
-   * <p>
-   * I prefer typing this component to be a `Dialog`, for semantics,
-   * and for the usage pattern preference: `this.showDialog()` > `this.dialog.showDialog()`.
-   *
-   * @type {DialogComponent}
-   * @private
-   */
   @ViewChild("dialog")
   private dialog!: DialogComponent;
-
-  public constructor() {
-    this.name = "";
-    this.createdPlaylist = new EventEmitter<CreatePlaylistRequest>;
-  }
 
   // ------ API ------
 

@@ -7,7 +7,7 @@ import {BehaviorSubject, Observable} from "rxjs";
 import {EMPTY_PLAYLIST, Playlist} from "../../../../../../core/catalogue/models/playlist";
 import {ActivatedRoute} from "@angular/router";
 import {EMPTY_SONG, Song} from "../../../../../../core/catalogue/models/song";
-import {AddSongDialogComponent} from "../../ui/add-song-dialog/add-song-dialog.component";
+import {AddSongFormDialogComponent} from "../../ui/add-song-form-dialog/add-song-form-dialog.component";
 
 @Component({
   selector: 'app-playlist-dashboard',
@@ -18,19 +18,17 @@ export class PlaylistDashboardComponent extends SubscriptionComponent implements
 
   readonly #id: number;
 
-  readonly #playlist$: BehaviorSubject<Playlist>;
+  readonly #playlist$: BehaviorSubject<Playlist> = new BehaviorSubject(EMPTY_PLAYLIST);
 
-  readonly #songs$: BehaviorSubject<Song[]>;
+  readonly #songs$: BehaviorSubject<Song[]> = new BehaviorSubject([EMPTY_SONG]);
 
-  @ViewChild("addSongDialog")
-  private addSongDialog!: AddSongDialogComponent;
+  @ViewChild("addSongForm")
+  private addSongForm!: AddSongFormDialogComponent;
 
   public constructor(private playlistRepository: PlaylistRepositoryService,
                      private route: ActivatedRoute) {
     super();
     this.#id = Number(this.route.snapshot.paramMap.get("id"));
-    this.#playlist$ = new BehaviorSubject(EMPTY_PLAYLIST);
-    this.#songs$ = new BehaviorSubject([EMPTY_SONG]);
   }
 
   public ngOnInit(): void {
@@ -52,7 +50,7 @@ export class PlaylistDashboardComponent extends SubscriptionComponent implements
 
   @HostListener("window:keydown.alt.1")
   protected showAddSongDialog(): void {
-    this.addSongDialog.showDialog()
+    this.addSongForm.showDialog()
   }
 
   // ------ Event Handling ------
@@ -61,8 +59,8 @@ export class PlaylistDashboardComponent extends SubscriptionComponent implements
     const addedSong = this.playlistRepository.addSongsToPlaylist(this.#id, [song])
                           .subscribe(() => {
                             this.fetchSongs();
-                            this.addSongDialog.hideDialog();
-                            this.addSongDialog.clearInputs();
+                            this.addSongForm.hideDialog();
+                            this.addSongForm.clearInputs();
                           });
     this.registerSubscription(addedSong);
   }

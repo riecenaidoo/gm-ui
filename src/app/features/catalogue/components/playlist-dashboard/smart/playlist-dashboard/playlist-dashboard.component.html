@@ -1,15 +1,17 @@
-<ng-container *ngIf="(playlist$ |async) as playlist">
-    <h2>{{ playlist.name }}</h2>
-    <button (click)="addSongDialog.showDialog()" title="Add Song"><i class="fa fa-plus"></i></button>
-    <button title="Rename Playlist"><i class="fa fa-pencil"></i></button>
-    <button title="Delete Playlist"><i class="fa fa-trash"></i></button>
-</ng-container>
+<main>
+    <ng-container *ngIf="(playlist$ |async) as playlist">
+        <h2>{{ playlist.name }}</h2>
+        <button (click)="addSongForm.showDialog()" title="Add Song"><i class="fa fa-plus"></i></button>
+        <button title="Rename Playlist"><i class="fa fa-pencil"></i></button>
+        <button title="Delete Playlist"><i class="fa fa-trash"></i></button>
+    </ng-container>
 
-<ng-container *ngIf="(songs$|async) as songs">
-    <app-song-table
-            [songs]="songs"
-            (removingSong)="removeSong($event)"
-    />
-</ng-container>
+    <ng-container *ngIf="(songs$|async) as songs">
+        <app-song-table
+                [songs]="songs"
+                (removingSong)="removeSong($event)"
+        />
+    </ng-container>
+</main>
 
-<app-add-song-dialog #addSongDialog (addedSong)="addSong($event)"/>
+<app-add-song-form-dialog #addSongForm (addedSong)="addSong($event)"/>

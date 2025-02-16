@@ -4,13 +4,13 @@ import {PlaylistDashboardComponent} from './smart/playlist-dashboard/playlist-da
 import {SongTableComponent} from './ui/song-table/song-table.component';
 import {DialogModule} from "../../../../shared/components/dialog/dialog.module";
 import {FormsModule} from "@angular/forms";
-import {AddSongDialogComponent} from "./ui/add-song-dialog/add-song-dialog.component";
+import {AddSongFormDialogComponent} from "./ui/add-song-form-dialog/add-song-form-dialog.component";
 
 @NgModule({
   declarations: [
     PlaylistDashboardComponent,
     SongTableComponent,
-    AddSongDialogComponent
+    AddSongFormDialogComponent
   ],
   imports: [
     CommonModule,
