@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {SubscriptionComponent} from "../../../../../../shared/components/subscription-component";
 import {
   PlaylistRepositoryService
@@ -46,6 +46,13 @@ export class PlaylistDashboardComponent extends SubscriptionComponent implements
 
   public get songs$(): Observable<Song[]> {
     return this.#songs$;
+  }
+
+  // ------ Hotkeys ------
+
+  @HostListener("window:keydown.alt.1")
+  protected showAddSongDialog(): void {
+    this.addSongDialog.showDialog()
   }
 
   // ------ Event Handling ------

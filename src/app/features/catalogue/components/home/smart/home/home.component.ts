@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {SubscriptionComponent} from "../../../../../../shared/components/subscription-component";
 import {BehaviorSubject, Observable} from "rxjs";
 import {EMPTY_PLAYLIST, Playlist} from "../../../../../../core/catalogue/models/playlist";
@@ -46,6 +46,13 @@ export class HomeComponent extends SubscriptionComponent implements OnInit {
 
   public get playlists$(): Observable<Playlist[]> {
     return this.#playlists$;
+  }
+
+  // ------ Hotkeys ------
+
+  @HostListener("window:keydown.alt.1")
+  protected showCreatePlaylistDialog(): void{
+    this.createPlaylistDialog.showDialog();
   }
 
   // ------ Event Handling ------
