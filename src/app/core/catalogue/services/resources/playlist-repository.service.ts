@@ -3,6 +3,7 @@ import {map, Observable} from "rxjs";
 import {Playlist} from "../../models/playlist";
 import {HttpClient} from "@angular/common/http";
 import {CreatePlaylistRequest} from "../../../../features/catalogue/models/requests/create-playlist-request";
+import {Song} from "../../models/song";
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,10 @@ export class PlaylistRepositoryService {
 
   public findById(id: number): Observable<Playlist> {
     return this.http.get<Playlist>(`http://localhost:8080/api/v1/playlists/${id}`).pipe();
+  }
+
+  public getPlaylistSongs(id: number): Observable<Song[]> {
+    return this.http.get<Song[]>(`http://localhost:8080/api/v1/playlists/${id}/songs`).pipe();
   }
 
   /**

@@ -1,21 +1,13 @@
-<h2>{{ (playlist$ | async)?.name }}</h2>
-<button title="Add Song"><i class="fa fa-plus"></i></button>
-<button title="Rename Playlist"><i class="fa fa-pencil"></i></button>
-<button title="Delete Playlist"><i class="fa fa-trash"></i></button>
+<ng-container *ngIf="(playlist$ |async) as playlist">
+    <h2>{{ playlist.name }}</h2>
+    <button title="Add Song"><i class="fa fa-plus"></i></button>
+    <button title="Rename Playlist"><i class="fa fa-pencil"></i></button>
+    <button title="Delete Playlist"><i class="fa fa-trash"></i></button>
+</ng-container>
 
-<table>
-    <thead>
-    <th><i title="Options" class="fa fa-ellipsis-v"></i></th>
-    <th>URL</th>
-    </thead>
-    <tbody>
-    <tr *ngFor="let song of (playlist$|async)?.songs">
-        <td>
-            <button title="Remove Song"><i class="fa fa-minus"></i></button>
-        </td>
-        <td>
-            <span>{{ song.url }}</span>
-        </td>
-    </tr>
-    </tbody>
-</table>
+<ng-container *ngIf="(songs$|async) as songs">
+    <app-song-table
+            [songs]="songs"
+            (removingSong)="removeSong($event)"
+    />
+</ng-container>

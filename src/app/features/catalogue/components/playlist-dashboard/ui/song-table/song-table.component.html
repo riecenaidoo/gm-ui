@@ -1,0 +1,16 @@
+<table>
+    <thead>
+    <th><i title="Options" class="fa fa-ellipsis-v"></i></th>
+    <th>URL</th>
+    </thead>
+    <tbody>
+    <tr *ngFor="let song of songs">
+        <td>
+            <button title="Remove Song" (click)="removingSongEvent(song)"><i class="fa fa-minus"></i></button>
+        </td>
+        <td>
+            <span>{{ song.url }}</span>
+        </td>
+    </tr>
+    </tbody>
+</table>
