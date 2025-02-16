@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {EMPTY_PLAYLIST, Playlist} from "../../../../../../core/catalogue/models/playlist";
+import {EMPTY_PLAYLIST, Playlist} from "../../../../../core/catalogue/models/playlist";
 
 @Component({
   selector: 'app-playlist-tile',

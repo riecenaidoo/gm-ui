@@ -1,15 +1,11 @@
 import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
-import {SubscriptionComponent} from "../../../../../../shared/components/subscription-component";
+import {SubscriptionComponent} from "../../../../shared/components/subscription-component";
 import {BehaviorSubject, Observable} from "rxjs";
-import {EMPTY_PLAYLIST, Playlist} from "../../../../../../core/catalogue/models/playlist";
-import {
-  PlaylistRepositoryService
-} from "../../../../../../core/catalogue/services/resources/playlist-repository.service";
-import {CreatePlaylistRequest} from "../../../../models/requests/create-playlist-request";
+import {EMPTY_PLAYLIST, Playlist} from "../../../../core/catalogue/models/playlist";
+import {PlaylistRepositoryService} from "../../../../core/catalogue/services/resources/playlist-repository.service";
+import {CreatePlaylistRequest} from "../../models/requests/create-playlist-request";
 import {Router} from "@angular/router";
-import {
-  CreatePlaylistFormDialogComponent
-} from "../../ui/create-playlist-form-dialog/create-playlist-form-dialog.component";
+import {CreatePlaylistFormDialogComponent} from "./create-playlist-form-dialog/create-playlist-form-dialog.component";
 
 @Component({
   selector: 'app-home',

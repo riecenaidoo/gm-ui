@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {HomeComponent} from "./features/catalogue/components/home/smart/home/home.component";
+import {HomeComponent} from "./features/catalogue/components/home/home.component";
 import {
   PlaylistDashboardComponent
 } from "./features/catalogue/components/playlist-dashboard/smart/playlist-dashboard/playlist-dashboard.component";
