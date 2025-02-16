@@ -3,8 +3,7 @@ article {
     display               : grid;
     grid-template-columns : 1fr;
     grid-template-rows    : 1fr 0.2fr;
-    height                : 100%;
-    width                 : 100%;
+    aspect-ratio: 1/1.2;
 }
 
 button {
