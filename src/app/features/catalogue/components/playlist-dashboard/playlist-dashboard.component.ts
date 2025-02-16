@@ -1,13 +1,11 @@
 import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
-import {SubscriptionComponent} from "../../../../../../shared/components/subscription-component";
-import {
-  PlaylistRepositoryService
-} from "../../../../../../core/catalogue/services/resources/playlist-repository.service";
+import {SubscriptionComponent} from "../../../../shared/components/subscription-component";
+import {PlaylistRepositoryService} from "../../../../core/catalogue/services/resources/playlist-repository.service";
 import {BehaviorSubject, Observable} from "rxjs";
-import {EMPTY_PLAYLIST, Playlist} from "../../../../../../core/catalogue/models/playlist";
+import {EMPTY_PLAYLIST, Playlist} from "../../../../core/catalogue/models/playlist";
 import {ActivatedRoute} from "@angular/router";
-import {EMPTY_SONG, Song} from "../../../../../../core/catalogue/models/song";
-import {AddSongFormDialogComponent} from "../../ui/add-song-form-dialog/add-song-form-dialog.component";
+import {EMPTY_SONG, Song} from "../../../../core/catalogue/models/song";
+import {AddSongFormDialogComponent} from "./add-song-form-dialog/add-song-form-dialog.component";
 
 @Component({
   selector: 'app-playlist-dashboard',

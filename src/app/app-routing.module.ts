@@ -3,7 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {HomeComponent} from "./features/catalogue/components/home/home.component";
 import {
   PlaylistDashboardComponent
-} from "./features/catalogue/components/playlist-dashboard/smart/playlist-dashboard/playlist-dashboard.component";
+} from "./features/catalogue/components/playlist-dashboard/playlist-dashboard.component";
 
 const routes: Routes = [
   {

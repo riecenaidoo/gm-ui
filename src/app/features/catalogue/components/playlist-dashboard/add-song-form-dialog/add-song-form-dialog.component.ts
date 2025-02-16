@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Output, ViewChild} from '@angular/core';
-import {Form} from "../../../../../../shared/models/form";
-import {Song} from "../../../../../../core/catalogue/models/song";
-import {Dialog} from '../../../../../../shared/models/dialog';
-import {DialogComponent} from "../../../../../../shared/components/dialog/dialog/dialog.component";
+import {Form} from "../../../../../shared/models/form";
+import {Song} from "../../../../../core/catalogue/models/song";
+import {Dialog} from '../../../../../shared/models/dialog';
+import {DialogComponent} from "../../../../../shared/components/dialog/dialog/dialog.component";
 
 @Component({
   selector: 'app-add-song-form-dialog',

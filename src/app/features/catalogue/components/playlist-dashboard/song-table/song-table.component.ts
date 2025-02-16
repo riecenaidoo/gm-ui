@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {EMPTY_SONG, Song} from "../../../../../../core/catalogue/models/song";
+import {EMPTY_SONG, Song} from "../../../../../core/catalogue/models/song";
 
 @Component({
   selector: 'app-song-table',
