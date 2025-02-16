@@ -44,9 +44,19 @@ export class PlaylistRepositoryService {
   }
 
   public addSongsToPlaylist(id: number, songs: Song[]): Observable<void> {
+    return this.patchPlaylistSongs(songs, id, PatchOperation.ADD);
+  }
+
+  public removeSongsFromPlaylist(id: number, songs: Song[]): Observable<void> {
+    return this.patchPlaylistSongs(songs, id, PatchOperation.REMOVE);
+  }
+
+  // ------ Helpers ------
+
+  private patchPlaylistSongs(songs: Song[], id: number, patchOperation: PatchOperation) {
     const urls: string[] = songs.map((song: Song) => song.url);
     const body: PlaylistsSongsPatchRequest = {
-      op: PatchOperation.ADD,
+      op: patchOperation,
       urls: urls
     };
     return this.http.patch<void>(`http://localhost:8080/api/v1/playlists/${id}/songs`, body);

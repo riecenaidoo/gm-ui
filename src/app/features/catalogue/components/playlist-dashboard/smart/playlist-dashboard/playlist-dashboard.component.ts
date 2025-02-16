@@ -61,7 +61,9 @@ export class PlaylistDashboardComponent extends SubscriptionComponent implements
   }
 
   protected removeSong(song: Song): void {
-    console.log(`TODO Remove Song: ${JSON.stringify(song)}`)
+    const removedSong = this.playlistRepository.removeSongsFromPlaylist(this.#id, [song])
+                            .subscribe(() => this.fetchSongs());
+    this.registerSubscription(removedSong);
   }
 
   // ------ Internal ------
