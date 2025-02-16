@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {SubscriptionComponent} from "../../../../../../shared/components/subscription-component";
 import {
   PlaylistRepositoryService
@@ -7,6 +7,7 @@ import {BehaviorSubject, Observable} from "rxjs";
 import {EMPTY_PLAYLIST, Playlist} from "../../../../../../core/catalogue/models/playlist";
 import {ActivatedRoute} from "@angular/router";
 import {EMPTY_SONG, Song} from "../../../../../../core/catalogue/models/song";
+import {AddSongDialogComponent} from "../../ui/add-song-dialog/add-song-dialog.component";
 
 @Component({
   selector: 'app-playlist-dashboard',
@@ -15,13 +16,19 @@ import {EMPTY_SONG, Song} from "../../../../../../core/catalogue/models/song";
 })
 export class PlaylistDashboardComponent extends SubscriptionComponent implements OnInit {
 
+  readonly #id: number;
+
   readonly #playlist$: BehaviorSubject<Playlist>;
 
   readonly #songs$: BehaviorSubject<Song[]>;
 
+  @ViewChild("addSongDialog")
+  private addSongDialog!: AddSongDialogComponent;
+
   public constructor(private playlistRepository: PlaylistRepositoryService,
                      private route: ActivatedRoute) {
     super();
+    this.#id = Number(this.route.snapshot.paramMap.get("id"));
     this.#playlist$ = new BehaviorSubject(EMPTY_PLAYLIST);
     this.#songs$ = new BehaviorSubject([EMPTY_SONG]);
   }
@@ -43,6 +50,16 @@ export class PlaylistDashboardComponent extends SubscriptionComponent implements
 
   // ------ Event Handling ------
 
+  protected addSong(song: Song): void {
+    const addedSong = this.playlistRepository.addSongsToPlaylist(this.#id, [song])
+                          .subscribe(() => {
+                            this.fetchSongs();
+                            this.addSongDialog.hideDialog();
+                            this.addSongDialog.clearInputs();
+                          });
+    this.registerSubscription(addedSong);
+  }
+
   protected removeSong(song: Song): void {
     console.log(`TODO Remove Song: ${JSON.stringify(song)}`)
   }
@@ -50,16 +67,14 @@ export class PlaylistDashboardComponent extends SubscriptionComponent implements
   // ------ Internal ------
 
   private fetchPlaylist(): void {
-    const id: number = Number(this.route.snapshot.paramMap.get("id"));
-    let fetchedPlaylist = this.playlistRepository.findById(id)
-                              .subscribe((playlist: Playlist) => this.#playlist$.next(playlist));
+    const fetchedPlaylist = this.playlistRepository.findById(this.#id)
+                                .subscribe((playlist: Playlist) => this.#playlist$.next(playlist));
     this.registerSubscription(fetchedPlaylist);
   }
 
   private fetchSongs(): void {
-    const id: number = Number(this.route.snapshot.paramMap.get("id"));
-    let fetchedSongs = this.playlistRepository.getPlaylistSongs(id)
-                           .subscribe((songs: Song[]) => this.#songs$.next(songs));
+    const fetchedSongs = this.playlistRepository.getPlaylistSongs(this.#id)
+                             .subscribe((songs: Song[]) => this.#songs$.next(songs));
     this.registerSubscription(fetchedSongs);
   }
 

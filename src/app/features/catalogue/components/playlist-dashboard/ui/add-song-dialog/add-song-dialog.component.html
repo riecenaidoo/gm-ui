@@ -1,0 +1,10 @@
+<app-dialog #dialog>
+    <aside>
+        <form>
+            <label for="url">Song Url</label>
+            <input type="text" id="url" name="url" [(ngModel)]="url">
+
+            <button (click)="addSong()">Add Song</button>
+        </form>
+    </aside>
+</app-dialog>

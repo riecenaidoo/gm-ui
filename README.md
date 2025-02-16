@@ -14,3 +14,11 @@ Catalogue Builder - Create catalogues to organise a large number of playlists.
 
 - Loading Spinner Component
 - Toast Component
+
+### QOL
+
+- Figure out whether hotkeys for actions like 'Add Song', etc. would be good?
+
+### Known Issues
+
+- On opening a dialog with a form, the input field is not focused. This prevents us immediately typing as soon as we click open the dialog.
