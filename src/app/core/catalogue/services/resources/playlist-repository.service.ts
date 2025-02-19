@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {map, Observable} from "rxjs";
+import {Observable} from "rxjs";
 import {Playlist} from "../../models/playlist";
 import {HttpClient} from "@angular/common/http";
 import {PlaylistsCreateRequest} from "../../models/requests/playlists-create-request";
@@ -38,9 +38,7 @@ export class PlaylistRepositoryService {
    * @returns {Observable<void>}
    */
   public createPlaylist(playlist: PlaylistsCreateRequest): Observable<void> {
-    return this.http.post("http://localhost:8080/api/v1/playlists", playlist).pipe(
-            map((_) => undefined)
-    );
+    return this.http.post<void>("http://localhost:8080/api/v1/playlists", playlist);
   }
 
   public addSongsToPlaylist(id: number, songs: Song[]): Observable<void> {
@@ -49,6 +47,10 @@ export class PlaylistRepositoryService {
 
   public removeSongsFromPlaylist(id: number, songs: Song[]): Observable<void> {
     return this.patchPlaylistSongs(songs, id, PatchOperation.REMOVE);
+  }
+
+  public renamePlaylist(id: number, name: string): Observable<void>{
+    return this.http.put<void>(`http://localhost:8080/api/v1/playlists/${id}/name`, {name})
   }
 
   // ------ Helpers ------

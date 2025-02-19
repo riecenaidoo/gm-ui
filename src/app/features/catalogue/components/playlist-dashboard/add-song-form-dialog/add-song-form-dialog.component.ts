@@ -41,7 +41,7 @@ export class AddSongFormDialogComponent implements Form, Dialog {
   // ------ Events ------
 
   protected addSong(): void {
-    const song = {url: this.url};
+    const song: Song = {url: this.url};
     this.addedSong.emit(song);
   }
 

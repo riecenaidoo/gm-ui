@@ -6,6 +6,7 @@ import {EMPTY_PLAYLIST, Playlist} from "../../../../core/catalogue/models/playli
 import {ActivatedRoute} from "@angular/router";
 import {EMPTY_SONG, Song} from "../../../../core/catalogue/models/song";
 import {AddSongFormDialogComponent} from "./add-song-form-dialog/add-song-form-dialog.component";
+import {RenamePlaylistFormDialogComponent} from "./rename-playlist-form-dialog/rename-playlist-form-dialog.component";
 
 @Component({
   selector: 'app-playlist-dashboard',
@@ -22,6 +23,9 @@ export class PlaylistDashboardComponent extends SubscriptionComponent implements
 
   @ViewChild("addSongForm")
   private addSongForm!: AddSongFormDialogComponent;
+
+  @ViewChild("renamePlaylistForm")
+  protected renamePlaylistForm!: RenamePlaylistFormDialogComponent;
 
   public constructor(private playlistRepository: PlaylistRepositoryService,
                      private route: ActivatedRoute) {
@@ -51,6 +55,11 @@ export class PlaylistDashboardComponent extends SubscriptionComponent implements
     this.addSongForm.showDialog()
   }
 
+  @HostListener("window:keydown.alt.2")
+  protected showRenamePlaylistDialog(): void {
+    this.renamePlaylistForm.showDialog();
+  }
+
   // ------ Event Handling ------
 
   protected addSong(song: Song): void {
@@ -67,6 +76,15 @@ export class PlaylistDashboardComponent extends SubscriptionComponent implements
     const removedSong = this.playlistRepository.removeSongsFromPlaylist(this.#id, [song])
                             .subscribe(() => this.fetchSongs());
     this.registerSubscription(removedSong);
+  }
+
+  protected renamePlaylist(playlist: Playlist): void {
+    const renamedPlaylist = this.playlistRepository.renamePlaylist(this.#id, playlist.name)
+                                .subscribe(() => {
+                                  this.fetchPlaylist();
+                                  this.renamePlaylistForm.hideDialog();
+                                });
+    this.registerSubscription(renamedPlaylist)
   }
 
   // ------ Internal ------
