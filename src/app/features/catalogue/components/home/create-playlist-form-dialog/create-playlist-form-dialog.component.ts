@@ -47,4 +47,10 @@ export class CreatePlaylistFormDialogComponent implements Form, Dialog {
     this.createdPlaylist.emit(playlist)
   }
 
+  // ------ Internal ------
+
+  protected noInput(): boolean {
+    return this.name.trim().length === 0;
+  }
+
 }

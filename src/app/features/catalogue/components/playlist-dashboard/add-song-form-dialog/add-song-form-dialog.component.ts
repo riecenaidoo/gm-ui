@@ -45,4 +45,10 @@ export class AddSongFormDialogComponent implements Form, Dialog {
     this.addedSong.emit(song);
   }
 
+  // ------ Internal ------
+
+  protected noInput(): boolean {
+    return this.url.trim().length === 0;
+  }
+
 }

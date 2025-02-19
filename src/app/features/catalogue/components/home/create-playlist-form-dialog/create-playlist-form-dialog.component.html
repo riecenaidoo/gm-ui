@@ -5,7 +5,7 @@
             <label for="name">Playlist Name</label>
             <input type="text" id="name" name="name" [(ngModel)]="name" autofocus>
 
-            <button (click)="createPlaylist()">Create Playlist</button>
+            <button (click)="createPlaylist()" [disabled]="noInput()">Create Playlist</button>
         </form>
     </aside>
 </app-dialog>

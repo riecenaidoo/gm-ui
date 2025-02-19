@@ -4,7 +4,7 @@
             <label for="name">Playlist Name</label>
             <input type="text" id="name" name="name" [(ngModel)]="name" autofocus/>
 
-            <button [disabled]="nameUnchanged()" (click)="renamePlaylist()">Rename Playlist</button>
+            <button (click)="renamePlaylist()" [disabled]="nameUnchanged()">Rename Playlist</button>
         </form>
     </aside>
 </app-dialog>
