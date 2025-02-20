@@ -3,7 +3,7 @@ import {SubscriptionComponent} from "../../../../shared/components/subscription-
 import {PlaylistRepositoryService} from "../../../../core/catalogue/services/resources/playlist-repository.service";
 import {BehaviorSubject, Observable} from "rxjs";
 import {EMPTY_PLAYLIST, Playlist} from "../../../../core/catalogue/models/playlist";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {EMPTY_SONG, Song} from "../../../../core/catalogue/models/song";
 import {AddSongFormDialogComponent} from "./add-song-form-dialog/add-song-form-dialog.component";
 import {RenamePlaylistFormDialogComponent} from "./rename-playlist-form-dialog/rename-playlist-form-dialog.component";
@@ -28,7 +28,8 @@ export class PlaylistDashboardComponent extends SubscriptionComponent implements
   protected renamePlaylistForm!: RenamePlaylistFormDialogComponent;
 
   public constructor(private playlistRepository: PlaylistRepositoryService,
-                     private route: ActivatedRoute) {
+                     private route: ActivatedRoute,
+                     private router: Router) {
     super();
     this.#id = Number(this.route.snapshot.paramMap.get("id"));
   }
@@ -85,6 +86,20 @@ export class PlaylistDashboardComponent extends SubscriptionComponent implements
                                   this.renamePlaylistForm.hideDialog();
                                 });
     this.registerSubscription(renamedPlaylist)
+  }
+
+  protected deletePlaylist(): void{
+    const deletedPlaylist = this.playlistRepository.deletePlaylist(this.#id)
+                                .subscribe(() => {
+                                  this.router.navigate([""]).then((routed: boolean) => {
+                                    if (!routed) {
+                                      // TODO Add toasts
+                                      // TODO This will be a common `.then` block. Extract it somehow.
+                                      console.log("Failed to load requested route.")
+                                    }
+                                  });
+                                });
+    this.registerSubscription(deletedPlaylist);
   }
 
   // ------ Internal ------

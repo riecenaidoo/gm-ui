@@ -53,6 +53,10 @@ export class PlaylistRepositoryService {
     return this.http.put<void>(`http://localhost:8080/api/v1/playlists/${id}/name`, {name})
   }
 
+  public deletePlaylist(id: number): Observable<void> {
+    return this.http.delete<void>(`http://localhost:8080/api/v1/playlists/${id}`);
+  }
+
   // ------ Helpers ------
 
   private patchPlaylistSongs(songs: Song[], id: number, patchOperation: PatchOperation) {
