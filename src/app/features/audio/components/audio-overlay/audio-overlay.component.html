@@ -1,0 +1,7 @@
+<aside>
+    <label for="servers">Select a Server:</label>
+
+    <select name="servers" id="servers">
+        <option *ngFor="let server of (servers$ | async)" value="{{server}}">{{ server.name }}</option>
+    </select>
+</aside>

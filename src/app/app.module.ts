@@ -7,6 +7,7 @@ import {LayoutModule} from "./core/layout/layout.module";
 import {HomeModule} from "./features/catalogue/components/home/home.module";
 import {provideHttpClient} from "@angular/common/http";
 import {PlaylistDashboardModule} from "./features/catalogue/components/playlist-dashboard/playlist-dashboard.module";
+import {AudioOverlayModule} from "./features/audio/components/audio-overlay/audio-overlay.module";
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import {PlaylistDashboardModule} from "./features/catalogue/components/playlist-
     AppRoutingModule,
     LayoutModule,
     HomeModule,
-    PlaylistDashboardModule
+    PlaylistDashboardModule,
+    AudioOverlayModule
   ],
   providers: [provideHttpClient()],
   exports: [],
