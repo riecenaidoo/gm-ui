@@ -1,12 +1,12 @@
 export interface Server {
 
-  id: number;
+  id: string;
 
   name: string;
 
 }
 
 export const EMPTY_SERVER = {
-  id: - 1,
+  id: "",
   name: ""
 }
