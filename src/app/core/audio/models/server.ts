@@ -5,8 +5,3 @@ export interface Server {
   name: string;
 
 }
-
-export const EMPTY_SERVER = {
-  id: "",
-  name: ""
-}

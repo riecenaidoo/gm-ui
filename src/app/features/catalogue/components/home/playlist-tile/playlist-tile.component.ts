@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {EMPTY_PLAYLIST, Playlist} from "../../../../../core/catalogue/models/playlist";
+import {Playlist} from "../../../../../core/catalogue/models/playlist";
 
 @Component({
   selector: 'app-playlist-tile',
@@ -8,8 +8,8 @@ import {EMPTY_PLAYLIST, Playlist} from "../../../../../core/catalogue/models/pla
 })
 export class PlaylistTileComponent {
 
-  @Input()
-  public playlist: Playlist = EMPTY_PLAYLIST;
+  @Input({required:true})
+  public playlist!: Playlist;
 
   @Output()
   private openingPlaylist: EventEmitter<Playlist> = new EventEmitter();

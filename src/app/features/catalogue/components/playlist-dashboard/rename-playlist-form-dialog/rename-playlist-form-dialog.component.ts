@@ -9,7 +9,7 @@ import {Form} from "../../../../../shared/models/form";
   templateUrl: './rename-playlist-form-dialog.component.html',
   styleUrl: './rename-playlist-form-dialog.component.css'
 })
-export class RenamePlaylistFormDialogComponent implements Form, Dialog{
+export class RenamePlaylistFormDialogComponent implements Form, Dialog {
 
   #playlist!: Playlist;
 
@@ -23,8 +23,8 @@ export class RenamePlaylistFormDialogComponent implements Form, Dialog{
 
   // ------ API ------
 
-  @Input()
-  set playlist(playlist: Playlist) {
+  @Input({required:true})
+  public set playlist(playlist: Playlist) {
     this.#playlist = playlist;
     this.name = playlist.name;
   }
@@ -50,7 +50,7 @@ export class RenamePlaylistFormDialogComponent implements Form, Dialog{
 
   // ------ Internal ------
 
-  protected nameUnchanged(): boolean{
+  protected nameUnchanged(): boolean {
     return this.#playlist.name === this.name;
   }
 

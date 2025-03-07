@@ -1,7 +1,7 @@
 import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {SubscriptionComponent} from "../../../../shared/components/subscription-component";
-import {BehaviorSubject, Observable} from "rxjs";
-import {EMPTY_PLAYLIST, Playlist} from "../../../../core/catalogue/models/playlist";
+import {Observable, Subject} from "rxjs";
+import {Playlist} from "../../../../core/catalogue/models/playlist";
 import {PlaylistRepositoryService} from "../../../../core/catalogue/services/resources/playlist-repository.service";
 import {Router} from "@angular/router";
 import {CreatePlaylistFormDialogComponent} from "./create-playlist-form-dialog/create-playlist-form-dialog.component";
@@ -13,10 +13,7 @@ import {CreatePlaylistFormDialogComponent} from "./create-playlist-form-dialog/c
 })
 export class HomeComponent extends SubscriptionComponent implements OnInit {
 
-  /**
-   * I find the instantiation using `EMPTY_PLAYLIST` to be messy.
-   */
-  readonly #playlists$: BehaviorSubject<Playlist[]> = new BehaviorSubject([EMPTY_PLAYLIST]);
+  readonly #playlists$: Subject<Playlist[]> = new Subject<Playlist[]>();
 
   @ViewChild("createPlaylistForm")
   private createPlaylistForm!: CreatePlaylistFormDialogComponent;

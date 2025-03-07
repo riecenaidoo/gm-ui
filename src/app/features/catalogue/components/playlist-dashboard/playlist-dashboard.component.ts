@@ -1,10 +1,10 @@
 import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {SubscriptionComponent} from "../../../../shared/components/subscription-component";
 import {PlaylistRepositoryService} from "../../../../core/catalogue/services/resources/playlist-repository.service";
-import {BehaviorSubject, Observable} from "rxjs";
-import {EMPTY_PLAYLIST, Playlist} from "../../../../core/catalogue/models/playlist";
+import {Observable, Subject} from "rxjs";
+import {Playlist} from "../../../../core/catalogue/models/playlist";
 import {ActivatedRoute, Router} from "@angular/router";
-import {EMPTY_SONG, Song} from "../../../../core/catalogue/models/song";
+import {Song} from "../../../../core/catalogue/models/song";
 import {AddSongFormDialogComponent} from "./add-song-form-dialog/add-song-form-dialog.component";
 import {RenamePlaylistFormDialogComponent} from "./rename-playlist-form-dialog/rename-playlist-form-dialog.component";
 
@@ -17,9 +17,9 @@ export class PlaylistDashboardComponent extends SubscriptionComponent implements
 
   readonly #id: number;
 
-  readonly #playlist$: BehaviorSubject<Playlist> = new BehaviorSubject(EMPTY_PLAYLIST);
+  readonly #playlist$: Subject<Playlist> = new Subject();
 
-  readonly #songs$: BehaviorSubject<Song[]> = new BehaviorSubject([EMPTY_SONG]);
+  readonly #songs$: Subject<Song[]> = new Subject();
 
   @ViewChild("addSongForm")
   private addSongForm!: AddSongFormDialogComponent;
@@ -88,7 +88,7 @@ export class PlaylistDashboardComponent extends SubscriptionComponent implements
     this.registerSubscription(renamedPlaylist)
   }
 
-  protected deletePlaylist(): void{
+  protected deletePlaylist(): void {
     const deletedPlaylist = this.playlistRepository.deletePlaylist(this.#id)
                                 .subscribe(() => {
                                   this.router.navigate([""]).then((routed: boolean) => {
@@ -116,4 +116,5 @@ export class PlaylistDashboardComponent extends SubscriptionComponent implements
     this.registerSubscription(fetchedSongs);
   }
 
+  protected readonly length = length;
 }
