@@ -12,10 +12,12 @@
                                          [playlist]="playlist"/>
     </ng-container>
 
-    <ng-container *ngIf="(songs$|async) as songs">
+    <ng-container *ngIf="(songs$ | async) as songs">
         <app-song-table
+                *ngIf="songs.length > 0"
                 [songs]="songs"
                 (removingSong)="removeSong($event)"
         />
     </ng-container>
+
 </main>
