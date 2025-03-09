@@ -5,6 +5,7 @@ import {Observable, Subject} from "rxjs";
 import {Server} from "../../../../core/audio/models/server";
 import {Channel} from "../../../../core/audio/models/channel";
 import {ServerSelectorComponent} from "./server-selector/server-selector.component";
+import {ServerAudio} from "../../../../core/audio/models/server-audio";
 
 @Component({
   selector: 'app-audio-overlay',
@@ -47,7 +48,8 @@ export class AudioOverlayComponent extends SubscriptionComponent implements OnIn
   // ------ Event Handling ------
 
   protected selectServer(server: Server) {
-    this.fetchChannels(server)
+    this.fetchChannels(server);
+    this.fetchServerAudio(server);
   }
 
   protected joinChannel(channel: Channel) {
@@ -86,6 +88,12 @@ export class AudioOverlayComponent extends SubscriptionComponent implements OnIn
     const fetchedChannels = this.audioRepositoryService.getChannels(server)
                                 .subscribe((channels: Channel[]) => this.#channels$.next(channels));
     this.registerSubscription(fetchedChannels)
+  }
+
+  private fetchServerAudio(server: Server): void {
+    const fetchedServerAudio = this.audioRepositoryService.getServerAudio(server)
+                                   .subscribe((serverAudio?: ServerAudio) => this.#audioClient.next(!!serverAudio));
+    this.registerSubscription(fetchedServerAudio);
   }
 
 }

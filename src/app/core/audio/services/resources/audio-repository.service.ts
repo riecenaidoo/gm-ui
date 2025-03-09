@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Server} from "../../models/server";
-import {Observable} from "rxjs";
+import {catchError, Observable, of} from "rxjs";
 import {Channel} from "../../models/channel";
 import {ServersCreateAudioRequest} from "../../models/requests/servers-create-audio-request";
+import {ServerAudio} from "../../models/server-audio";
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,21 @@ export class AudioRepositoryService {
 
   public getChannels(server: Server): Observable<Channel[]> {
     return this.http.get<Channel[]>(`http://localhost:5050/servers/${server.id}/channels`);
+  }
+
+  /**
+   * @returns {Observable<ServerAudio | undefined>} ServerAudio if present, undefined if it has not been connected as yet.
+   */
+  public getServerAudio(server: Server): Observable<ServerAudio|undefined> {
+    return this.http.get<ServerAudio>(`http://localhost:5050/servers/${server.id}/audio`)
+               .pipe(catchError((err: any) => {
+                         if (err.status === 404) {
+                           return of(undefined);
+                         } else {
+                           throw err;
+                         }
+                       }
+               ));
   }
 
   public createServerAudio(server: Server, channel: Channel): Observable<void> {
