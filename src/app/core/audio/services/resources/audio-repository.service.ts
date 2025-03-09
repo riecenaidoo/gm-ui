@@ -30,4 +30,8 @@ export class AudioRepositoryService {
     return this.http.post<void>(`http://localhost:5050/servers/${server.id}/audio`, request);
   }
 
+  public deleteServerAudio(server: Server): Observable<void> {
+    return this.http.delete<void>(`http://localhost:5050/servers/${server.id}/audio`);
+  }
+
 }

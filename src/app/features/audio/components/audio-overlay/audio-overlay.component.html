@@ -11,4 +11,6 @@
             (channelSelected)="joinChannel($event)">
     </app-channel-selector>
 
+    <button *ngIf="hasAudioClient$ | async" (click)="disconnectAudio()">Disconnect</button>
+
 </aside>

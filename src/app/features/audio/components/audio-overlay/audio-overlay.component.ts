@@ -17,6 +17,8 @@ export class AudioOverlayComponent extends SubscriptionComponent implements OnIn
 
   readonly #channels$: Subject<Channel[]> = new Subject();
 
+  readonly #audioClient: Subject<boolean> = new Subject();
+
   @ViewChild("serverSelector")
   private serverSelector?: ServerSelectorComponent;
 
@@ -38,6 +40,10 @@ export class AudioOverlayComponent extends SubscriptionComponent implements OnIn
     return this.#channels$;
   }
 
+  public get hasAudioClient$(): Observable<boolean> {
+    return this.#audioClient;
+  }
+
   // ------ Event Handling ------
 
   protected selectServer(server: Server) {
@@ -52,8 +58,20 @@ export class AudioOverlayComponent extends SubscriptionComponent implements OnIn
       );
     }
     const joinedChannel = this.audioRepositoryService.createServerAudio(server, channel)
-                              .subscribe();
+                              .subscribe((_) => this.#audioClient.next(true));
     this.registerSubscription(joinedChannel)
+  }
+
+  protected disconnectAudio(): void {
+    const server = this.serverSelector?.selectedServer;
+    if (!server) {
+      throw new Error(
+              "Cannot disconnect ServerAudio if no Server was selected."
+      );
+    }
+    const disconnectedAudio = this.audioRepositoryService.deleteServerAudio(server)
+                                  .subscribe((_) => this.#audioClient.next(false));
+    this.registerSubscription(disconnectedAudio);
   }
 
   // ------ Internal ------
