@@ -1,10 +1,9 @@
 <aside>
-    <label for="selectedServer">Select a Server:</label>
-
-    <select #selectedServer (ngModelChange)="selectServer($event)" [ngModel]="selectedServer"
-            id="selectedServer" name="selectedServer">
-        <option *ngFor="let server of (servers$ | async)" [ngValue]="server">{{ server.name }}</option>
-    </select>
+    <app-server-selector
+            *ngIf="(servers$ |async) as servers"
+            [servers]="servers"
+            (serverSelected)="selectServer($event)">
+    </app-server-selector>
 
     <ol *ngIf="(channels$ | async) as channels">
         <li *ngFor="let channel of channels">{{ channel.name }}</li>
