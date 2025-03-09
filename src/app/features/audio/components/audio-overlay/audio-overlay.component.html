@@ -1,12 +1,14 @@
 <aside>
-    <app-server-selector
-            *ngIf="(servers$ |async) as servers"
-            [servers]="servers"
-            (serverSelected)="selectServer($event)">
+    <app-server-selector #serverSelector
+                         *ngIf="(servers$ |async) as servers"
+                         [servers]="servers"
+                         (serverSelected)="selectServer($event)">
     </app-server-selector>
 
-    <ol *ngIf="(channels$ | async) as channels">
-        <li *ngFor="let channel of channels">{{ channel.name }}</li>
-    </ol>
+    <app-channel-selector
+            *ngIf="(channels$ | async) as channels"
+            [channels]="channels"
+            (channelSelected)="joinChannel($event)">
+    </app-channel-selector>
 
 </aside>

@@ -1,0 +1,6 @@
+<ol>
+    <button *ngFor="let channel of channels"
+            (click)="selectChannel(channel)">
+        {{ channel.name }}
+    </button>
+</ol>

@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {SubscriptionComponent} from "../../../../shared/components/subscription-component";
 import {AudioRepositoryService} from "../../../../core/audio/services/resources/audio-repository.service";
 import {Observable, Subject} from "rxjs";
 import {Server} from "../../../../core/audio/models/server";
 import {Channel} from "../../../../core/audio/models/channel";
+import {ServerSelectorComponent} from "./server-selector/server-selector.component";
 
 @Component({
   selector: 'app-audio-overlay',
@@ -15,6 +16,9 @@ export class AudioOverlayComponent extends SubscriptionComponent implements OnIn
   readonly #servers$: Subject<Server[]> = new Subject();
 
   readonly #channels$: Subject<Channel[]> = new Subject();
+
+  @ViewChild("serverSelector")
+  private serverSelector?: ServerSelectorComponent;
 
   public constructor(private audioRepositoryService: AudioRepositoryService) {
     super();
@@ -38,6 +42,18 @@ export class AudioOverlayComponent extends SubscriptionComponent implements OnIn
 
   protected selectServer(server: Server) {
     this.fetchChannels(server)
+  }
+
+  protected joinChannel(channel: Channel) {
+    const server = this.serverSelector?.selectedServer;
+    if (!server) {
+      throw new Error(
+              "Channel selection depends on Server selection but a Channel was selected before a Server was."
+      );
+    }
+    const joinedChannel = this.audioRepositoryService.createServerAudio(server, channel)
+                              .subscribe();
+    this.registerSubscription(joinedChannel)
   }
 
   // ------ Internal ------
