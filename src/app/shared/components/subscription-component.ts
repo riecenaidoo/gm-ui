@@ -1,5 +1,5 @@
 import {Directive, OnDestroy} from "@angular/core";
-import {Observable, Subscription} from "rxjs";
+import {Subscription} from "rxjs";
 
 /**
  * A component with subscriptions.
@@ -24,17 +24,6 @@ export abstract class SubscriptionComponent implements OnDestroy {
    */
   public ngOnDestroy(): void {
     this._subscriptions.forEach((subscription) => subscription.unsubscribe());
-  }
-
-  /**
-   * Subscribe to an `Observable` and have the component handle the unsubscribing.
-   * <br>
-   * If you require work to be done in the subscription, use `#registerSubscription` instead.
-   *
-   * @param {Observable<any>} observable
-   */
-  public subscribe(observable: Observable<any>) {
-    this._subscriptions.push(observable.subscribe())
   }
 
   /**

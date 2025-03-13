@@ -116,5 +116,4 @@ export class PlaylistDashboardComponent extends SubscriptionComponent implements
     this.registerSubscription(fetchedSongs);
   }
 
-  protected readonly length = length;
 }
