@@ -11,7 +11,11 @@
             (channelSelected)="joinChannel($event)">
     </app-channel-selector>
 
-    <button *ngIf="hasAudioClient$ | async" (click)="disconnectAudio()">Disconnect</button>
+    <app-server-audio-status
+            *ngIf="(serverAudio$ | async) as serverAudio"
+            [serverAudio]="serverAudio"
+            (audioDisconnected)="disconnectAudio()">
+    </app-server-audio-status>
 
     <app-service-status
             *ngIf="(service$ | async) as service"

@@ -21,7 +21,7 @@ export class AudioOverlayComponent extends SubscriptionComponent implements OnIn
 
   readonly #channels$: Subject<Channel[]> = new Subject();
 
-  readonly #audioClient: Subject<boolean> = new Subject();
+  readonly #serverAudio: Subject<ServerAudio|undefined> = new Subject();
 
   @ViewChild("serverSelector")
   private serverSelector?: ServerSelectorComponent;
@@ -49,8 +49,8 @@ export class AudioOverlayComponent extends SubscriptionComponent implements OnIn
     return this.#channels$;
   }
 
-  public get hasAudioClient$(): Observable<boolean> {
-    return this.#audioClient;
+  public get serverAudio$(): Observable<ServerAudio|undefined> {
+    return this.#serverAudio;
   }
 
   // ------ Event Handling ------
@@ -60,6 +60,10 @@ export class AudioOverlayComponent extends SubscriptionComponent implements OnIn
     this.fetchServerAudio(server);
   }
 
+  /**
+   * Until the API is asynchronous, we can't just poll the backend after the action to get the correct state.
+   * We don't know whether the action occurred yet.
+   */
   protected joinChannel(channel: Channel) {
     const server = this.serverSelector?.selectedServer;
     if (!server) {
@@ -68,10 +72,14 @@ export class AudioOverlayComponent extends SubscriptionComponent implements OnIn
       );
     }
     const joinedChannel = this.audioRepositoryService.createServerAudio(server, channel)
-                              .subscribe((_) => this.#audioClient.next(true));
+                              .subscribe((_) => this.#serverAudio.next({channel}));
     this.registerSubscription(joinedChannel)
   }
 
+  /**
+   * Until the API is asynchronous, we can't just poll the backend after the action to get the correct state.
+   * We don't know whether the action occurred yet.
+   */
   protected disconnectAudio(): void {
     const server = this.serverSelector?.selectedServer;
     if (!server) {
@@ -80,13 +88,13 @@ export class AudioOverlayComponent extends SubscriptionComponent implements OnIn
       );
     }
     const disconnectedAudio = this.audioRepositoryService.deleteServerAudio(server)
-                                  .subscribe((_) => this.#audioClient.next(false));
+                                  .subscribe((_) => this.#serverAudio.next(undefined));
     this.registerSubscription(disconnectedAudio);
   }
 
   // ------ Internal ------
 
-  private fetchService(): void{
+  private fetchService(): void {
     const fetchedService = this.audioRepositoryService.getAudioService()
                                .subscribe((service: AudioService) => this.#service$.next(service));
     this.registerSubscription(fetchedService);
@@ -104,9 +112,12 @@ export class AudioOverlayComponent extends SubscriptionComponent implements OnIn
     this.registerSubscription(fetchedChannels)
   }
 
+  /**
+   * At some stage in the future this information needs to come down from the API via a websocket.
+   */
   private fetchServerAudio(server: Server): void {
     const fetchedServerAudio = this.audioRepositoryService.getServerAudio(server)
-                                   .subscribe((serverAudio?: ServerAudio) => this.#audioClient.next(!!serverAudio));
+                                   .subscribe((serverAudio?: ServerAudio) => this.#serverAudio.next(serverAudio));
     this.registerSubscription(fetchedServerAudio);
   }
 

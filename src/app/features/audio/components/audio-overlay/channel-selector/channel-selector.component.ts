@@ -11,15 +11,12 @@ export class ChannelSelectorComponent {
   @Input({required: true})
   public channels!: Channel[];
 
-  public selectedChannel?: Channel;
-
   @Output()
   private channelSelected: EventEmitter<Channel> = new EventEmitter();
 
   // ------ Event Handling ------
 
   protected selectChannel(channel: Channel): void {
-    this.selectedChannel = channel;
     this.channelSelected.emit(channel);
   }
 
