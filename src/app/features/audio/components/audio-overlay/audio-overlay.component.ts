@@ -6,6 +6,7 @@ import {Server} from "../../../../core/audio/models/server";
 import {Channel} from "../../../../core/audio/models/channel";
 import {ServerSelectorComponent} from "./server-selector/server-selector.component";
 import {ServerAudio} from "../../../../core/audio/models/server-audio";
+import {AudioService} from "../../../../core/audio/models/audio-service";
 
 @Component({
   selector: 'app-audio-overlay',
@@ -13,6 +14,8 @@ import {ServerAudio} from "../../../../core/audio/models/server-audio";
   styleUrl: './audio-overlay.component.css'
 })
 export class AudioOverlayComponent extends SubscriptionComponent implements OnInit {
+
+  readonly #service$: Subject<AudioService> = new Subject();
 
   readonly #servers$: Subject<Server[]> = new Subject();
 
@@ -28,10 +31,15 @@ export class AudioOverlayComponent extends SubscriptionComponent implements OnIn
   }
 
   public ngOnInit(): void {
+    this.fetchService();
     this.fetchServers();
   }
 
   // ------ API ------
+
+  public get service$(): Observable<AudioService> {
+    return this.#service$;
+  }
 
   public get servers$(): Observable<Server[]> {
     return this.#servers$;
@@ -77,6 +85,12 @@ export class AudioOverlayComponent extends SubscriptionComponent implements OnIn
   }
 
   // ------ Internal ------
+
+  private fetchService(): void{
+    const fetchedService = this.audioRepositoryService.getAudioService()
+                               .subscribe((service: AudioService) => this.#service$.next(service));
+    this.registerSubscription(fetchedService);
+  }
 
   private fetchServers(): void {
     const fetchedServers = this.audioRepositoryService.findServers()

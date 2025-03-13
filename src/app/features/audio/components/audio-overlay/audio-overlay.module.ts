@@ -3,7 +3,8 @@ import {CommonModule} from '@angular/common';
 import {AudioOverlayComponent} from "./audio-overlay.component";
 import {FormsModule} from "@angular/forms";
 import {ServerSelectorComponent} from "./server-selector/server-selector.component";
-import { ChannelSelectorComponent } from './channel-selector/channel-selector.component';
+import {ChannelSelectorComponent} from './channel-selector/channel-selector.component';
+import {ServiceStatus} from './service-status/service-status.component';
 
 
 @NgModule({
@@ -11,6 +12,7 @@ import { ChannelSelectorComponent } from './channel-selector/channel-selector.co
     AudioOverlayComponent,
     ServerSelectorComponent,
     ChannelSelectorComponent,
+    ServiceStatus,
   ],
   exports: [
     AudioOverlayComponent

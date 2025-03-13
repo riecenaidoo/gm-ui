@@ -5,6 +5,7 @@ import {catchError, Observable, of} from "rxjs";
 import {Channel} from "../../models/channel";
 import {ServersCreateAudioRequest} from "../../models/requests/servers-create-audio-request";
 import {ServerAudio} from "../../models/server-audio";
+import {AudioService} from "../../models/audio-service";
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,10 @@ export class AudioRepositoryService {
   }
 
   // ------ API ------
+
+  public getAudioService(): Observable<AudioService>{
+    return this.http.get<AudioService>("http://localhost:5050/");
+  }
 
   public findServers(): Observable<Server[]> {
     return this.http.get<Server[]>("http://localhost:5050/servers");

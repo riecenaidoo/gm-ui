@@ -13,4 +13,9 @@
 
     <button *ngIf="hasAudioClient$ | async" (click)="disconnectAudio()">Disconnect</button>
 
+    <app-service-status
+            *ngIf="(service$ | async) as service"
+            [audioService]="service">
+    </app-service-status>
+
 </aside>
