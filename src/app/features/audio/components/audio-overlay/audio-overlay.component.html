@@ -2,13 +2,13 @@
     <app-server-selector #serverSelector
                          *ngIf="(servers$ |async) as servers"
                          [servers]="servers"
-                         (serverSelected)="selectServer($event)">
+                         (selected)="selectServer($event)">
     </app-server-selector>
 
     <app-channel-selector
             *ngIf="(channels$ | async) as channels"
             [channels]="channels"
-            (channelSelected)="joinChannel($event)">
+            (selected)="joinChannel($event)">
     </app-channel-selector>
 
     <app-server-audio-status

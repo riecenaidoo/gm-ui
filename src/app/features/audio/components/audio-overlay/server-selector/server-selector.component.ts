@@ -1,24 +1,17 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Server} from "../../../../../core/audio/models/server";
+import {SelectorComponent} from "../../../../../shared/components/selector-component";
 
 @Component({
   selector: 'app-server-selector',
   templateUrl: './server-selector.component.html',
   styleUrl: './server-selector.component.css'
 })
-export class ServerSelectorComponent {
+export class ServerSelectorComponent extends SelectorComponent<Server> {
 
   @Input({required: true})
   public servers!: Server[];
 
   public selectedServer?: Server;
 
-  @Output()
-  private serverSelected: EventEmitter<Server> = new EventEmitter();
-
-  // ------ Event Handling ------
-
-  protected selectServer(server: Server) {
-    this.serverSelected.emit(server);
-  }
 }

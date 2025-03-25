@@ -3,7 +3,7 @@
     <app-playlist-tile
             *ngFor="let playlist of (playlists$ | async)"
             [playlist]="playlist"
-            (openingPlaylist)="openPlaylist($event)"
+            (selected)="openPlaylist($event)"
     />
 </main>
 
