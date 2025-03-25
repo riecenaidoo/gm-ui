@@ -15,11 +15,11 @@ import {AudioService} from "../../../../core/audio/models/audio-service";
 })
 export class AudioOverlayComponent extends SubscriptionComponent implements OnInit {
 
-  readonly #service$: Subject<AudioService> = new Subject();
+  readonly #service: Subject<AudioService> = new Subject();
 
-  readonly #servers$: Subject<Server[]> = new Subject();
+  readonly #servers: Subject<Server[]> = new Subject();
 
-  readonly #channels$: Subject<Channel[]> = new Subject();
+  readonly #channels: Subject<Channel[]> = new Subject();
 
   readonly #serverAudio: Subject<ServerAudio|undefined> = new Subject();
 
@@ -37,19 +37,19 @@ export class AudioOverlayComponent extends SubscriptionComponent implements OnIn
 
   // ------ API ------
 
-  public get service$(): Observable<AudioService> {
-    return this.#service$;
+  public get service(): Observable<AudioService> {
+    return this.#service;
   }
 
-  public get servers$(): Observable<Server[]> {
-    return this.#servers$;
+  public get servers(): Observable<Server[]> {
+    return this.#servers;
   }
 
-  public get channels$(): Observable<Channel[]> {
-    return this.#channels$;
+  public get channels(): Observable<Channel[]> {
+    return this.#channels;
   }
 
-  public get serverAudio$(): Observable<ServerAudio|undefined> {
+  public get serverAudio(): Observable<ServerAudio|undefined> {
     return this.#serverAudio;
   }
 
@@ -96,19 +96,19 @@ export class AudioOverlayComponent extends SubscriptionComponent implements OnIn
 
   private fetchService(): void {
     const fetchedService = this.audioRepositoryService.getAudioService()
-                               .subscribe((service: AudioService) => this.#service$.next(service));
+                               .subscribe((service: AudioService) => this.#service.next(service));
     this.registerSubscription(fetchedService);
   }
 
   private fetchServers(): void {
     const fetchedServers = this.audioRepositoryService.findServers()
-                               .subscribe((servers: Server[]) => this.#servers$.next(servers));
+                               .subscribe((servers: Server[]) => this.#servers.next(servers));
     this.registerSubscription(fetchedServers);
   }
 
   private fetchChannels(server: Server): void {
     const fetchedChannels = this.audioRepositoryService.getChannels(server)
-                                .subscribe((channels: Channel[]) => this.#channels$.next(channels));
+                                .subscribe((channels: Channel[]) => this.#channels.next(channels));
     this.registerSubscription(fetchedChannels)
   }
 

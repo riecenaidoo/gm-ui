@@ -17,9 +17,9 @@ export class PlaylistDashboardComponent extends SubscriptionComponent implements
 
   readonly #id: number;
 
-  readonly #playlist$: Subject<Playlist> = new Subject();
+  readonly #playlist: Subject<Playlist> = new Subject();
 
-  readonly #songs$: Subject<Song[]> = new Subject();
+  readonly #songs: Subject<Song[]> = new Subject();
 
   @ViewChild("addSongForm")
   private addSongForm!: AddSongFormDialogComponent;
@@ -41,12 +41,12 @@ export class PlaylistDashboardComponent extends SubscriptionComponent implements
 
   // ------ API ------
 
-  public get playlist$(): Observable<Playlist> {
-    return this.#playlist$;
+  public get playlist(): Observable<Playlist> {
+    return this.#playlist;
   }
 
-  public get songs$(): Observable<Song[]> {
-    return this.#songs$;
+  public get songs(): Observable<Song[]> {
+    return this.#songs;
   }
 
   // ------ Hotkeys ------
@@ -106,13 +106,13 @@ export class PlaylistDashboardComponent extends SubscriptionComponent implements
 
   private fetchPlaylist(): void {
     const fetchedPlaylist = this.playlistRepository.findById(this.#id)
-                                .subscribe((playlist: Playlist) => this.#playlist$.next(playlist));
+                                .subscribe((playlist: Playlist) => this.#playlist.next(playlist));
     this.registerSubscription(fetchedPlaylist);
   }
 
   private fetchSongs(): void {
     const fetchedSongs = this.playlistRepository.getPlaylistSongs(this.#id)
-                             .subscribe((songs: Song[]) => this.#songs$.next(songs));
+                             .subscribe((songs: Song[]) => this.#songs.next(songs));
     this.registerSubscription(fetchedSongs);
   }
 

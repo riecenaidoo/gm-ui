@@ -1,7 +1,7 @@
 <main>
     <app-new-playlist-tile (creatingPlaylist)="createPlaylistForm.showDialog()"/>
     <app-playlist-tile
-            *ngFor="let playlist of (playlists$ | async)"
+            *ngFor="let playlist of (playlists | async)"
             [playlist]="playlist"
             (selected)="openPlaylist($event)"
     />

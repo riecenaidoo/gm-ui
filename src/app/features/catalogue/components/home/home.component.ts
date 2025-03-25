@@ -13,7 +13,7 @@ import {CreatePlaylistFormDialogComponent} from "./create-playlist-form-dialog/c
 })
 export class HomeComponent extends SubscriptionComponent implements OnInit {
 
-  readonly #playlists$: Subject<Playlist[]> = new Subject<Playlist[]>();
+  readonly #playlists: Subject<Playlist[]> = new Subject<Playlist[]>();
 
   @ViewChild("createPlaylistForm")
   private createPlaylistForm!: CreatePlaylistFormDialogComponent;
@@ -29,8 +29,8 @@ export class HomeComponent extends SubscriptionComponent implements OnInit {
 
   // ------ API ------
 
-  public get playlists$(): Observable<Playlist[]> {
-    return this.#playlists$;
+  public get playlists(): Observable<Playlist[]> {
+    return this.#playlists;
   }
 
   // ------ Hotkeys ------
@@ -73,7 +73,7 @@ export class HomeComponent extends SubscriptionComponent implements OnInit {
 
   private fetchPlaylists(): void {
     let fetchedPlaylists = this.playlistRepository.findAll()
-                               .subscribe((playlists: Playlist[]) => this.#playlists$.next(playlists));
+                               .subscribe((playlists: Playlist[]) => this.#playlists.next(playlists));
     this.registerSubscription(fetchedPlaylists);
   }
 

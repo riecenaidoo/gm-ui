@@ -1,5 +1,5 @@
 <main>
-    <ng-container *ngIf="(playlist$ |async) as playlist">
+    <ng-container *ngIf="(playlist |async) as playlist">
         <h2>{{ playlist.name }}</h2>
         <button (click)="addSongForm.showDialog()" title="Add Song"><i class="fa fa-plus"></i></button>
         <button (click)="renamePlaylistForm.showDialog()" title="Rename Playlist"><i class="fa fa-pencil"></i></button>
@@ -12,7 +12,7 @@
                                          [playlist]="playlist"/>
     </ng-container>
 
-    <ng-container *ngIf="(songs$ | async) as songs">
+    <ng-container *ngIf="(songs | async) as songs">
         <app-song-table
                 *ngIf="songs.length > 0"
                 [songs]="songs"
