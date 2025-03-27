@@ -1,0 +1,20 @@
+article {
+    &:hover {
+        i {
+            display : block;
+        }
+    }
+}
+
+img {
+    grid-column : 1/4;
+    grid-row    : 1/4;
+    height      : 100%;
+    width       : 100%;
+    z-index     : -1;
+}
+
+i {
+    display : none;
+}
+
