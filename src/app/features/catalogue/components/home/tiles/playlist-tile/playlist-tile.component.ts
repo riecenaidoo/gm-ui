@@ -3,7 +3,7 @@ import {Playlist} from "../../../../../../core/catalogue/models/playlist";
 import {SelectorComponent} from "../../../../../../shared/components/selector-component";
 
 @Component({
-  selector: 'app-playlist-tile',
+  selector: 'article[app-playlist-tile]',
   templateUrl: './playlist-tile.component.html',
   styleUrls: ['../tile.css', './playlist-tile.component.css']
 })

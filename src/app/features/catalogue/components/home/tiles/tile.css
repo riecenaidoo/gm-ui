@@ -1,5 +1,5 @@
 /* Each tile is self-contained, which is represented best as an article. */
-article {
+:host {
     aspect-ratio          : 4/4.5;
     border-radius         : 0.5rem;
     display               : grid;

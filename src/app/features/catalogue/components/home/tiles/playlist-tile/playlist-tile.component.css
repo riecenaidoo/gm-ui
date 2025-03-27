@@ -1,4 +1,4 @@
-article {
+:host {
     &:hover {
         i {
             display : block;

@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 
 @Component({
-  selector: 'app-new-playlist-tile',
+  selector: 'article[app-new-playlist-tile]',
   templateUrl: './new-playlist-tile.component.html',
   styleUrls: ['../tile.css', './new-playlist-tile.component.css']
 })
