@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {SubscriptionComponent} from "../../../../shared/components/subscription-component";
 import {AudioRepositoryService} from "../../../../core/audio/services/resources/audio-repository.service";
 import {Observable, Subject} from "rxjs";
@@ -15,7 +15,8 @@ import {AudioService} from "../../../../core/audio/models/audio-service";
 })
 export class AudioOverlayComponent extends SubscriptionComponent implements OnInit {
 
-  readonly #service: Subject<AudioService> = new Subject();
+  @Input({required: true})
+  public service!: AudioService;
 
   readonly #servers: Subject<Server[]> = new Subject();
 
@@ -31,15 +32,10 @@ export class AudioOverlayComponent extends SubscriptionComponent implements OnIn
   }
 
   public ngOnInit(): void {
-    this.fetchService();
     this.fetchServers();
   }
 
   // ------ API ------
-
-  public get service(): Observable<AudioService> {
-    return this.#service;
-  }
 
   public get servers(): Observable<Server[]> {
     return this.#servers;
@@ -93,12 +89,6 @@ export class AudioOverlayComponent extends SubscriptionComponent implements OnIn
   }
 
   // ------ Internal ------
-
-  private fetchService(): void {
-    const fetchedService = this.audioRepositoryService.getAudioService()
-                               .subscribe((service: AudioService) => this.#service.next(service));
-    this.registerSubscription(fetchedService);
-  }
 
   private fetchServers(): void {
     const fetchedServers = this.audioRepositoryService.findServers()
