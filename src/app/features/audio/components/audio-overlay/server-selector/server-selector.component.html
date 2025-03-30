@@ -1,6 +1,4 @@
-<label for="selectServer">Select a Server:</label>
-
 <select (ngModelChange)="select($event)" [(ngModel)]="selectedServer"
-        id="selectServer" name="selectedServer">
+        id="selectServer" name="selectedServer" title="Server Selector">
     <option *ngFor="let server of servers" [ngValue]="server">{{ server.name }}</option>
 </select>
