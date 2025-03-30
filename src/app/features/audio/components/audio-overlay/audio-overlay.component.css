@@ -1,0 +1,37 @@
+:host {
+    display               : grid;
+    grid-template-columns : repeat(6, 1fr);
+    grid-template-rows    : minmax(0, 100vh);
+    overflow-y            : clip;
+}
+
+aside {
+    background         : var(--palette-bg-darker);
+    display            : grid;
+
+    grid-column        : 1;
+    grid-template-rows : repeat(8, 1fr);
+
+    app-server-selector {
+        grid-row : 1;
+    }
+
+    app-channel-selector {
+        grid-row   : 2/7;
+        overflow-y : auto;
+    }
+
+    app-server-audio-status {
+        grid-row : 7;
+    }
+
+    app-service-status {
+        grid-row : 8;
+    }
+
+}
+
+main {
+    grid-column : 2/7;
+    overflow-y  : auto;
+}

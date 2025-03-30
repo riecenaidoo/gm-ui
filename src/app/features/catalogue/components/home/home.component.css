@@ -1,4 +1,4 @@
-main {
+:host {
     display               : grid;
     grid-column-gap       : 2rem;
     grid-row-gap          : 1rem;
