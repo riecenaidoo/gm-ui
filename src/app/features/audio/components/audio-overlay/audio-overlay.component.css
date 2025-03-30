@@ -6,27 +6,17 @@
 }
 
 aside {
-    background         : var(--palette-bg-darker);
-    display            : grid;
-
-    grid-column        : 1;
-    grid-template-rows : repeat(8, 1fr);
+    background     : var(--palette-bg-darker);
+    display        : flex;
+    flex-direction : column;
 
     app-server-selector {
-        grid-row : 1;
+        margin-bottom : auto; /*<1>*/
     }
 
     app-channel-selector {
-        grid-row   : 2/7;
+        flex-grow  : 1; /*<2>*/
         overflow-y : auto;
-    }
-
-    app-server-audio-status {
-        grid-row : 7;
-    }
-
-    app-service-status {
-        grid-row : 8;
     }
 
 }
@@ -35,3 +25,20 @@ main {
     grid-column : 2/7;
     overflow-y  : auto;
 }
+
+/*  <1>
+
+ The ServerSelector is positioned at the top of the Aside,
+ setting margin-bottom: auto will have the browser give as much bottom
+ margin as possible to the ServerSelector, effectively pushed the remaining
+ flex components down to the bottom of the Aside.
+
+ */
+
+/*  <2>
+
+In the Aside, all components except the ChannelSelector need a fixed amount
+of space to render themselves correctly. The ChannelSelector is the only component
+that needs to be able to grow in side to render the unknown no. of Channels in the selected Server.
+
+ */
