@@ -1,6 +1,8 @@
 <ol>
-    <button *ngFor="let channel of channels"
-            (click)="select(channel)">
-        {{ channel.name }}
-    </button>
+    <li *ngFor="let channel of channels">
+        <button (click)="select(channel)">
+            <i class="fa fa-volume-up" aria-hidden="true"></i>
+            {{ channel.name }}
+        </button>
+    </li>
 </ol>
