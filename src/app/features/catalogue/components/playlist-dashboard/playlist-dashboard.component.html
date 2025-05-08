@@ -1,5 +1,5 @@
 <ng-container *ngIf="(playlist |async) as playlist">
-    <h2>{{ playlist.name }}</h2>
+    <h2>{{ playlist.title }}</h2>
     <button (click)="addSongForm.showDialog()" title="Add Song"><i class="fa fa-plus"></i></button>
     <button (click)="renamePlaylistForm.showDialog()" title="Rename Playlist"><i class="fa fa-pencil"></i></button>
     <button (click)="deletePlaylist()" title="Delete Playlist"><i class="fa fa-trash"></i></button>

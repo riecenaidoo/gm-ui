@@ -13,24 +13,24 @@ export class RenamePlaylistFormDialogComponent implements Form, Dialog {
 
   #playlist!: Playlist;
 
-  public name!: string;
+  public title!: string;
 
   @Output()
-  private renamedPlaylist: EventEmitter<Playlist> = new EventEmitter();
+  private renamedPlaylist: EventEmitter<string> = new EventEmitter();
 
   @ViewChild("dialog")
   private dialog!: DialogComponent;
 
   // ------ API ------
 
-  @Input({required:true})
+  @Input({required: true})
   public set playlist(playlist: Playlist) {
     this.#playlist = playlist;
-    this.name = playlist.name;
+    this.title = playlist.title;
   }
 
   public clearInputs(): void {
-    this.name = this.#playlist.name;
+    this.title = this.#playlist.title;
   }
 
   public showDialog(): void {
@@ -44,14 +44,13 @@ export class RenamePlaylistFormDialogComponent implements Form, Dialog {
   // ------ Events ------
 
   protected renamePlaylist(): void {
-    const playlist: Playlist = {name: this.name};
-    this.renamedPlaylist.emit(playlist);
+    this.renamedPlaylist.emit(this.title);
   }
 
   // ------ Internal ------
 
   protected nameUnchanged(): boolean {
-    return this.#playlist.name === this.name;
+    return this.#playlist.title === this.title;
   }
 
 }

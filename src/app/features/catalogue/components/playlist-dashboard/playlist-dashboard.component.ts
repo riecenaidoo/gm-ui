@@ -4,9 +4,13 @@ import {PlaylistRepositoryService} from "../../../../core/catalogue/services/res
 import {Observable, Subject} from "rxjs";
 import {Playlist} from "../../../../core/catalogue/models/playlist";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Song} from "../../../../core/catalogue/models/song";
+import {PlaylistSong} from "../../../../core/catalogue/models/playlist-song";
 import {AddSongFormDialogComponent} from "./add-song-form-dialog/add-song-form-dialog.component";
 import {RenamePlaylistFormDialogComponent} from "./rename-playlist-form-dialog/rename-playlist-form-dialog.component";
+import {
+  PlaylistSongsRepositoryService
+} from '../../../../core/catalogue/services/resources/playlist-songs-repository.service';
+import {PlaylistSongsCreateRequest} from '../../../../core/catalogue/models/requests/playlist-songs-create-request';
 
 @Component({
   selector: 'app-playlist-dashboard',
@@ -19,7 +23,7 @@ export class PlaylistDashboardComponent extends SubscriptionComponent implements
 
   readonly #playlist: Subject<Playlist> = new Subject();
 
-  readonly #songs: Subject<Song[]> = new Subject();
+  readonly #songs: Subject<PlaylistSong[]> = new Subject();
 
   @ViewChild("addSongForm")
   private addSongForm!: AddSongFormDialogComponent;
@@ -28,6 +32,7 @@ export class PlaylistDashboardComponent extends SubscriptionComponent implements
   protected renamePlaylistForm!: RenamePlaylistFormDialogComponent;
 
   public constructor(private playlistRepository: PlaylistRepositoryService,
+                     private playlistSongsRepository: PlaylistSongsRepositoryService,
                      private route: ActivatedRoute,
                      private router: Router) {
     super();
@@ -45,7 +50,7 @@ export class PlaylistDashboardComponent extends SubscriptionComponent implements
     return this.#playlist;
   }
 
-  public get songs(): Observable<Song[]> {
+  public get songs(): Observable<PlaylistSong[]> {
     return this.#songs;
   }
 
@@ -63,8 +68,8 @@ export class PlaylistDashboardComponent extends SubscriptionComponent implements
 
   // ------ Event Handling ------
 
-  protected addSong(song: Song): void {
-    const addedSong = this.playlistRepository.addSongsToPlaylist(this.#id, [song])
+  protected addSong(song: PlaylistSongsCreateRequest): void {
+    const addedSong = this.playlistSongsRepository.createPlaylistSong(this.#id, song)
                           .subscribe(() => {
                             this.fetchSongs();
                             this.addSongForm.hideDialog();
@@ -73,19 +78,19 @@ export class PlaylistDashboardComponent extends SubscriptionComponent implements
     this.registerSubscription(addedSong);
   }
 
-  protected removeSong(song: Song): void {
-    const removedSong = this.playlistRepository.removeSongsFromPlaylist(this.#id, [song])
+  protected removeSong(song: PlaylistSong): void {
+    const removedSong = this.playlistSongsRepository.deletePlaylistSong(this.#id, song)
                             .subscribe(() => this.fetchSongs());
     this.registerSubscription(removedSong);
   }
 
-  protected renamePlaylist(playlist: Playlist): void {
-    const renamedPlaylist = this.playlistRepository.renamePlaylist(this.#id, playlist.name)
-                                .subscribe(() => {
-                                  this.fetchPlaylist();
+  protected renamePlaylist(title: string): void {
+    const renamedPlaylist = this.playlistRepository.updatePlaylist(this.#id, {title})
+                                .subscribe((playlist: Playlist) => {
+                                  this.#playlist.next(playlist);
                                   this.renamePlaylistForm.hideDialog();
                                 });
-    this.registerSubscription(renamedPlaylist)
+    this.registerSubscription(renamedPlaylist);
   }
 
   protected deletePlaylist(): void {
@@ -111,8 +116,8 @@ export class PlaylistDashboardComponent extends SubscriptionComponent implements
   }
 
   private fetchSongs(): void {
-    const fetchedSongs = this.playlistRepository.getPlaylistSongs(this.#id)
-                             .subscribe((songs: Song[]) => this.#songs.next(songs));
+    const fetchedSongs = this.playlistSongsRepository.getPlaylistSongs(this.#id)
+                             .subscribe((songs: PlaylistSong[]) => this.#songs.next(songs));
     this.registerSubscription(fetchedSongs);
   }
 

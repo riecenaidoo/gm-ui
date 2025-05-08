@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Output, ViewChild} from '@angular/core';
 import {Form} from "../../../../../shared/models/form";
-import {Song} from "../../../../../core/catalogue/models/song";
 import {Dialog} from '../../../../../shared/models/dialog';
 import {DialogComponent} from "../../../../../shared/components/dialog/dialog/dialog.component";
+import {PlaylistSongsCreateRequest} from '../../../../../core/catalogue/models/requests/playlist-songs-create-request';
 
 @Component({
   selector: 'app-add-song-form-dialog',
@@ -19,7 +19,7 @@ export class AddSongFormDialogComponent implements Form, Dialog {
    * @private
    */
   @Output()
-  private addedSong: EventEmitter<Song> = new EventEmitter();
+  private addedSong: EventEmitter<PlaylistSongsCreateRequest> = new EventEmitter();
 
   @ViewChild("dialog")
   private dialog!: DialogComponent;
@@ -41,7 +41,7 @@ export class AddSongFormDialogComponent implements Form, Dialog {
   // ------ Events ------
 
   protected addSong(): void {
-    const song: Song = {url: this.url};
+    const song: PlaylistSongsCreateRequest = {url: this.url};
     this.addedSong.emit(song);
   }
 

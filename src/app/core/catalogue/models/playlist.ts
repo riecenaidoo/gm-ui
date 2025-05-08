@@ -3,7 +3,8 @@
  */
 export interface Playlist {
 
-  id?: number;
+  id: number;
 
-  name: string;
+  title: string;
+
 }

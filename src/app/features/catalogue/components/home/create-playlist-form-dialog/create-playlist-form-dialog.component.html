@@ -3,7 +3,7 @@
         <!--https://angular.dev/tutorials/learn-angular/16-form-control-values-->
         <form>
             <label for="name">Playlist Name</label>
-            <input type="text" id="name" name="name" [(ngModel)]="name" autofocus>
+            <input type="text" id="name" name="name" [(ngModel)]="title" autofocus>
 
             <button (click)="createPlaylist()" [disabled]="noInput()">Create Playlist</button>
         </form>

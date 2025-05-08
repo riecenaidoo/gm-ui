@@ -1,8 +1,8 @@
 <app-dialog #dialog>
     <aside>
         <form>
-            <label for="name">Playlist Name</label>
-            <input type="text" id="name" name="name" [(ngModel)]="name" autofocus/>
+            <label for="title">Playlist Name</label>
+            <input type="text" id="title" name="title" [(ngModel)]="title" autofocus/>
 
             <button (click)="renamePlaylist()" [disabled]="nameUnchanged()">Rename Playlist</button>
         </form>

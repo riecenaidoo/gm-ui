@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Song} from "../../../../../core/catalogue/models/song";
+import {PlaylistSong} from "../../../../../core/catalogue/models/playlist-song";
 
 @Component({
   selector: 'app-song-table',
@@ -9,14 +9,14 @@ import {Song} from "../../../../../core/catalogue/models/song";
 export class SongTableComponent {
 
   @Input({required:true})
-  public songs!: Song[];
+  public songs!: PlaylistSong[];
 
   @Output()
-  private removingSong: EventEmitter<Song> = new EventEmitter();
+  private removingSong: EventEmitter<PlaylistSong> = new EventEmitter();
 
   // ------ Events ------
 
-  protected removingSongEvent(song: Song): void {
+  protected removingSongEvent(song: PlaylistSong): void {
     this.removingSong.emit(song);
   }
 

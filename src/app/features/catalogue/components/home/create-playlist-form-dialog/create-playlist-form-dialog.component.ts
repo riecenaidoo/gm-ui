@@ -3,6 +3,7 @@ import {DialogComponent} from "../../../../../shared/components/dialog/dialog/di
 import {Dialog} from "../../../../../shared/models/dialog";
 import {Form} from "../../../../../shared/models/form";
 import {Playlist} from "../../../../../core/catalogue/models/playlist";
+import {PlaylistsCreateRequest} from '../../../../../core/catalogue/models/requests/playlists-create-request';
 
 @Component({
   selector: 'app-create-playlist-form-dialog',
@@ -11,10 +12,10 @@ import {Playlist} from "../../../../../core/catalogue/models/playlist";
 })
 export class CreatePlaylistFormDialogComponent implements Form, Dialog {
 
-  public name: string = "";
+  public title: string = "";
 
   @Output()
-  private createdPlaylist: EventEmitter<Playlist> = new EventEmitter();
+  private createdPlaylist: EventEmitter<PlaylistsCreateRequest> = new EventEmitter();
 
   @ViewChild("dialog")
   private dialog!: DialogComponent;
@@ -25,7 +26,7 @@ export class CreatePlaylistFormDialogComponent implements Form, Dialog {
    * Clear inputs on the form.
    */
   public clearInputs(): void {
-    this.name = ""
+    this.title = ""
   }
 
   public showDialog(): void {
@@ -41,8 +42,8 @@ export class CreatePlaylistFormDialogComponent implements Form, Dialog {
    * The user has created a playlist.
    */
   public createPlaylist(): void {
-    const playlist: Playlist = {
-      name: this.name
+    const playlist: PlaylistsCreateRequest = {
+      title: this.title
     }
     this.createdPlaylist.emit(playlist)
   }
@@ -50,7 +51,7 @@ export class CreatePlaylistFormDialogComponent implements Form, Dialog {
   // ------ Internal ------
 
   protected noInput(): boolean {
-    return this.name.trim().length === 0;
+    return this.title.trim().length === 0;
   }
 
 }

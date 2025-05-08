@@ -3,9 +3,7 @@ import {Observable} from "rxjs";
 import {Playlist} from "../../models/playlist";
 import {HttpClient} from "@angular/common/http";
 import {PlaylistsCreateRequest} from "../../models/requests/playlists-create-request";
-import {Song} from "../../models/song";
-import {PatchOperation} from "../../models/requests/patch-operation";
-import {PlaylistsSongsPatchRequest} from "../../models/requests/playlists-songs-patch-request";
+import {PlaylistsPatchRequest} from '../../models/requests/playlists-patch-request';
 
 @Injectable({
   providedIn: 'root'
@@ -18,54 +16,26 @@ export class PlaylistRepositoryService {
   // ------ API ------
 
   public findAll(): Observable<Playlist[]> {
-    return this.http.get<Playlist[]>("http://localhost:8080/api/v1/playlists");
+    return this.http.get<Playlist[]>("http://localhost:8080/api/v2/playlists");
   }
 
   public findById(id: number): Observable<Playlist> {
-    return this.http.get<Playlist>(`http://localhost:8080/api/v1/playlists/${id}`);
+    return this.http.get<Playlist>(`http://localhost:8080/api/v2/playlists/${id}`);
   }
 
-  public getPlaylistSongs(id: number): Observable<Song[]> {
-    return this.http.get<Song[]>(`http://localhost:8080/api/v1/playlists/${id}/songs`);
+  public createPlaylist(playlist: PlaylistsCreateRequest): Observable<Playlist> {
+    return this.http.post<Playlist>("http://localhost:8080/api/v2/playlists", playlist);
   }
 
-  /**
-   * If our API returns the ID, we should be able to construct a `Playlist` using the request & response.
-   * <br>
-   * TODO return `Observable<Playlist>`
-   *
-   * @param {PlaylistsCreateRequest} playlist
-   * @returns {Observable<void>}
-   */
-  public createPlaylist(playlist: PlaylistsCreateRequest): Observable<void> {
-    return this.http.post<void>("http://localhost:8080/api/v1/playlists", playlist);
-  }
-
-  public addSongsToPlaylist(id: number, songs: Song[]): Observable<void> {
-    return this.patchPlaylistSongs(songs, id, PatchOperation.ADD);
-  }
-
-  public removeSongsFromPlaylist(id: number, songs: Song[]): Observable<void> {
-    return this.patchPlaylistSongs(songs, id, PatchOperation.REMOVE);
-  }
-
-  public renamePlaylist(id: number, name: string): Observable<void>{
-    return this.http.put<void>(`http://localhost:8080/api/v1/playlists/${id}/name`, {name})
+  public updatePlaylist(id: number, patch: PlaylistsPatchRequest): Observable<Playlist> {
+    if (Object.keys(patch).length === 0) {
+      throw new Error("A patch must have at least one key-value pair.");
+    }
+    return this.http.patch<Playlist>(`http://localhost:8080/api/v2/playlists/${id}`, patch);
   }
 
   public deletePlaylist(id: number): Observable<void> {
-    return this.http.delete<void>(`http://localhost:8080/api/v1/playlists/${id}`);
-  }
-
-  // ------ Helpers ------
-
-  private patchPlaylistSongs(songs: Song[], id: number, patchOperation: PatchOperation) {
-    const urls: string[] = songs.map((song: Song) => song.url);
-    const body: PlaylistsSongsPatchRequest = {
-      op: patchOperation,
-      urls: urls
-    };
-    return this.http.patch<void>(`http://localhost:8080/api/v1/playlists/${id}/songs`, body);
+    return this.http.delete<void>(`http://localhost:8080/api/v2/playlists/${id}`);
   }
 
 }
