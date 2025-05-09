@@ -1,14 +1,14 @@
 import {Injectable} from '@angular/core';
 import {Observable} from "rxjs";
-import {Playlist} from "../../models/playlist";
+import {Playlist} from "../models/playlist";
 import {HttpClient} from "@angular/common/http";
-import {PlaylistsCreateRequest} from "../../models/requests/playlists-create-request";
-import {PlaylistsPatchRequest} from '../../models/requests/playlists-patch-request';
+import {PlaylistsCreateRequest} from "../models/requests/playlists-create-request";
+import {PlaylistsPatchRequest} from "../models/requests/playlists-patch-request";
 
 @Injectable({
   providedIn: 'root'
 })
-export class PlaylistRepositoryService {
+export class PlaylistsService {
 
   public constructor(private http: HttpClient) {
   }

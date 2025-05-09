@@ -2,7 +2,7 @@ import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {SubscriptionComponent} from "../../../../shared/components/subscription-component";
 import {Observable, Subject} from "rxjs";
 import {Playlist} from "../../../../core/catalogue/models/playlist";
-import {PlaylistRepositoryService} from "../../../../core/catalogue/services/resources/playlist-repository.service";
+import {PlaylistsService} from "../../../../core/catalogue/services/playlists.service";
 import {Router} from "@angular/router";
 import {CreatePlaylistFormDialogComponent} from "./create-playlist-form-dialog/create-playlist-form-dialog.component";
 import {PlaylistsCreateRequest} from '../../../../core/catalogue/models/requests/playlists-create-request';
@@ -19,7 +19,7 @@ export class HomeComponent extends SubscriptionComponent implements OnInit {
   @ViewChild("createPlaylistForm")
   private createPlaylistForm!: CreatePlaylistFormDialogComponent;
 
-  public constructor(private playlistRepository: PlaylistRepositoryService,
+  public constructor(private playlistsService: PlaylistsService,
                      private router: Router) {
     super();
   }
@@ -47,7 +47,7 @@ export class HomeComponent extends SubscriptionComponent implements OnInit {
    * The user has created a playlist, and we must coordinate with the service to issue the request.
    */
   protected createPlaylist(playlist: PlaylistsCreateRequest): void {
-    let createdPlaylist = this.playlistRepository.createPlaylist(playlist)
+    let createdPlaylist = this.playlistsService.createPlaylist(playlist)
                               .subscribe((_) => {
                                 this.fetchPlaylists();
                                 this.createPlaylistForm.clearInputs();
@@ -73,7 +73,7 @@ export class HomeComponent extends SubscriptionComponent implements OnInit {
   // ------ Internal ------
 
   private fetchPlaylists(): void {
-    let fetchedPlaylists = this.playlistRepository.findAll()
+    let fetchedPlaylists = this.playlistsService.findAll()
                                .subscribe((playlists: Playlist[]) => this.#playlists.next(playlists));
     this.registerSubscription(fetchedPlaylists);
   }
