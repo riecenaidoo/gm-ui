@@ -5,6 +5,10 @@
     --palette-bg-darker : #a8a8a8;
     --palette-content   : #ffffff;
     --palette-text      : #333333;
+
+    /* Default Fonts */
+    font-style          : normal;
+    font-family         : Tahoma, sans-serif;
 }
 
 body {
