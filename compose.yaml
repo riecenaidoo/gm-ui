@@ -1,0 +1,7 @@
+services:
+  ui:
+    build:
+      dockerfile: "Dockerfile"
+    image: gm-catalogue-builder-ui
+    ports:
+      - "4200:80"
