@@ -8,6 +8,8 @@
     <app-channel-selector
             *ngIf="(channels | async) as channels"
             [channels]="channels"
+            [serverAudio]="serverAudio | async"
+            [audioService]="service"
             (selected)="joinChannel($event)">
     </app-channel-selector>
 
