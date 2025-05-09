@@ -9,7 +9,7 @@
             <button title="Remove Song" (click)="removingSongEvent(song)"><i class="fa fa-minus"></i></button>
         </td>
         <td>
-            <span>{{ song.url }}</span>
+            <a href="{{ song.url }}" target="_blank">{{ song.url }}</a>
         </td>
     </tr>
     </tbody>

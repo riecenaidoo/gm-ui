@@ -1,0 +1,14 @@
+:host {
+    display    : block;
+    margin-top : 1.5rem;
+}
+
+table {
+
+    border-spacing : 0 1rem;
+
+    th, td {
+        padding-right : 0.5rem;
+    }
+
+}
