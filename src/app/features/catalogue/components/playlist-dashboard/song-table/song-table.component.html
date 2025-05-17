@@ -1,15 +1,26 @@
 <table>
     <thead>
-    <th><i title="Options" class="fa fa-ellipsis-v"></i></th>
-    <th>URL</th>
+    <th class="thumbnail-col">Song</th>
+    <th>Title</th>
+    <th>Artist</th>
+    <th></th>
     </thead>
     <tbody>
     <tr *ngFor="let song of songs">
-        <td>
-            <button title="Remove Song" (click)="removingSongEvent(song)"><i class="fa fa-minus"></i></button>
+        <td class="thumbnail-col">
+            <a href="{{ song.url }}" target="_blank">
+                <img src="{{song.thumbnail_url ? song.thumbnail_url : 'vinyl.png'}}" alt="thumbnail"
+                     width="64">
+            </a>
         </td>
         <td>
-            <a href="{{ song.url }}" target="_blank">{{ song.url }}</a>
+            {{ song.title ? song.title : song.url }}
+        </td>
+        <td>
+            {{ song.artist ? song.artist : "" }}
+        </td>
+        <td>
+            <button title="Remove Song" (click)="removingSongEvent(song)"><i class="fa fa-minus"></i></button>
         </td>
     </tr>
     </tbody>

@@ -6,9 +6,15 @@
 table {
 
     border-spacing : 0 1rem;
+    text-align     : left;
+    width          : 100%;
 
     th, td {
         padding-right : 0.5rem;
     }
 
+}
+
+.thumbnail-col {
+    text-align : center;
 }
