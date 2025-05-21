@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Output, ViewChild} from '@angular/core';
 import {Form} from "../../../../../shared/models/form";
 import {Dialog} from '../../../../../shared/models/dialog';
 import {DialogComponent} from "../../../../../shared/components/dialog/dialog/dialog.component";
