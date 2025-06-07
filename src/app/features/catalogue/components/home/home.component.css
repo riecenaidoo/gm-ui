@@ -1,8 +1,24 @@
 :host {
+    aspect-ratio          : 1/1;
     display               : grid;
     grid-column-gap       : 2rem;
     grid-row-gap          : 1rem;
     grid-template-columns : repeat(4, 1fr);
+    grid-template-rows    : 3rem 1fr;
     margin                : 3rem;
-    aspect-ratio: 1/1;
+}
+
+div {
+    background  : var(--palette-bg-darker);
+    display     : flex;
+    grid-column : span 4;
+    grid-row    : 1;
+    height      : 3rem;
+
+    input {
+        margin-left  : auto;
+        padding-left : 1.5rem;
+        width        : 30%;
+    }
+
 }

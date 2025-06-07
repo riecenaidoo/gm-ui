@@ -6,6 +6,7 @@ import {NewPlaylistTileComponent} from "./tiles/new-playlist-tile/new-playlist-t
 import {PlaylistTileComponent} from "./tiles/playlist-tile/playlist-tile.component";
 import {FormsModule} from "@angular/forms";
 import {CreatePlaylistFormDialogComponent} from "./create-playlist-form-dialog/create-playlist-form-dialog.component";
+import {TextSearchInputDirective} from '../../../../shared/directives/text-search-input.directive';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import {CreatePlaylistFormDialogComponent} from "./create-playlist-form-dialog/c
   imports: [
     CommonModule,
     DialogModule,
-    FormsModule
+    FormsModule,
+    TextSearchInputDirective,
   ],
   exports: [
     HomeComponent

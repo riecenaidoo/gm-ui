@@ -23,6 +23,13 @@ export class PlaylistsService {
     return this.http.get<Playlist>(`http://localhost:8080/api/v2/playlists/${id}`);
   }
 
+  public findByTitle(title: string): Observable<Playlist[]> {
+    if (title.trim().length === 0) {
+      throw new Error("Title must be non-blank.");
+    }
+    return this.http.get<Playlist[]>(`http://localhost:8080/api/v2/playlists?title=${title}`);
+  }
+
   public createPlaylist(playlist: PlaylistsCreateRequest): Observable<Playlist> {
     return this.http.post<Playlist>("http://localhost:8080/api/v2/playlists", playlist);
   }

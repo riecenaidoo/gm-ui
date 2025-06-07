@@ -70,9 +70,16 @@ export class HomeComponent extends SubscriptionComponent implements OnInit {
         });
   }
 
-  // ------ Internal ------
+  /**
+   * @param {string} title a non-blank string containing a title, or part of a title, to filter `Playlists` by.
+   */
+  protected searchByTitle(title: string): void{
+    let fetchedPlaylists = this.playlistsService.findByTitle(title)
+                               .subscribe((playlists: Playlist[]) => this.#playlists.next(playlists));
+    this.registerSubscription(fetchedPlaylists);
+  }
 
-  private fetchPlaylists(): void {
+  protected fetchPlaylists(): void {
     let fetchedPlaylists = this.playlistsService.findAll()
                                .subscribe((playlists: Playlist[]) => this.#playlists.next(playlists));
     this.registerSubscription(fetchedPlaylists);
