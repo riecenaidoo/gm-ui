@@ -1,9 +1,3 @@
-Catalogue Builder - Create catalogues to organise a large number of playlists. 
+A lightweight web application for controlling a custom Discord music bot.
 
-## TODO
-
-- Loading Spinner Component
-- Toast Component
-- Update Repositories to take in models, not just id. They can pull the id as needed. They can use the
-model info to do logs, toasts, etc.?
-  - The naming of the Repositories and their variables needs to be reconsidered.
+The goal is to provide a simple, user-friendly way to manage audio during TTRPG sessions on Discord—without getting in the way. Basic features like volume control, simultaneous audio playback (e.g., weather effects and background music), and queue management can significantly enhance the experience with minimal effort—especially if the interface is streamlined. This is particularly important for a GM who’s already juggling a hundred and one things during a session.
