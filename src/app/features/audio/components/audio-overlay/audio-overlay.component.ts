@@ -68,7 +68,7 @@ export class AudioOverlayComponent extends SubscriptionComponent implements OnIn
       );
     }
     const joinedChannel = this.audioRepositoryService.createServerAudio(server, channel)
-                              .subscribe((_) => this.#serverAudio.next({channel}));
+                              .subscribe(() => this.#serverAudio.next({channel}));
     this.registerSubscription(joinedChannel)
   }
 

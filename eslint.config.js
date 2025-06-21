@@ -30,6 +30,14 @@ module.exports = tseslint.config(
           style: "kebab-case",
         },
       ],
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          // Intentionally unused parameters. Usually for anonymous functions that must accept a specific no. of params
+          //  e.g. Event Handlers, etc.
+          "argsIgnorePattern": "^_"
+        }
+      ]
     },
   },
   {

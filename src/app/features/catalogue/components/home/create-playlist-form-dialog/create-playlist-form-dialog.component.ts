@@ -2,7 +2,6 @@ import {Component, EventEmitter, Output, ViewChild} from '@angular/core';
 import {DialogComponent} from "../../../../../shared/components/dialog/dialog/dialog.component";
 import {Dialog} from "../../../../../shared/models/dialog";
 import {Form} from "../../../../../shared/models/form";
-import {Playlist} from "../../../../../core/catalogue/models/playlist";
 import {PlaylistsCreateRequest} from '../../../../../core/catalogue/models/requests/playlists-create-request';
 
 @Component({

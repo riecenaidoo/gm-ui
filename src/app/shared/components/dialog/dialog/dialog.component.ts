@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, Input} from "@angular/core";
+import {Component, HostListener, Input} from "@angular/core";
 import {Dialog} from "../../../models/dialog";
 
 /**
