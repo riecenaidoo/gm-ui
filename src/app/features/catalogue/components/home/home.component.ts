@@ -47,7 +47,7 @@ export class HomeComponent extends SubscriptionComponent implements OnInit {
    * The user has created a playlist, and we must coordinate with the service to issue the request.
    */
   protected createPlaylist(playlist: PlaylistsCreateRequest): void {
-    let createdPlaylist = this.playlistsService.createPlaylist(playlist)
+    const createdPlaylist = this.playlistsService.createPlaylist(playlist)
                               .subscribe((_) => {
                                 this.fetchPlaylists();
                                 this.createPlaylistForm.clearInputs();
@@ -74,13 +74,13 @@ export class HomeComponent extends SubscriptionComponent implements OnInit {
    * @param {string} title a non-blank string containing a title, or part of a title, to filter `Playlists` by.
    */
   protected searchByTitle(title: string): void{
-    let fetchedPlaylists = this.playlistsService.findByTitle(title)
+    const fetchedPlaylists = this.playlistsService.findByTitle(title)
                                .subscribe((playlists: Playlist[]) => this.#playlists.next(playlists));
     this.registerSubscription(fetchedPlaylists);
   }
 
   protected fetchPlaylists(): void {
-    let fetchedPlaylists = this.playlistsService.findAll()
+    const fetchedPlaylists = this.playlistsService.findAll()
                                .subscribe((playlists: Playlist[]) => this.#playlists.next(playlists));
     this.registerSubscription(fetchedPlaylists);
   }
