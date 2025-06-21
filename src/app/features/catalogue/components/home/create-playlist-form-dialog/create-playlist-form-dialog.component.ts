@@ -15,7 +15,7 @@ export class CreatePlaylistFormDialogComponent implements Form, Dialog {
   public title: string = "";
 
   @Output()
-  private createdPlaylist: EventEmitter<PlaylistsCreateRequest> = new EventEmitter();
+  private createdPlaylist: EventEmitter<PlaylistsCreateRequest> = new EventEmitter<PlaylistsCreateRequest>();
 
   @ViewChild("dialog")
   private dialog!: DialogComponent;

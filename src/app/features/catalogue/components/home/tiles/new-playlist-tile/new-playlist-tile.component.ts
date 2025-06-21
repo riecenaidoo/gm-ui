@@ -9,7 +9,7 @@ import {Tile} from '../tile';
 export class NewPlaylistTileComponent implements Tile {
 
   @Output()
-  private creatingPlaylist: EventEmitter<void> = new EventEmitter();
+  private creatingPlaylist: EventEmitter<void> = new EventEmitter<void>();
 
   // ------ Events ------
 

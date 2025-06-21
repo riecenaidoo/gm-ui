@@ -12,7 +12,7 @@ export class SongTableComponent {
   public songs!: PlaylistSong[];
 
   @Output()
-  private removingSong: EventEmitter<PlaylistSong> = new EventEmitter();
+  private removingSong: EventEmitter<PlaylistSong> = new EventEmitter<PlaylistSong>();
 
   // ------ Events ------
 

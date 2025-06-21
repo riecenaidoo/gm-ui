@@ -10,7 +10,7 @@ import {AudioRepositoryService} from './core/audio/services/resources/audio-repo
 })
 export class AppComponent extends SubscriptionComponent implements OnInit {
 
-  readonly #service: Subject<AudioService> = new Subject();
+  readonly #service: Subject<AudioService> = new Subject<AudioService>();
 
   public constructor(private audioRepositoryService: AudioRepositoryService) {
     super();
