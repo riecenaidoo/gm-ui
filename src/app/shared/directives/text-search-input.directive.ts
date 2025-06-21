@@ -16,7 +16,7 @@ export class TextSearchInputDirective implements OnDestroy {
    * User has stopped interaction and the timeout expires will events be allowed to fire.
    */
   @Input()
-  public debounceDelayMs: number = 500;
+  public debounceDelayMs = 500;
 
   /**
    * Handle to the timeout scheduled to execute, if any, when the debounceDelay period ends.

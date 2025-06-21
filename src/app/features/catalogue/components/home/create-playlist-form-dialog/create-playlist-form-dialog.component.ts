@@ -11,7 +11,7 @@ import {PlaylistsCreateRequest} from '../../../../../core/catalogue/models/reque
 })
 export class CreatePlaylistFormDialogComponent implements Form, Dialog {
 
-  public title: string = "";
+  public title = "";
 
   @Output()
   private createdPlaylist: EventEmitter<PlaylistsCreateRequest> = new EventEmitter<PlaylistsCreateRequest>();
