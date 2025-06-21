@@ -5,7 +5,7 @@ import {Directive, EventEmitter, HostListener, Input, OnDestroy, Output} from '@
  * Intended for `type=text` to debounce User interaction and only emit after they have finished typing.
  */
 @Directive({
-  selector: 'input[app-text-search-input]',
+  selector: 'input[appTextSearchInput]',
   standalone: true
 })
 export class TextSearchInputDirective implements OnDestroy {
