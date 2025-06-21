@@ -14,5 +14,7 @@
  * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article
  * @see https://angular.dev/guide/components/selectors
  */
+// Marker Interface
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 export interface Tile {
 }
