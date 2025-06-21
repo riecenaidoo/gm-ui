@@ -9,7 +9,7 @@ import {Directive, EventEmitter, Output} from "@angular/core";
 export abstract class SelectorComponent<T> {
 
   @Output()
-  private selected: EventEmitter<T> = new EventEmitter();
+  private selected: EventEmitter<T> = new EventEmitter<T>();
 
   /**
    * Emit an event containing the item that was selected.

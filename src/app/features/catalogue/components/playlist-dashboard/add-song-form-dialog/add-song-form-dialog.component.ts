@@ -19,7 +19,7 @@ export class AddSongFormDialogComponent implements Form, Dialog {
    * @private
    */
   @Output()
-  private addedSong: EventEmitter<PlaylistSongsCreateRequest> = new EventEmitter();
+  private addedSong: EventEmitter<PlaylistSongsCreateRequest> = new EventEmitter<PlaylistSongsCreateRequest>();
 
   @ViewChild("dialog")
   private dialog!: DialogComponent;

@@ -16,7 +16,7 @@ export class RenamePlaylistFormDialogComponent implements Form, Dialog {
   public title!: string;
 
   @Output()
-  private renamedPlaylist: EventEmitter<string> = new EventEmitter();
+  private renamedPlaylist: EventEmitter<string> = new EventEmitter<string>();
 
   @ViewChild("dialog")
   private dialog!: DialogComponent;

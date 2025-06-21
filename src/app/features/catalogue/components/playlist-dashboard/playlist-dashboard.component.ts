@@ -21,9 +21,9 @@ export class PlaylistDashboardComponent extends SubscriptionComponent implements
 
   readonly #id: number;
 
-  readonly #playlist: Subject<Playlist> = new Subject();
+  readonly #playlist: Subject<Playlist> = new Subject<Playlist>();
 
-  readonly #songs: Subject<PlaylistSong[]> = new Subject();
+  readonly #songs: Subject<PlaylistSong[]> = new Subject<PlaylistSong[]>();
 
   @ViewChild("addSongForm")
   private addSongForm!: AddSongFormDialogComponent;

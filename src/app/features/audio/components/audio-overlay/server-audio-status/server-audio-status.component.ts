@@ -12,7 +12,7 @@ export class ServerAudioStatusComponent {
   public serverAudio!: ServerAudio;
 
   @Output()
-  private audioDisconnected: EventEmitter<void> = new EventEmitter();
+  private audioDisconnected: EventEmitter<void> = new EventEmitter<void>();
 
   // ------ Event Handling ------
 

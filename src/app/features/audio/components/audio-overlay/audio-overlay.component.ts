@@ -18,11 +18,11 @@ export class AudioOverlayComponent extends SubscriptionComponent implements OnIn
   @Input({required: true})
   public service!: AudioService;
 
-  readonly #servers: Subject<Server[]> = new Subject();
+  readonly #servers: Subject<Server[]> = new Subject<Server[]>();
 
-  readonly #channels: Subject<Channel[]> = new Subject();
+  readonly #channels: Subject<Channel[]> = new Subject<Channel[]>();
 
-  readonly #serverAudio: Subject<ServerAudio|undefined> = new Subject();
+  readonly #serverAudio: Subject<ServerAudio|undefined> = new Subject<ServerAudio|undefined>();
 
   @ViewChild("serverSelector")
   private serverSelector?: ServerSelectorComponent;

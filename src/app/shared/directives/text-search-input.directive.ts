@@ -34,14 +34,14 @@ export class TextSearchInputDirective implements OnDestroy {
    * The text searched by the User. Never null, nor blank.
    */
   @Output()
-  public searchedText: EventEmitter<string> = new EventEmitter();
+  public searchedText: EventEmitter<string> = new EventEmitter<string>();
 
   /**
    * If the User was searching, and has now cleared their search text. Guaranteed to emit only once per clear event.
    * Will only fire again once the User has begun to search non-blank text.
    */
   @Output()
-  public searchCleared: EventEmitter<void> = new EventEmitter();
+  public searchCleared: EventEmitter<void> = new EventEmitter<void>();
 
   // ------ Event Handling ------
 
