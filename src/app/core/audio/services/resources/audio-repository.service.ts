@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {Server} from "../../models/server";
 import {catchError, Observable, of} from "rxjs";
 import {Channel} from "../../models/channel";
@@ -34,7 +34,7 @@ export class AudioRepositoryService {
    */
   public getServerAudio(server: Server): Observable<ServerAudio|undefined> {
     return this.http.get<ServerAudio>(`http://localhost:5050/servers/${server.id}/audio`)
-               .pipe(catchError((err: any) => {
+               .pipe(catchError((err: HttpErrorResponse) => {
                          if (err.status === 404) {
                            return of(undefined);
                          } else {
