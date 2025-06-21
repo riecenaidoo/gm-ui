@@ -11,7 +11,7 @@ import {PlaylistSongsCreateRequest} from '../../../../../core/catalogue/models/r
 })
 export class AddSongFormDialogComponent implements Form, Dialog {
 
-  public url: string = "";
+  public url = "";
 
   /**
    * Emits a URL.
