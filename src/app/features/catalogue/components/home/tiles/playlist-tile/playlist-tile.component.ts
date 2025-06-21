@@ -3,6 +3,8 @@ import {Playlist} from "../../../../../../core/catalogue/models/playlist";
 import {SelectorComponent} from "../../../../../../shared/components/selector-component";
 import {Tile} from '../tile';
 
+// Attaching to native element intentionally
+/* eslint-disable @angular-eslint/component-selector */
 @Component({
   selector: 'article[app-playlist-tile]',
   templateUrl: './playlist-tile.component.html',
