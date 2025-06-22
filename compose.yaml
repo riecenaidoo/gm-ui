@@ -1,7 +1,17 @@
+# --------------------------------------------------------------------------------
+# NOTE:
+# The `gm-ui` service cannot run standalone; it depends on other components
+# of the `gm` project being up and running for full functionality.
+#
+# This Docker-Compose file is purely for development convenience.
+#
+# For full project orchestration including backend and other services,
+# please refer to the main `gm` project's Docker-Compose setup.
+# --------------------------------------------------------------------------------
 services:
   ui:
+    image: gm-ui
     build:
       dockerfile: "Dockerfile"
-    image: gm-catalogue-builder-ui
     ports:
       - "4200:80"
