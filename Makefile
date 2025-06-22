@@ -1,8 +1,40 @@
+# ========================================
 # ANSI Color Escape Codes
 # YELLOW='\033[0;33m'
 # RED='\033[0;31m'
 # GREEN='\033[0;32m'
 # NONE='\033[0m'
+# ========================================
+
+SRC_FILES := $(shell find src -type f)
+
+.PHONY: all artifacts packages git-hooks
+
+all: artifacts packages git-hooks
+
+# ========================================
+# Artifacts
+# ========================================
+
+artifacts: dist/gm-catalogue-builder/browser/index.html
+
+dist/gm-catalogue-builder/browser/index.html: node_modules $(SRC_FILES)	## rebuild on src/ changes
+	ng build
+
+# ========================================
+# Packages
+# ========================================
+
+packages: node_modules
+
+node_modules:	package.json package-lock.json	## download & install dependencies
+	npm install
+
+# ========================================
+# Git Hooks
+# ========================================
+
+git-hooks: .git/hooks/pre-commit
 
 .git/hooks/pre-commit: scripts/pre-commit.sh	## updates the pre-commit hook in the local repository
 # Commits must pass linting and keep the build green
