@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, inject} from '@angular/core';
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {Server} from "../../models/server";
 import {catchError, Observable, of} from "rxjs";
@@ -12,8 +12,7 @@ import {AudioService} from "../../models/audio-service";
 })
 export class AudioRepositoryService {
 
-  public constructor(private http: HttpClient) {
-  }
+  private http: HttpClient = inject(HttpClient);
 
   // ------ API ------
 

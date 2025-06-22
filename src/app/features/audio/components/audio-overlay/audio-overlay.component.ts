@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild, inject} from '@angular/core';
 import {SubscriptionComponent} from "../../../../shared/components/subscription-component";
 import {AudioRepositoryService} from "../../../../core/audio/services/resources/audio-repository.service";
 import {Observable, Subject} from "rxjs";
@@ -27,7 +27,9 @@ export class AudioOverlayComponent extends SubscriptionComponent implements OnIn
   @ViewChild("serverSelector")
   private serverSelector?: ServerSelectorComponent;
 
-  public constructor(private audioRepositoryService: AudioRepositoryService) {
+  private audioRepositoryService: AudioRepositoryService = inject(AudioRepositoryService);
+
+  public constructor() {
     super();
   }
 

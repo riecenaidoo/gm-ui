@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, OnInit, ViewChild, inject} from '@angular/core';
 import {SubscriptionComponent} from "../../../../shared/components/subscription-component";
 import {PlaylistsService} from "../../../../core/catalogue/services/playlists.service";
 import {Observable, Subject} from "rxjs";
@@ -19,7 +19,7 @@ import {PlaylistSongsCreateRequest} from '../../../../core/catalogue/models/requ
 })
 export class PlaylistDashboardComponent extends SubscriptionComponent implements OnInit {
 
-  readonly #id: number;
+  readonly #id: number = Number(inject(ActivatedRoute).snapshot.paramMap.get("id"));
 
   readonly #playlist: Subject<Playlist> = new Subject<Playlist>();
 
@@ -31,12 +31,14 @@ export class PlaylistDashboardComponent extends SubscriptionComponent implements
   @ViewChild("renamePlaylistForm")
   protected renamePlaylistForm!: RenamePlaylistFormDialogComponent;
 
-  public constructor(private playlistsService: PlaylistsService,
-                     private playlistSongsService: PlaylistSongsService,
-                     private route: ActivatedRoute,
-                     private router: Router) {
+  private playlistsService: PlaylistsService = inject(PlaylistsService);
+
+  private playlistSongsService: PlaylistSongsService = inject(PlaylistSongsService);
+
+  private router: Router = inject(Router);
+
+  public constructor() {
     super();
-    this.#id = Number(this.route.snapshot.paramMap.get("id"));
   }
 
   public ngOnInit(): void {
