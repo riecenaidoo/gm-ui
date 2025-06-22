@@ -11,12 +11,14 @@ import {
   PlaylistSongsService
 } from '../../../../core/catalogue/services/playlist-songs.service';
 import {PlaylistSongsCreateRequest} from '../../../../core/catalogue/models/requests/playlist-songs-create-request';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { SongTableComponent } from './song-table/song-table.component';
 
 @Component({
     selector: 'app-playlist-dashboard',
     templateUrl: './playlist-dashboard.component.html',
     styleUrl: './playlist-dashboard.component.css',
-    standalone: false
+    imports: [NgIf, AddSongFormDialogComponent, RenamePlaylistFormDialogComponent, SongTableComponent, AsyncPipe]
 })
 export class PlaylistDashboardComponent extends SubscriptionComponent implements OnInit {
 

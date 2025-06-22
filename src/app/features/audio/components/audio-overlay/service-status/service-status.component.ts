@@ -4,8 +4,7 @@ import {AudioService} from "../../../../../core/audio/models/audio-service";
 @Component({
     selector: 'app-service-status',
     templateUrl: './service-status.component.html',
-    styleUrl: './service-status.component.css',
-    standalone: false
+    styleUrl: './service-status.component.css'
 })
 export class ServiceStatus {
 

@@ -7,12 +7,16 @@ import {Channel} from "../../../../core/audio/models/channel";
 import {ServerSelectorComponent} from "./server-selector/server-selector.component";
 import {ServerAudio} from "../../../../core/audio/models/server-audio";
 import {AudioService} from "../../../../core/audio/models/audio-service";
+import { NgIf, AsyncPipe } from '@angular/common';
+import { ChannelSelectorComponent } from './channel-selector/channel-selector.component';
+import { ServerAudioStatusComponent } from './server-audio-status/server-audio-status.component';
+import { ServiceStatus } from './service-status/service-status.component';
 
 @Component({
     selector: 'app-audio-overlay',
     templateUrl: './audio-overlay.component.html',
     styleUrl: './audio-overlay.component.css',
-    standalone: false
+    imports: [NgIf, ServerSelectorComponent, ChannelSelectorComponent, ServerAudioStatusComponent, ServiceStatus, AsyncPipe]
 })
 export class AudioOverlayComponent extends SubscriptionComponent implements OnInit {
 

@@ -8,8 +8,7 @@ import {Tile} from '../tile';
 @Component({
     selector: 'article[app-playlist-tile]',
     templateUrl: './playlist-tile.component.html',
-    styleUrls: ['../tile.css', './playlist-tile.component.css'],
-    standalone: false
+    styleUrls: ['../tile.css', './playlist-tile.component.css']
 })
 export class PlaylistTileComponent extends SelectorComponent<Playlist> implements Tile {
 

@@ -3,6 +3,7 @@ import {Channel} from "../../../../../core/audio/models/channel";
 import {SelectorComponent} from "../../../../../shared/components/selector-component";
 import {ServerAudio} from '../../../../../core/audio/models/server-audio';
 import {AudioService} from '../../../../../core/audio/models/audio-service';
+import { NgFor, NgIf } from '@angular/common';
 
 /**
  * TODO [design] consider defining a Channel component that renders itself,
@@ -15,7 +16,7 @@ import {AudioService} from '../../../../../core/audio/models/audio-service';
     selector: 'app-channel-selector',
     templateUrl: './channel-selector.component.html',
     styleUrl: './channel-selector.component.css',
-    standalone: false
+    imports: [NgFor, NgIf]
 })
 export class ChannelSelectorComponent extends SelectorComponent<Channel> {
 

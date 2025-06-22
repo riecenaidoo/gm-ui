@@ -3,12 +3,13 @@ import {Form} from "../../../../../shared/models/form";
 import {Dialog} from '../../../../../shared/models/dialog';
 import {DialogComponent} from "../../../../../shared/components/dialog/dialog/dialog.component";
 import {PlaylistSongsCreateRequest} from '../../../../../core/catalogue/models/requests/playlist-songs-create-request';
+import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'app-add-song-form-dialog',
     templateUrl: './add-song-form-dialog.component.html',
     styleUrl: './add-song-form-dialog.component.css',
-    standalone: false
+    imports: [DialogComponent, FormsModule]
 })
 export class AddSongFormDialogComponent implements Form, Dialog {
 
