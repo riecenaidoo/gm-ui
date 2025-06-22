@@ -8,9 +8,20 @@
 
 SRC_FILES := $(shell find src -type f)
 
-.PHONY: all artifacts packages git-hooks
+.PHONY: all images artifacts packages git-hooks
 
-all: artifacts packages git-hooks
+all: images artifacts packages git-hooks
+
+# ========================================
+# Images
+# ========================================
+
+images: .made/gm-ui
+
+.made/gm-ui: dist/gm-catalogue-builder/browser/index.html
+	docker build -t gm-ui:latest -f Dockerfile-distonly .
+	mkdir -p ./.made	# Ensure existence
+	touch ./.made/gm-ui	# Timestamp file
 
 # ========================================
 # Artifacts
