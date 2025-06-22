@@ -2,3 +2,6 @@
 .angular/
 node_modules/
 dist/
+
+# Timestamps for Makefile
+.made/
