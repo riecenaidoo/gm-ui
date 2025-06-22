@@ -13,9 +13,10 @@ import {
 import {PlaylistSongsCreateRequest} from '../../../../core/catalogue/models/requests/playlist-songs-create-request';
 
 @Component({
-  selector: 'app-playlist-dashboard',
-  templateUrl: './playlist-dashboard.component.html',
-  styleUrl: './playlist-dashboard.component.css'
+    selector: 'app-playlist-dashboard',
+    templateUrl: './playlist-dashboard.component.html',
+    styleUrl: './playlist-dashboard.component.css',
+    standalone: false
 })
 export class PlaylistDashboardComponent extends SubscriptionComponent implements OnInit {
 

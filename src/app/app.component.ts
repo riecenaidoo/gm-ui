@@ -5,8 +5,9 @@ import {SubscriptionComponent} from './shared/components/subscription-component'
 import {AudioRepositoryService} from './core/audio/services/resources/audio-repository.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html'
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    standalone: false
 })
 export class AppComponent extends SubscriptionComponent implements OnInit {
 

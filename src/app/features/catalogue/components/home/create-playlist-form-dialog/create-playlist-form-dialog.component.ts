@@ -5,9 +5,10 @@ import {Form} from "../../../../../shared/models/form";
 import {PlaylistsCreateRequest} from '../../../../../core/catalogue/models/requests/playlists-create-request';
 
 @Component({
-  selector: 'app-create-playlist-form-dialog',
-  templateUrl: './create-playlist-form-dialog.component.html',
-  styleUrl: './create-playlist-form-dialog.component.css'
+    selector: 'app-create-playlist-form-dialog',
+    templateUrl: './create-playlist-form-dialog.component.html',
+    styleUrl: './create-playlist-form-dialog.component.css',
+    standalone: false
 })
 export class CreatePlaylistFormDialogComponent implements Form, Dialog {
 

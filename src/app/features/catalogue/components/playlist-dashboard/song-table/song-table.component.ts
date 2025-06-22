@@ -2,9 +2,10 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {PlaylistSong} from "../../../../../core/catalogue/models/playlist-song";
 
 @Component({
-  selector: 'app-song-table',
-  templateUrl: './song-table.component.html',
-  styleUrl: './song-table.component.css'
+    selector: 'app-song-table',
+    templateUrl: './song-table.component.html',
+    styleUrl: './song-table.component.css',
+    standalone: false
 })
 export class SongTableComponent {
 

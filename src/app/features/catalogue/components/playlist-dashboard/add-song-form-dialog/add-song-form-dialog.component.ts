@@ -5,9 +5,10 @@ import {DialogComponent} from "../../../../../shared/components/dialog/dialog/di
 import {PlaylistSongsCreateRequest} from '../../../../../core/catalogue/models/requests/playlist-songs-create-request';
 
 @Component({
-  selector: 'app-add-song-form-dialog',
-  templateUrl: './add-song-form-dialog.component.html',
-  styleUrl: './add-song-form-dialog.component.css'
+    selector: 'app-add-song-form-dialog',
+    templateUrl: './add-song-form-dialog.component.html',
+    styleUrl: './add-song-form-dialog.component.css',
+    standalone: false
 })
 export class AddSongFormDialogComponent implements Form, Dialog {
 

@@ -8,8 +8,9 @@ import {Dialog} from "../../../models/dialog";
  * and how it displays, otherwise pass in `[display]="true"` into the selector to have it immediately display.
  */
 @Component({
-  selector: 'app-dialog',
-  templateUrl: './dialog.component.html'
+    selector: 'app-dialog',
+    templateUrl: './dialog.component.html',
+    standalone: false
 })
 export class DialogComponent implements Dialog {
 
