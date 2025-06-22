@@ -1,5 +1,7 @@
 import {Component, HostListener, Input} from "@angular/core";
 import {Dialog} from "../../../models/dialog";
+import { NgIf } from "@angular/common";
+import { OverlayComponent } from "../overlay/overlay.component";
 
 /**
  * Wraps component to present it as dialog. Unstyled.
@@ -10,7 +12,7 @@ import {Dialog} from "../../../models/dialog";
 @Component({
     selector: 'app-dialog',
     templateUrl: './dialog.component.html',
-    standalone: false
+    imports: [NgIf, OverlayComponent]
 })
 export class DialogComponent implements Dialog {
 

@@ -3,12 +3,13 @@ import {Playlist} from "../../../../../core/catalogue/models/playlist";
 import {DialogComponent} from "../../../../../shared/components/dialog/dialog/dialog.component";
 import {Dialog} from "../../../../../shared/models/dialog";
 import {Form} from "../../../../../shared/models/form";
+import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'app-rename-playlist-form-dialog',
     templateUrl: './rename-playlist-form-dialog.component.html',
     styleUrl: './rename-playlist-form-dialog.component.css',
-    standalone: false
+    imports: [DialogComponent, FormsModule]
 })
 export class RenamePlaylistFormDialogComponent implements Form, Dialog {
 

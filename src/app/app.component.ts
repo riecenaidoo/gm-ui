@@ -3,11 +3,15 @@ import {Observable, Subject} from 'rxjs';
 import {AudioService} from './core/audio/models/audio-service';
 import {SubscriptionComponent} from './shared/components/subscription-component';
 import {AudioRepositoryService} from './core/audio/services/resources/audio-repository.service';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { AudioOverlayComponent } from './features/audio/components/audio-overlay/audio-overlay.component';
+import { RouterOutlet } from '@angular/router';
+import { HeaderComponent } from './core/layout/header/header.component';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
-    standalone: false
+    imports: [NgIf, AudioOverlayComponent, RouterOutlet, HeaderComponent, AsyncPipe]
 })
 export class AppComponent extends SubscriptionComponent implements OnInit {
 

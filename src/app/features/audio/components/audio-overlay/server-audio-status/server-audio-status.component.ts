@@ -4,8 +4,7 @@ import {ServerAudio} from "../../../../../core/audio/models/server-audio";
 @Component({
     selector: 'app-server-audio-status',
     templateUrl: './server-audio-status.component.html',
-    styleUrl: './server-audio-status.component.css',
-    standalone: false
+    styleUrl: './server-audio-status.component.css'
 })
 export class ServerAudioStatusComponent {
 

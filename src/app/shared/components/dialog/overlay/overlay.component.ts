@@ -3,8 +3,7 @@ import {Component, EventEmitter, HostListener, Output} from '@angular/core';
 @Component({
     selector: 'app-overlay',
     templateUrl: './overlay.component.html',
-    styleUrl: './overlay.component.css',
-    standalone: false
+    styleUrl: './overlay.component.css'
 })
 export class OverlayComponent {
 
