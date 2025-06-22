@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, inject} from '@angular/core';
 import {Observable} from "rxjs";
 import {Playlist} from "../models/playlist";
 import {HttpClient} from "@angular/common/http";
@@ -10,8 +10,7 @@ import {PlaylistsPatchRequest} from "../models/requests/playlists-patch-request"
 })
 export class PlaylistsService {
 
-  public constructor(private http: HttpClient) {
-  }
+  private http: HttpClient = inject(HttpClient);
 
   // ------ API ------
 

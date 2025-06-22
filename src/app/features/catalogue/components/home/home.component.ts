@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, OnInit, ViewChild, inject} from '@angular/core';
 import {SubscriptionComponent} from "../../../../shared/components/subscription-component";
 import {Observable, Subject} from "rxjs";
 import {Playlist} from "../../../../core/catalogue/models/playlist";
@@ -19,8 +19,11 @@ export class HomeComponent extends SubscriptionComponent implements OnInit {
   @ViewChild("createPlaylistForm")
   private createPlaylistForm!: CreatePlaylistFormDialogComponent;
 
-  public constructor(private playlistsService: PlaylistsService,
-                     private router: Router) {
+  private playlistsService: PlaylistsService = inject(PlaylistsService);
+
+  private router: Router = inject(Router);
+
+  public constructor() {
     super();
   }
 

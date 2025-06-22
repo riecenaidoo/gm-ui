@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, inject} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {AudioService} from './core/audio/models/audio-service';
 import {SubscriptionComponent} from './shared/components/subscription-component';
@@ -12,7 +12,9 @@ export class AppComponent extends SubscriptionComponent implements OnInit {
 
   readonly #service: Subject<AudioService> = new Subject<AudioService>();
 
-  public constructor(private audioRepositoryService: AudioRepositoryService) {
+  private audioRepositoryService: AudioRepositoryService = inject(AudioRepositoryService);
+
+  public constructor() {
     super();
   }
 
