@@ -9,9 +9,10 @@ import {ServerAudio} from "../../../../core/audio/models/server-audio";
 import {AudioService} from "../../../../core/audio/models/audio-service";
 
 @Component({
-  selector: 'app-audio-overlay',
-  templateUrl: './audio-overlay.component.html',
-  styleUrl: './audio-overlay.component.css'
+    selector: 'app-audio-overlay',
+    templateUrl: './audio-overlay.component.html',
+    styleUrl: './audio-overlay.component.css',
+    standalone: false
 })
 export class AudioOverlayComponent extends SubscriptionComponent implements OnInit {
 

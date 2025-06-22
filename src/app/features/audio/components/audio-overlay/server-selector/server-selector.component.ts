@@ -3,9 +3,10 @@ import {Server} from "../../../../../core/audio/models/server";
 import {SelectorComponent} from "../../../../../shared/components/selector-component";
 
 @Component({
-  selector: 'app-server-selector',
-  templateUrl: './server-selector.component.html',
-  styleUrl: './server-selector.component.css'
+    selector: 'app-server-selector',
+    templateUrl: './server-selector.component.html',
+    styleUrl: './server-selector.component.css',
+    standalone: false
 })
 export class ServerSelectorComponent extends SelectorComponent<Server> {
 

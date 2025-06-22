@@ -8,9 +8,10 @@ import {CreatePlaylistFormDialogComponent} from "./create-playlist-form-dialog/c
 import {PlaylistsCreateRequest} from '../../../../core/catalogue/models/requests/playlists-create-request';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrl: './home.component.css',
+    standalone: false
 })
 export class HomeComponent extends SubscriptionComponent implements OnInit {
 

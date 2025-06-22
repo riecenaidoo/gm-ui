@@ -12,9 +12,10 @@ import {AudioService} from '../../../../../core/audio/models/audio-service';
  *  list selection.
  */
 @Component({
-  selector: 'app-channel-selector',
-  templateUrl: './channel-selector.component.html',
-  styleUrl: './channel-selector.component.css'
+    selector: 'app-channel-selector',
+    templateUrl: './channel-selector.component.html',
+    styleUrl: './channel-selector.component.css',
+    standalone: false
 })
 export class ChannelSelectorComponent extends SelectorComponent<Channel> {
 

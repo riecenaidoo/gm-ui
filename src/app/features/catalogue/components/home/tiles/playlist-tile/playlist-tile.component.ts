@@ -6,9 +6,10 @@ import {Tile} from '../tile';
 // Attaching to native element intentionally
 /* eslint-disable @angular-eslint/component-selector */
 @Component({
-  selector: 'article[app-playlist-tile]',
-  templateUrl: './playlist-tile.component.html',
-  styleUrls: ['../tile.css', './playlist-tile.component.css']
+    selector: 'article[app-playlist-tile]',
+    templateUrl: './playlist-tile.component.html',
+    styleUrls: ['../tile.css', './playlist-tile.component.css'],
+    standalone: false
 })
 export class PlaylistTileComponent extends SelectorComponent<Playlist> implements Tile {
 

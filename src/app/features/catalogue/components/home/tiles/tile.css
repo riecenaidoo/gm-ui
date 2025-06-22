@@ -1,18 +1,19 @@
 /* Each tile is self-contained, which is represented best as an article. */
 :host {
-    aspect-ratio          : 4/4.5;
+    aspect-ratio          : 4/4.75;
     border-radius         : 0.5rem;
     display               : grid;
 
     /* The shape of a tile is square, for the content, and a tray/gutter for information. */
     grid-template-columns : repeat(3, 1fr);
-    grid-template-rows    : repeat(3, 1fr) minmax(0, 0.5fr); /*<1>*/
+    grid-template-rows    : repeat(3, 1fr) minmax(0, 0.75fr); /*<1>*/
     width                 : 100%;
 
     &:hover {
         /* The tile is interactable. */
         background-color : rgba(0, 0, 0, .20);
         border-bottom    : 0.25rem solid var(--palette-accent);
+        box-sizing: border-box; /*<2>*/
     }
 
     button {
@@ -24,6 +25,9 @@
         grid-column : 1/4;
         grid-row    : 4;
         overflow    : auto; /*<1>*/
+        align-content : center;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
     }
 
 }
@@ -44,10 +48,6 @@ button {
     }
 }
 
-p {
-    align-content : center;
-}
-
 /* <1>:
  - https://stackoverflow.com/a/52861514
  - https://stackoverflow.com/a/43312314
@@ -56,4 +56,10 @@ p {
  the grid will expand its minimum dimensions to fit the label - we don't really want that.
 
  The label should overflow and not break the tiling layout.
+ */
+
+/*  <2>:
+
+ Include the border in the tile size calculation to prevent it from growing, and causing the grid row to grow
+ when a border is added.
  */

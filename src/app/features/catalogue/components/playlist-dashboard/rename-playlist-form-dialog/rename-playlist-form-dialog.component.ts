@@ -5,9 +5,10 @@ import {Dialog} from "../../../../../shared/models/dialog";
 import {Form} from "../../../../../shared/models/form";
 
 @Component({
-  selector: 'app-rename-playlist-form-dialog',
-  templateUrl: './rename-playlist-form-dialog.component.html',
-  styleUrl: './rename-playlist-form-dialog.component.css'
+    selector: 'app-rename-playlist-form-dialog',
+    templateUrl: './rename-playlist-form-dialog.component.html',
+    styleUrl: './rename-playlist-form-dialog.component.css',
+    standalone: false
 })
 export class RenamePlaylistFormDialogComponent implements Form, Dialog {
 
