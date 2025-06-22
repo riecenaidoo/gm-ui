@@ -5,7 +5,7 @@
 # NONE='\033[0m'
 
 .git/hooks/pre-commit: scripts/pre-commit.sh	## updates the pre-commit hook in the local repository
-# Build must be stable in each commit
+# Commits must pass linting and keep the build green
 # [Git Hook](https://git-scm.com/book/ms/v2/Customizing-Git-Git-Hooks)
 	@if [ -f .git/hooks/pre-commit ]; then \
 		printf '\n\033[0;31m%s\033[0m\n\n' 'Pre-existing Pre-Commit Hook:'; \
