@@ -1,11 +1,13 @@
-<app-audio-overlay *ngIf="(service |async) as service; else catalogueOnly"
-                   [service]="service">
-    <router-outlet/>
+<app-audio-overlay
+  *ngIf="service | async as service; else catalogueOnly"
+  [service]="service"
+>
+  <router-outlet />
 </app-audio-overlay>
 
 <ng-template #catalogueOnly>
-    <app-header/>
-    <main>
-        <router-outlet/>
-    </main>
+  <app-header />
+  <main>
+    <router-outlet />
+  </main>
 </ng-template>

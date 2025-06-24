@@ -1,51 +1,50 @@
 /* Each tile is self-contained, which is represented best as an article. */
 :host {
-    aspect-ratio          : 4/4.75;
-    border-radius         : 0.5rem;
-    display               : grid;
+  aspect-ratio: 4/4.75;
+  border-radius: 0.5rem;
+  display: grid;
 
-    /* The shape of a tile is square, for the content, and a tray/gutter for information. */
-    grid-template-columns : repeat(3, 1fr);
-    grid-template-rows    : repeat(3, 1fr) minmax(0, 0.75fr); /*<1>*/
-    width                 : 100%;
+  /* The shape of a tile is square, for the content, and a tray/gutter for information. */
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr) minmax(0, 0.75fr); /*<1>*/
+  width: 100%;
 
-    &:hover {
-        /* The tile is interactable. */
-        background-color : rgba(0, 0, 0, .20);
-        border-bottom    : 0.25rem solid var(--palette-accent);
-        box-sizing: border-box; /*<2>*/
-    }
+  &:hover {
+    /* The tile is interactable. */
+    background-color: rgba(0, 0, 0, 0.2);
+    border-bottom: 0.25rem solid var(--palette-accent);
+    box-sizing: border-box; /*<2>*/
+  }
 
-    button {
-        grid-column : 2;
-        grid-row    : 2;
-    }
+  button {
+    grid-column: 2;
+    grid-row: 2;
+  }
 
-    p {
-        grid-column : 1/4;
-        grid-row    : 4;
-        overflow    : auto; /*<1>*/
-        align-content : center;
-        padding-left: 0.5rem;
-        padding-right: 0.5rem;
-    }
-
+  p {
+    grid-column: 1/4;
+    grid-row: 4;
+    overflow: auto; /*<1>*/
+    align-content: center;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
 }
 
 button {
-    background-color : transparent;
-    border           : none;
-    cursor           : pointer;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
 
-    i {
-        align-content    : center;
-        aspect-ratio     : 1/1;
-        background-color : var(--palette-accent);
-        border-radius    : 100%;
-        font-size        : 1.5rem;
-        text-align       : center;
-        width            : 100%;
-    }
+  i {
+    align-content: center;
+    aspect-ratio: 1/1;
+    background-color: var(--palette-accent);
+    border-radius: 100%;
+    font-size: 1.5rem;
+    text-align: center;
+    width: 100%;
+  }
 }
 
 /* <1>:

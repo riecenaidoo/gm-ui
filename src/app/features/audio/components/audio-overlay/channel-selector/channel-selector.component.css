@@ -1,59 +1,56 @@
 ol {
-    padding : 0.5rem;
+  padding: 0.5rem;
 }
 
 li {
-    display         : flex;
-    flex-direction  : column;
-    list-style-type : none;
-    margin-bottom   : 0.5rem;
-    margin-top      : 0.5rem;
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
 
-    &:hover {
-        background : var(--palette-bg);
-    }
+  &:hover {
+    background: var(--palette-bg);
+  }
 
-    :hover {
-        /* When any element within the li is hovered, then change the cursor. */
-        cursor : pointer;
-    }
+  :hover {
+    /* When any element within the li is hovered, then change the cursor. */
+    cursor: pointer;
+  }
 
-    span {
-        /* TODO The fonts display differently, even slightly different shades and I don't know why. */
-        font-size : medium;
-    }
-
+  span {
+    /* TODO The fonts display differently, even slightly different shades and I don't know why. */
+    font-size: medium;
+  }
 }
 
 button {
-    background    : transparent;
-    border        : none;
-    border-radius : 0.25rem;
-    height        : 2rem;
-    padding-left  : 0.5rem;
-    text-align    : left;
-    width         : 100%;
+  background: transparent;
+  border: none;
+  border-radius: 0.25rem;
+  height: 2rem;
+  padding-left: 0.5rem;
+  text-align: left;
+  width: 100%;
 
-    i {
-        padding-right : 0.5rem;
-    }
-
+  i {
+    padding-right: 0.5rem;
+  }
 }
 
 div {
-    align-items    : center;
-    display        : flex;
-    gap            : 0.25rem;
-    /* btn pad left + icon font size (1 rem) + btn pad right (default 0.25rem) */
-    /* TODO maybe use a grid layout to get the alignment right tbh */
-    margin-left    : 1.75rem;
-    padding-bottom : 0.5rem;
-    padding-top    : 0.5rem;
+  align-items: center;
+  display: flex;
+  gap: 0.25rem;
+  /* btn pad left + icon font size (1 rem) + btn pad right (default 0.25rem) */
+  /* TODO maybe use a grid layout to get the alignment right tbh */
+  margin-left: 1.75rem;
+  padding-bottom: 0.5rem;
+  padding-top: 0.5rem;
 
-    img {
-        border-radius : 100%;
-        height        : 1.25rem;
-        width         : auto;
-    }
-
+  img {
+    border-radius: 100%;
+    height: 1.25rem;
+    width: auto;
+  }
 }

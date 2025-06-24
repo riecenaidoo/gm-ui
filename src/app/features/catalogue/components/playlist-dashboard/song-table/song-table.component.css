@@ -1,20 +1,19 @@
 :host {
-    display    : block;
-    margin-top : 1.5rem;
+  display: block;
+  margin-top: 1.5rem;
 }
 
 table {
+  border-spacing: 0 1rem;
+  text-align: left;
+  width: 100%;
 
-    border-spacing : 0 1rem;
-    text-align     : left;
-    width          : 100%;
-
-    th, td {
-        padding-right : 0.5rem;
-    }
-
+  th,
+  td {
+    padding-right: 0.5rem;
+  }
 }
 
 .thumbnail-col {
-    text-align : center;
+  text-align: center;
 }

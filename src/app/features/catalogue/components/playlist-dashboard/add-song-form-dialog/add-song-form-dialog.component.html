@@ -1,10 +1,10 @@
 <app-dialog #dialog [autofocus]="autofocus">
-    <aside>
-        <form>
-            <label for="url">Song Url</label>
-            <input type="text" id="url" name="url" [(ngModel)]="url" #autofocus>
+  <aside>
+    <form>
+      <label for="url">Song Url</label>
+      <input type="text" id="url" name="url" [(ngModel)]="url" #autofocus />
 
-            <button (click)="addSong()" [disabled]="noInput()">Add Song</button>
-        </form>
-    </aside>
+      <button (click)="addSong()" [disabled]="noInput()">Add Song</button>
+    </form>
+  </aside>
 </app-dialog>

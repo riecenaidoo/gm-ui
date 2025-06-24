@@ -7,9 +7,7 @@
  * @see DialogComponent
  */
 export interface Dialog {
-
   showDialog(): void;
 
   hideDialog(): void;
-
 }

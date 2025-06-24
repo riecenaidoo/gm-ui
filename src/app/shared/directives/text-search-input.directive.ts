@@ -1,14 +1,20 @@
-import {Directive, EventEmitter, HostListener, Input, OnDestroy, Output} from '@angular/core';
+import {
+  Directive,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnDestroy,
+  Output,
+} from "@angular/core";
 
 /**
  * Directive over the native `input` element that emits events based on how the User interacts with the element.
  * Intended for `type=text` to debounce User interaction and only emit after they have finished typing.
  */
 @Directive({
-  selector: 'input[appTextSearchInput]'
+  selector: "input[appTextSearchInput]",
 })
 export class TextSearchInputDirective implements OnDestroy {
-
   /**
    * The delay in milliseconds after the last User interaction before events can be emitted, i.e. if the User
    * continues to interact within this timeout, events will not fire and the timeout will start again. Only after the
@@ -65,7 +71,6 @@ export class TextSearchInputDirective implements OnDestroy {
         this.searching = undefined;
         this.searchCleared.emit();
       }
-
     }, this.debounceDelayMs);
   }
 
@@ -81,5 +86,4 @@ export class TextSearchInputDirective implements OnDestroy {
       this.debounceTimeout = undefined;
     }
   }
-
 }

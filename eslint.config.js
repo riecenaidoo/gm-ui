@@ -16,7 +16,7 @@ module.exports = tseslint.config(
       ...tseslint.configs.recommended,
       ...tseslint.configs.stylistic,
       ...angular.configs.tsRecommended,
-      eslintConfigPrettierFlat
+      eslintConfigPrettierFlat,
     ],
     processor: angular.processInlineTemplates,
     rules: {
@@ -41,9 +41,9 @@ module.exports = tseslint.config(
         {
           // Intentionally unused parameters. Usually for anonymous functions that must accept a specific no. of params
           //  e.g. Event Handlers, etc.
-          "argsIgnorePattern": "^_"
-        }
-      ]
+          argsIgnorePattern: "^_",
+        },
+      ],
     },
   },
   {
@@ -53,5 +53,5 @@ module.exports = tseslint.config(
       ...angular.configs.templateAccessibility,
     ],
     rules: {},
-  }
+  },
 );

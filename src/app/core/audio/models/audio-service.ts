@@ -1,9 +1,7 @@
 export interface AudioService {
+  name: string;
 
-  name: string,
+  icon_url: string;
 
-  icon_url: string,
-
-  online: boolean,
-
+  online: boolean;
 }

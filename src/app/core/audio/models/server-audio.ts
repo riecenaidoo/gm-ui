@@ -1,7 +1,5 @@
-import {Channel} from "./channel";
+import { Channel } from "./channel";
 
 export interface ServerAudio {
-
   channel: Channel;
-
 }
