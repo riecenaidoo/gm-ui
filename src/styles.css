@@ -1,18 +1,18 @@
 :root {
-    /* Minimalist and Modern Palette Color Palette: https://www.color-hex.com/color-palette/1055648 */
-    --palette-accent    : #e6e6fa;
-    --palette-bg        : #e0e0e0;
-    --palette-bg-darker : #a8a8a8;
-    --palette-content   : #ffffff;
-    --palette-text      : #333333;
+  /* Minimalist and Modern Palette Color Palette: https://www.color-hex.com/color-palette/1055648 */
+  --palette-accent: #e6e6fa;
+  --palette-bg: #e0e0e0;
+  --palette-bg-darker: #a8a8a8;
+  --palette-content: #ffffff;
+  --palette-text: #333333;
 
-    /* Default Fonts */
-    font-style          : normal;
-    font-family         : Tahoma, sans-serif;
+  /* Default Fonts */
+  font-style: normal;
+  font-family: Tahoma, sans-serif;
 }
 
 body {
-    background : var(--palette-bg);
-    color      : var(--palette-text);
-    margin     : 0;
+  background: var(--palette-bg);
+  color: var(--palette-text);
+  margin: 0;
 }

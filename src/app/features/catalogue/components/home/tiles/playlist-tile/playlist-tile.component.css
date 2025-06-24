@@ -1,20 +1,19 @@
 :host {
-    &:hover {
-        i {
-            display : block;
-        }
+  &:hover {
+    i {
+      display: block;
     }
+  }
 }
 
 img {
-    grid-column : 1/4;
-    grid-row    : 1/4;
-    height      : 100%;
-    width       : 100%;
-    z-index     : -1;
+  grid-column: 1/4;
+  grid-row: 1/4;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
 }
 
 i {
-    display : none;
+  display: none;
 }
-

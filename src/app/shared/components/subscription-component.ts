@@ -1,5 +1,5 @@
-import {Directive, OnDestroy} from "@angular/core";
-import {Subscription} from "rxjs";
+import { Directive, OnDestroy } from "@angular/core";
+import { Subscription } from "rxjs";
 
 /**
  * A component with subscriptions.
@@ -9,7 +9,6 @@ import {Subscription} from "rxjs";
  */
 @Directive()
 export abstract class SubscriptionComponent implements OnDestroy {
-
   /**
    * TODO Link to where we first read about this pattern.
    */
@@ -34,5 +33,4 @@ export abstract class SubscriptionComponent implements OnDestroy {
   public registerSubscription(subscription: Subscription) {
     this._subscriptions.push(subscription);
   }
-
 }

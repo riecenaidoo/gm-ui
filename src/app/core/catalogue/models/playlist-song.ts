@@ -2,7 +2,6 @@
  * A `Song` within a `Playlist`.
  */
 export interface PlaylistSong {
-
   id: number;
 
   url: string;
@@ -12,5 +11,4 @@ export interface PlaylistSong {
   artist?: string;
 
   thumbnail_url?: string;
-
 }

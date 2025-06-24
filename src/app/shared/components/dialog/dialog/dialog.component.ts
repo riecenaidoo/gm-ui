@@ -1,5 +1,5 @@
-import {Component, HostListener, Input} from "@angular/core";
-import {Dialog} from "../../../models/dialog";
+import { Component, HostListener, Input } from "@angular/core";
+import { Dialog } from "../../../models/dialog";
 import { NgIf } from "@angular/common";
 import { OverlayComponent } from "../overlay/overlay.component";
 
@@ -10,12 +10,11 @@ import { OverlayComponent } from "../overlay/overlay.component";
  * and how it displays, otherwise pass in `[display]="true"` into the selector to have it immediately display.
  */
 @Component({
-    selector: 'app-dialog',
-    templateUrl: './dialog.component.html',
-    imports: [NgIf, OverlayComponent]
+  selector: "app-dialog",
+  templateUrl: "./dialog.component.html",
+  imports: [NgIf, OverlayComponent],
 })
 export class DialogComponent implements Dialog {
-
   /**
    * Indicates whether the `Dialog` should be displayed. Defaults to false.
    * @type {boolean}
@@ -32,7 +31,7 @@ export class DialogComponent implements Dialog {
    * NOTE: A Directive would be ideal, but focusing requires the component to be rendered which is a problem
    * for all my current inputs that are hidden inside a Dialog.
    */
-  @Input({required: false})
+  @Input({ required: false })
   public autofocus?: HTMLElement;
 
   public constructor() {
@@ -67,8 +66,7 @@ export class DialogComponent implements Dialog {
   @HostListener("document:keydown.escape")
   protected hideOnEscapePress(): void {
     if (this.display) {
-      this.hideDialog()
+      this.hideDialog();
     }
   }
-
 }

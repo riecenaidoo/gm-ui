@@ -1,29 +1,28 @@
 :host {
-    display               : grid;
-    grid-template-columns : repeat(6, 1fr);
-    grid-template-rows    : minmax(0, 100vh);
-    overflow-y            : clip;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: minmax(0, 100vh);
+  overflow-y: clip;
 }
 
 aside {
-    background     : var(--palette-bg-darker);
-    display        : flex;
-    flex-direction : column;
+  background: var(--palette-bg-darker);
+  display: flex;
+  flex-direction: column;
 
-    app-server-selector {
-        margin-bottom : auto; /*<1>*/
-    }
+  app-server-selector {
+    margin-bottom: auto; /*<1>*/
+  }
 
-    app-channel-selector {
-        flex-grow  : 1; /*<2>*/
-        overflow-y : auto;
-    }
-
+  app-channel-selector {
+    flex-grow: 1; /*<2>*/
+    overflow-y: auto;
+  }
 }
 
 main {
-    grid-column : 2/7;
-    overflow-y  : auto;
+  grid-column: 2/7;
+  overflow-y: auto;
 }
 
 /*  <1>

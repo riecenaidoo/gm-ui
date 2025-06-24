@@ -16,5 +16,4 @@
  */
 // Marker Interface
 /* eslint-disable @typescript-eslint/no-empty-object-type */
-export interface Tile {
-}
+export interface Tile {}

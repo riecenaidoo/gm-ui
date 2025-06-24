@@ -1,18 +1,17 @@
-import {Component, EventEmitter, Output, ViewChild} from '@angular/core';
-import {Form} from "../../../../../shared/models/form";
-import {Dialog} from '../../../../../shared/models/dialog';
-import {DialogComponent} from "../../../../../shared/components/dialog/dialog/dialog.component";
-import {PlaylistSongsCreateRequest} from '../../../../../core/catalogue/models/requests/playlist-songs-create-request';
-import { FormsModule } from '@angular/forms';
+import { Component, EventEmitter, Output, ViewChild } from "@angular/core";
+import { Form } from "../../../../../shared/models/form";
+import { Dialog } from "../../../../../shared/models/dialog";
+import { DialogComponent } from "../../../../../shared/components/dialog/dialog/dialog.component";
+import { PlaylistSongsCreateRequest } from "../../../../../core/catalogue/models/requests/playlist-songs-create-request";
+import { FormsModule } from "@angular/forms";
 
 @Component({
-    selector: 'app-add-song-form-dialog',
-    templateUrl: './add-song-form-dialog.component.html',
-    styleUrl: './add-song-form-dialog.component.css',
-    imports: [DialogComponent, FormsModule]
+  selector: "app-add-song-form-dialog",
+  templateUrl: "./add-song-form-dialog.component.html",
+  styleUrl: "./add-song-form-dialog.component.css",
+  imports: [DialogComponent, FormsModule],
 })
 export class AddSongFormDialogComponent implements Form, Dialog {
-
   public url = "";
 
   /**
@@ -21,7 +20,8 @@ export class AddSongFormDialogComponent implements Form, Dialog {
    * @private
    */
   @Output()
-  private addedSong: EventEmitter<PlaylistSongsCreateRequest> = new EventEmitter<PlaylistSongsCreateRequest>();
+  private addedSong: EventEmitter<PlaylistSongsCreateRequest> =
+    new EventEmitter<PlaylistSongsCreateRequest>();
 
   @ViewChild("dialog")
   private dialog!: DialogComponent;
@@ -43,7 +43,7 @@ export class AddSongFormDialogComponent implements Form, Dialog {
   // ------ Events ------
 
   protected addSong(): void {
-    const song: PlaylistSongsCreateRequest = {url: this.url};
+    const song: PlaylistSongsCreateRequest = { url: this.url };
     this.addedSong.emit(song);
   }
 
@@ -52,5 +52,4 @@ export class AddSongFormDialogComponent implements Form, Dialog {
   protected noInput(): boolean {
     return this.url.trim().length === 0;
   }
-
 }

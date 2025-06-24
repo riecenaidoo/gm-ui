@@ -1,30 +1,31 @@
 <aside>
-    <app-server-selector #serverSelector
-                         *ngIf="(servers |async) as servers"
-                         [servers]="servers"
-                         (selected)="selectServer($event)">
-    </app-server-selector>
+  <app-server-selector
+    #serverSelector
+    *ngIf="servers | async as servers"
+    [servers]="servers"
+    (selected)="selectServer($event)"
+  >
+  </app-server-selector>
 
-    <app-channel-selector
-            *ngIf="(channels | async) as channels"
-            [channels]="channels"
-            [serverAudio]="serverAudio | async"
-            [audioService]="service"
-            (selected)="joinChannel($event)">
-    </app-channel-selector>
+  <app-channel-selector
+    *ngIf="channels | async as channels"
+    [channels]="channels"
+    [serverAudio]="serverAudio | async"
+    [audioService]="service"
+    (selected)="joinChannel($event)"
+  >
+  </app-channel-selector>
 
-    <app-server-audio-status
-            *ngIf="(serverAudio | async) as serverAudio"
-            [serverAudio]="serverAudio"
-            (audioDisconnected)="disconnectAudio()">
-    </app-server-audio-status>
+  <app-server-audio-status
+    *ngIf="serverAudio | async as serverAudio"
+    [serverAudio]="serverAudio"
+    (audioDisconnected)="disconnectAudio()"
+  >
+  </app-server-audio-status>
 
-    <app-service-status
-            [audioService]="service">
-    </app-service-status>
-
+  <app-service-status [audioService]="service"> </app-service-status>
 </aside>
 
 <main>
-    <ng-content></ng-content>
+  <ng-content></ng-content>
 </main>

@@ -1,4 +1,4 @@
-import {Directive, EventEmitter, Output} from "@angular/core";
+import { Directive, EventEmitter, Output } from "@angular/core";
 
 /**
  * A component that selects an item.
@@ -7,7 +7,6 @@ import {Directive, EventEmitter, Output} from "@angular/core";
  */
 @Directive()
 export abstract class SelectorComponent<T> {
-
   @Output()
   private selected: EventEmitter<T> = new EventEmitter<T>();
 
@@ -19,5 +18,4 @@ export abstract class SelectorComponent<T> {
   protected select(item: T): void {
     this.selected.emit(item);
   }
-
 }

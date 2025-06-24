@@ -1,25 +1,24 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {PlaylistSong} from "../../../../../core/catalogue/models/playlist-song";
-import { NgFor } from '@angular/common';
+import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { PlaylistSong } from "../../../../../core/catalogue/models/playlist-song";
+import { NgFor } from "@angular/common";
 
 @Component({
-    selector: 'app-song-table',
-    templateUrl: './song-table.component.html',
-    styleUrl: './song-table.component.css',
-    imports: [NgFor]
+  selector: "app-song-table",
+  templateUrl: "./song-table.component.html",
+  styleUrl: "./song-table.component.css",
+  imports: [NgFor],
 })
 export class SongTableComponent {
-
-  @Input({required:true})
+  @Input({ required: true })
   public songs!: PlaylistSong[];
 
   @Output()
-  private removingSong: EventEmitter<PlaylistSong> = new EventEmitter<PlaylistSong>();
+  private removingSong: EventEmitter<PlaylistSong> =
+    new EventEmitter<PlaylistSong>();
 
   // ------ Events ------
 
   protected removingSongEvent(song: PlaylistSong): void {
     this.removingSong.emit(song);
   }
-
 }

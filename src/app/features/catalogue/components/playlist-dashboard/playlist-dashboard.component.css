@@ -1,7 +1,7 @@
 :host {
-    /* TODO This is the same as the HomeComponent, so perhaps it should be rather one level higher
+  /* TODO This is the same as the HomeComponent, so perhaps it should be rather one level higher
         - on whoever is calling these components to render.
     */
-    display : block;
-    margin  : 3rem;
+  display: block;
+  margin: 3rem;
 }

@@ -1,12 +1,11 @@
-import {Component, EventEmitter, HostListener, Output} from '@angular/core';
+import { Component, EventEmitter, HostListener, Output } from "@angular/core";
 
 @Component({
-    selector: 'app-overlay',
-    templateUrl: './overlay.component.html',
-    styleUrl: './overlay.component.css'
+  selector: "app-overlay",
+  templateUrl: "./overlay.component.html",
+  styleUrl: "./overlay.component.css",
 })
 export class OverlayComponent {
-
   @Output()
   private interactedWithOverlay: EventEmitter<void>;
 
@@ -20,5 +19,4 @@ export class OverlayComponent {
   protected clickedOverlay(): void {
     this.interactedWithOverlay.emit();
   }
-
 }
