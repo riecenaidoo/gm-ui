@@ -15,7 +15,7 @@ import { AddSongFormDialogComponent } from "./add-song-form-dialog/add-song-form
 import { RenamePlaylistFormDialogComponent } from "./rename-playlist-form-dialog/rename-playlist-form-dialog.component";
 import { PlaylistSongsService } from "../../../../core/catalogue/services/playlist-songs.service";
 import { PlaylistSongsCreateRequest } from "../../../../core/catalogue/models/requests/playlist-songs-create-request";
-import { NgIf, AsyncPipe } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import { SongTableComponent } from "./song-table/song-table.component";
 
 @Component({
@@ -23,7 +23,6 @@ import { SongTableComponent } from "./song-table/song-table.component";
   templateUrl: "./playlist-dashboard.component.html",
   styleUrl: "./playlist-dashboard.component.css",
   imports: [
-    NgIf,
     AddSongFormDialogComponent,
     RenamePlaylistFormDialogComponent,
     SongTableComponent,

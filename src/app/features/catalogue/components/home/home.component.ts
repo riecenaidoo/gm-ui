@@ -14,7 +14,7 @@ import { CreatePlaylistFormDialogComponent } from "./create-playlist-form-dialog
 import { PlaylistsCreateRequest } from "../../../../core/catalogue/models/requests/playlists-create-request";
 import { TextSearchInputDirective } from "../../../../shared/directives/text-search-input.directive";
 import { NewPlaylistTileComponent } from "./tiles/new-playlist-tile/new-playlist-tile.component";
-import { NgFor, AsyncPipe } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import { PlaylistTileComponent } from "./tiles/playlist-tile/playlist-tile.component";
 
 @Component({
@@ -24,7 +24,6 @@ import { PlaylistTileComponent } from "./tiles/playlist-tile/playlist-tile.compo
   imports: [
     TextSearchInputDirective,
     NewPlaylistTileComponent,
-    NgFor,
     PlaylistTileComponent,
     CreatePlaylistFormDialogComponent,
     AsyncPipe,

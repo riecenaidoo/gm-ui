@@ -1,6 +1,6 @@
 import { Component, HostListener, Input } from "@angular/core";
 import { Dialog } from "../../../models/dialog";
-import { NgIf } from "@angular/common";
+
 import { OverlayComponent } from "../overlay/overlay.component";
 
 /**
@@ -12,7 +12,7 @@ import { OverlayComponent } from "../overlay/overlay.component";
 @Component({
   selector: "app-dialog",
   templateUrl: "./dialog.component.html",
-  imports: [NgIf, OverlayComponent],
+  imports: [OverlayComponent],
 })
 export class DialogComponent implements Dialog {
   /**
