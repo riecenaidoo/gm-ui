@@ -5,7 +5,9 @@
   name="selectedServer"
   title="Server Selector"
 >
-  <option *ngFor="let server of servers" [ngValue]="server">
-    {{ server.name }}
-  </option>
+  @for (server of servers; track server) {
+    <option [ngValue]="server">
+      {{ server.name }}
+    </option>
+  }
 </select>

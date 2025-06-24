@@ -1,18 +1,22 @@
 <ol>
-  <li *ngFor="let channel of channels">
-    <button (click)="select(channel)">
-      <i class="fa fa-volume-up" aria-hidden="true"></i>
-      <span>{{ channel.name }}</span>
-    </button>
-    <div *ngIf="serverAudio?.channel?.id === channel.id">
-      <!--            TODO Prefer to check channel and channel, but I don't know how to define equality-->
-      <img
-        src="{{ audioService.icon_url }}"
-        alt="Icon"
-        width="48"
-        height="48"
-      />
-      <span>{{ audioService.name }}</span>
-    </div>
-  </li>
+  @for (channel of channels; track channel) {
+    <li>
+      <button (click)="select(channel)">
+        <i class="fa fa-volume-up" aria-hidden="true"></i>
+        <span>{{ channel.name }}</span>
+      </button>
+      @if (serverAudio?.channel?.id === channel.id) {
+        <div>
+          <!--            TODO Prefer to check channel and channel, but I don't know how to define equality-->
+          <img
+            src="{{ audioService.icon_url }}"
+            alt="Icon"
+            width="48"
+            height="48"
+          />
+          <span>{{ audioService.name }}</span>
+        </div>
+      }
+    </li>
+  }
 </ol>
