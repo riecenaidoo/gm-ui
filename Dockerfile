@@ -6,7 +6,7 @@ FROM node:22-alpine AS builder
 WORKDIR /app
 # Install Angular CLI globally to use from command line for 'ng build'
 # [npm docs](https://docs.npmjs.com/cli/v10/configuring-npm/folders)
-RUN npm install -g @angular/cli@18
+RUN npm install -g @angular/cli@20
 # Copy package files that contain what we need to install
 COPY package*.json ./
 # Install packages, which includes Angular but we want to install that globally to run 'ng' commands
