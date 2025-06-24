@@ -2,6 +2,11 @@
 const eslint = require("@eslint/js");
 const tseslint = require("typescript-eslint");
 const angular = require("angular-eslint");
+// [EslintPrettier](https://github.com/prettier/eslint-config-prettier#installation)
+// Note the `/flat` suffix here, the difference from default entry is that
+// `/flat` added `name` property to the exported object to improve
+// [config-inspector](https://eslint.org/blog/2024/04/eslint-config-inspector/) experience.
+const eslintConfigPrettierFlat = require("eslint-config-prettier/flat");
 
 module.exports = tseslint.config(
   {
@@ -11,6 +16,7 @@ module.exports = tseslint.config(
       ...tseslint.configs.recommended,
       ...tseslint.configs.stylistic,
       ...angular.configs.tsRecommended,
+      eslintConfigPrettierFlat
     ],
     processor: angular.processInlineTemplates,
     rules: {
