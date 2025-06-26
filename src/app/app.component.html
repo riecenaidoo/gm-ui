@@ -1,5 +1,6 @@
 @if (service | async; as service) {
   <app-audio-overlay [service]="service">
+    <app-header />
     <router-outlet />
   </app-audio-overlay>
 } @else {
