@@ -16,3 +16,20 @@ body {
   color: var(--palette-text);
   margin: 0;
 }
+
+/* Layout Classes */
+
+.header-bar {
+  height: 4rem;
+  border-bottom-style: solid;
+  border-bottom-width: 0.25rem;
+  border-bottom-color: var(--palette-accent);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  box-sizing: border-box; /* <1> */
+
+  /* <1>
+   Include the border in the height calculation. This is usually the default, but for some elements like the `<header>`
+   tag, the default is different (`context-box`) which will cause the header-bar 'height' to appear inconsistent.
+   */
+}
