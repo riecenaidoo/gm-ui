@@ -6,17 +6,19 @@
     (searchCleared)="fetchPlaylists()"
   />
 </div>
-<article
-  app-new-playlist-tile
-  (creatingPlaylist)="createPlaylistForm.showDialog()"
-></article>
-@for (playlist of playlists | async; track playlist) {
+<section>
   <article
-    app-playlist-tile
-    [playlist]="playlist"
-    (selected)="openPlaylist($event)"
+    app-new-playlist-tile
+    (creatingPlaylist)="createPlaylistForm.showDialog()"
   ></article>
-}
+  @for (playlist of playlists | async; track playlist) {
+    <article
+      app-playlist-tile
+      [playlist]="playlist"
+      (selected)="openPlaylist($event)"
+    ></article>
+  }
+</section>
 
 <app-create-playlist-form-dialog
   #createPlaylistForm

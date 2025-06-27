@@ -1,11 +1,16 @@
 @if (service | async; as service) {
   <app-audio-overlay [service]="service">
-    <app-header />
-    <router-outlet />
+    <ng-container *ngTemplateOutlet="layout"></ng-container>
   </app-audio-overlay>
 } @else {
-  <app-header />
-  <main>
-    <router-outlet />
-  </main>
+  <ng-container *ngTemplateOutlet="layout"></ng-container>
 }
+
+<ng-template #layout>
+  <div class="app-layout">
+    <app-header />
+    <main>
+      <router-outlet />
+    </main>
+  </div>
+</ng-template>

@@ -15,6 +15,7 @@ body {
   background: var(--palette-bg);
   color: var(--palette-text);
   margin: 0;
+  height: 100vh;
 }
 
 /* Layout Classes */

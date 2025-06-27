@@ -1,14 +1,15 @@
 :host {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: 1fr 5fr;
   grid-template-rows: minmax(0, 100vh);
-  overflow-y: clip;
+  height: 100%;
 }
 
 aside {
   background: var(--palette-bg-darker);
   display: flex;
   flex-direction: column;
+  height: 100%;
 
   app-server-selector {
     margin-bottom: auto; /*<1>*/
@@ -18,11 +19,6 @@ aside {
     flex-grow: 1; /*<2>*/
     overflow-y: auto;
   }
-}
-
-main {
-  grid-column: 2/7;
-  overflow-y: auto;
 }
 
 /*  <1>
