@@ -8,11 +8,12 @@
 # For full project orchestration including backend and other services,
 # please refer to the main `gm` project's Docker-Compose setup.
 # --------------------------------------------------------------------------------
+name: gamemaster-soundboard-dev
 services:
   ui:
-    image: gm-ui:latest
+    image: gm-ui:dev
     build:
       dockerfile: "Dockerfile"
-    container_name: "gm-dev-ui"
+    container_name: "gm-ui-dev"
     ports:
       - "4200:80"

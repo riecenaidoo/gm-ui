@@ -32,7 +32,7 @@ artifacts: dist/gm-catalogue-builder/browser/index.html
 dist/gm-catalogue-builder/browser/index.html: node_modules $(SRC_FILES)	## rebuild on src/ changes
 	prettier --write .
 	ng lint --fix
-	ng build
+	ng build --configuration development
 
 # ========================================
 # Packages
