@@ -1,16 +1,16 @@
 import { Injectable, inject } from "@angular/core";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { Server } from "../../models/server";
+import { Server } from "../models/server";
 import { catchError, Observable, of } from "rxjs";
-import { Channel } from "../../models/channel";
-import { ServersCreateAudioRequest } from "../../models/requests/servers-create-audio-request";
-import { ServerAudio } from "../../models/server-audio";
-import { AudioService } from "../../models/audio-service";
+import { Channel } from "../models/channel";
+import { ServersCreateAudioRequest } from "../models/requests/servers-create-audio-request";
+import { ServerAudio } from "../models/server-audio";
+import { AudioService } from "../models/audio-service";
 
 @Injectable({
   providedIn: "root",
 })
-export class AudioRepositoryService {
+export class AudioApiService {
   private http: HttpClient = inject(HttpClient);
 
   // ------ API ------

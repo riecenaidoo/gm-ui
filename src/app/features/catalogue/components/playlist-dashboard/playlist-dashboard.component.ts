@@ -6,14 +6,14 @@ import {
   inject,
 } from "@angular/core";
 import { SubscriptionComponent } from "../../../../shared/components/subscription-component";
-import { PlaylistsService } from "../../../../core/catalogue/services/playlists.service";
+import { PlaylistsApiService } from "../../../../core/catalogue/services/playlists-api.service";
 import { Observable, Subject } from "rxjs";
 import { Playlist } from "../../../../core/catalogue/models/playlist";
 import { ActivatedRoute, Router } from "@angular/router";
 import { PlaylistSong } from "../../../../core/catalogue/models/playlist-song";
 import { AddSongFormDialogComponent } from "./add-song-form-dialog/add-song-form-dialog.component";
 import { RenamePlaylistFormDialogComponent } from "./rename-playlist-form-dialog/rename-playlist-form-dialog.component";
-import { PlaylistSongsService } from "../../../../core/catalogue/services/playlist-songs.service";
+import { PlaylistSongsApiService } from "../../../../core/catalogue/services/playlist-songs-api.service";
 import { PlaylistSongsCreateRequest } from "../../../../core/catalogue/models/requests/playlist-songs-create-request";
 import { AsyncPipe } from "@angular/common";
 import { SongTableComponent } from "./song-table/song-table.component";
@@ -47,10 +47,11 @@ export class PlaylistDashboardComponent
   @ViewChild("renamePlaylistForm")
   protected renamePlaylistForm!: RenamePlaylistFormDialogComponent;
 
-  private playlistsService: PlaylistsService = inject(PlaylistsService);
+  private playlistsService: PlaylistsApiService = inject(PlaylistsApiService);
 
-  private playlistSongsService: PlaylistSongsService =
-    inject(PlaylistSongsService);
+  private playlistSongsService: PlaylistSongsApiService = inject(
+    PlaylistSongsApiService,
+  );
 
   private router: Router = inject(Router);
 

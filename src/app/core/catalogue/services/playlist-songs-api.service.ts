@@ -7,7 +7,7 @@ import { PlaylistSongsCreateRequest } from "../models/requests/playlist-songs-cr
 @Injectable({
   providedIn: "root",
 })
-export class PlaylistSongsService {
+export class PlaylistSongsApiService {
   private http: HttpClient = inject(HttpClient);
 
   // ------ API ------

@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from "@angular/core";
 import { Observable, Subject } from "rxjs";
 import { AudioService } from "./core/audio/models/audio-service";
 import { SubscriptionComponent } from "./shared/components/subscription-component";
-import { AudioRepositoryService } from "./core/audio/services/resources/audio-repository.service";
+import { AudioApiService } from "./core/audio/services/audio-api.service";
 import { AsyncPipe, NgTemplateOutlet } from "@angular/common";
 import { AudioOverlayComponent } from "./features/audio/components/audio-overlay/audio-overlay.component";
 import { RouterOutlet } from "@angular/router";
@@ -23,9 +23,7 @@ import { HeaderComponent } from "./core/layout/header/header.component";
 export class AppComponent extends SubscriptionComponent implements OnInit {
   readonly #service: Subject<AudioService> = new Subject<AudioService>();
 
-  private audioRepositoryService: AudioRepositoryService = inject(
-    AudioRepositoryService,
-  );
+  private audioRepositoryService: AudioApiService = inject(AudioApiService);
 
   public constructor() {
     super();

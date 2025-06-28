@@ -8,7 +8,7 @@ import {
 import { SubscriptionComponent } from "../../../../shared/components/subscription-component";
 import { Observable, Subject } from "rxjs";
 import { Playlist } from "../../../../core/catalogue/models/playlist";
-import { PlaylistsService } from "../../../../core/catalogue/services/playlists.service";
+import { PlaylistsApiService } from "../../../../core/catalogue/services/playlists-api.service";
 import { Router } from "@angular/router";
 import { CreatePlaylistFormDialogComponent } from "./create-playlist-form-dialog/create-playlist-form-dialog.component";
 import { PlaylistsCreateRequest } from "../../../../core/catalogue/models/requests/playlists-create-request";
@@ -35,7 +35,7 @@ export class HomeComponent extends SubscriptionComponent implements OnInit {
   @ViewChild("createPlaylistForm")
   private createPlaylistForm!: CreatePlaylistFormDialogComponent;
 
-  private playlistsService: PlaylistsService = inject(PlaylistsService);
+  private playlistsService: PlaylistsApiService = inject(PlaylistsApiService);
 
   private router: Router = inject(Router);
 
