@@ -11,6 +11,7 @@
         <td class="thumbnail-col">
           <a href="{{ song.url }}" target="_blank">
             <img
+              class="{{ song.thumbnail_url ? '' : 'adaptive-img' }}"
               src="{{ song.thumbnail_url ? song.thumbnail_url : 'vinyl.png' }}"
               alt="thumbnail"
               width="64"

@@ -1,21 +1,26 @@
 :host {
   :hover {
+    background: var(--palette-bg);
     cursor: pointer;
-    filter: brightness(25%);
   }
 }
 
 select {
-  background: transparent;
+  background-color: var(--palette-bg-darker);
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+  color: var(--palette-text);
   display: block;
   font-size: medium;
   padding: 1rem;
   width: 100%;
-  border-top: 0;
-  border-left: 0;
-  border-right: 0;
 
   :hover {
     cursor: pointer;
   }
+}
+
+li {
+  color: var(--palette-text);
 }
