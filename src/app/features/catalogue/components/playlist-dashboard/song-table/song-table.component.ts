@@ -1,10 +1,12 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { PlaylistSong } from "../../../../../core/catalogue/models/playlist-song";
+import { NgOptimizedImage } from "@angular/common";
 
 @Component({
   selector: "app-song-table",
   templateUrl: "./song-table.component.html",
   styleUrl: "./song-table.component.css",
+  imports: [NgOptimizedImage],
 })
 export class SongTableComponent {
   @Input({ required: true })

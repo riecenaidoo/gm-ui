@@ -4,16 +4,45 @@
 }
 
 table {
-  border-spacing: 0 1rem;
+  border-collapse: collapse;
   text-align: left;
   width: 100%;
 
-  th,
-  td {
-    padding-right: 0.5rem;
+  & tr:nth-child(odd) {
+    background-color: var(--palette-content);
   }
 }
 
-.thumbnail-col {
-  text-align: center;
+th {
+  background-color: var(--palette-bg-darker);
+  border-bottom: 0.25rem solid var(--palette-accent);
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+tr,
+thead {
+  & > :first-child,
+  :last-child {
+    text-align: center;
+  }
+
+  & > :last-child {
+    padding-right: 1rem;
+  }
+}
+
+tr > td:first-child {
+  height: 6rem;
+  width: 6rem;
+
+  & img {
+    height: auto;
+    max-height: 5rem;
+    max-width: 5rem;
+    width: auto;
+  }
 }
