@@ -1,6 +1,6 @@
 <table>
   <thead>
-    <th class="thumbnail-col">Song</th>
+    <th>Song</th>
     <th>Title</th>
     <th>Artist</th>
     <th></th>
@@ -8,14 +8,19 @@
   <tbody>
     @for (song of songs; track song) {
       <tr>
-        <td class="thumbnail-col">
+        <td>
           <a href="{{ song.url }}" target="_blank">
-            <img
-              class="{{ song.thumbnail_url ? '' : 'adaptive-img' }}"
-              src="{{ song.thumbnail_url ? song.thumbnail_url : 'vinyl.png' }}"
-              alt="thumbnail"
-              width="64"
-            />
+            @if (song.thumbnail_url) {
+              <img src="{{ song.thumbnail_url }}" alt="thumbnail" />
+            } @else {
+              <img
+                class="adaptive-filter"
+                ngSrc="vinyl.png"
+                alt="thumbnail"
+                height="512"
+                width="512"
+              />
+            }
           </a>
         </td>
         <td>
