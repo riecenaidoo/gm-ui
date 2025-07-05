@@ -6,15 +6,15 @@ import {
   inject,
 } from "@angular/core";
 import { SubscriptionComponent } from "../../../../shared/components/subscription-component";
-import { PlaylistsApiService } from "../../../../core/catalogue/services/playlists-api.service";
+import { PlaylistsApiService } from "../../services/playlists-api.service";
 import { Observable, Subject } from "rxjs";
-import { Playlist } from "../../../../core/catalogue/models/playlist";
+import { Playlist } from "../../models/playlist";
 import { ActivatedRoute, Router } from "@angular/router";
-import { PlaylistSong } from "../../../../core/catalogue/models/playlist-song";
+import { PlaylistSong } from "../../models/playlist-song";
 import { SongCreateFormDialogComponent } from "../../components/song-create-form-dialog/song-create-form-dialog.component";
 import { PlaylistRenameFormDialogComponent } from "../../components/playlist-rename-form-dialog/playlist-rename-form-dialog.component";
-import { PlaylistSongsApiService } from "../../../../core/catalogue/services/playlist-songs-api.service";
-import { PlaylistSongsCreateRequest } from "../../../../core/catalogue/models/requests/playlist-songs-create-request";
+import { PlaylistSongsApiService } from "../../services/playlist-songs-api.service";
+import { PlaylistSongsCreateRequest } from "../../models/requests/playlist-songs-create-request";
 import { AsyncPipe } from "@angular/common";
 import { SongTableComponent } from "../../components/song-table/song-table.component";
 

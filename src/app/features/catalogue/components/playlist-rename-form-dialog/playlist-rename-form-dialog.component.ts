@@ -5,7 +5,7 @@ import {
   Output,
   ViewChild,
 } from "@angular/core";
-import { Playlist } from "../../../../core/catalogue/models/playlist";
+import { Playlist } from "../../models/playlist";
 import { DialogComponent } from "../../../../shared/components/dialog/dialog/dialog.component";
 import { Dialog } from "../../../../shared/models/dialog";
 import { Form } from "../../../../shared/models/form";

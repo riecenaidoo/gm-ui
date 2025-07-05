@@ -7,11 +7,11 @@ import {
 } from "@angular/core";
 import { SubscriptionComponent } from "../../../../shared/components/subscription-component";
 import { Observable, Subject } from "rxjs";
-import { Playlist } from "../../../../core/catalogue/models/playlist";
-import { PlaylistsApiService } from "../../../../core/catalogue/services/playlists-api.service";
+import { Playlist } from "../../models/playlist";
+import { PlaylistsApiService } from "../../services/playlists-api.service";
 import { Router } from "@angular/router";
 import { PlaylistCreateFormDialogComponent } from "../../components/playlist-create-form-dialog/playlist-create-form-dialog.component";
-import { PlaylistsCreateRequest } from "../../../../core/catalogue/models/requests/playlists-create-request";
+import { PlaylistsCreateRequest } from "../../models/requests/playlists-create-request";
 import { TextSearchInputDirective } from "../../../../shared/directives/text-search-input.directive";
 import { PlaylistCreateTileComponent } from "../../components/tiles/playlist-create-tile/playlist-create-tile.component";
 import { AsyncPipe } from "@angular/common";

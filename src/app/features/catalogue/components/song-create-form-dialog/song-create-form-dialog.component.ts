@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output, ViewChild } from "@angular/core";
 import { Form } from "../../../../shared/models/form";
 import { Dialog } from "../../../../shared/models/dialog";
 import { DialogComponent } from "../../../../shared/components/dialog/dialog/dialog.component";
-import { PlaylistSongsCreateRequest } from "../../../../core/catalogue/models/requests/playlist-songs-create-request";
+import { PlaylistSongsCreateRequest } from "../../models/requests/playlist-songs-create-request";
 import { FormsModule } from "@angular/forms";
 
 @Component({

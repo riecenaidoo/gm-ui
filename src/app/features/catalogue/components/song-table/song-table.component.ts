@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { PlaylistSong } from "../../../../core/catalogue/models/playlist-song";
+import { PlaylistSong } from "../../models/playlist-song";
 import { NgOptimizedImage } from "@angular/common";
 
 @Component({

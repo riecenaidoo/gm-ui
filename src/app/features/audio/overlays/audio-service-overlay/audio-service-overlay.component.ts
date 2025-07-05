@@ -1,12 +1,12 @@
 import { Component, Input, OnInit, ViewChild, inject } from "@angular/core";
 import { SubscriptionComponent } from "../../../../shared/components/subscription-component";
-import { AudioApiService } from "../../../../core/audio/services/audio-api.service";
+import { AudioApiService } from "../../services/audio-api.service";
 import { Observable, Subject } from "rxjs";
-import { Server } from "../../../../core/audio/models/server";
-import { Channel } from "../../../../core/audio/models/channel";
+import { Server } from "../../models/server";
+import { Channel } from "../../models/channel";
 import { ServerSelectorComponent } from "../../components/server-selector/server-selector.component";
-import { ServerAudio } from "../../../../core/audio/models/server-audio";
-import { AudioService } from "../../../../core/audio/models/audio-service";
+import { ServerAudio } from "../../models/server-audio";
+import { AudioService } from "../../models/audio-service";
 import { AsyncPipe } from "@angular/common";
 import { ServerChannelSelectorComponent } from "../../components/server-channel-selector/server-channel-selector.component";
 import { ServerAudioStatusComponent } from "../../components/server-audio-status/server-audio-status.component";

@@ -1,8 +1,8 @@
 import { Component, Input } from "@angular/core";
-import { Channel } from "../../../../core/audio/models/channel";
+import { Channel } from "../../models/channel";
 import { SelectorComponent } from "../../../../shared/components/selector-component";
-import { ServerAudio } from "../../../../core/audio/models/server-audio";
-import { AudioService } from "../../../../core/audio/models/audio-service";
+import { ServerAudio } from "../../models/server-audio";
+import { AudioService } from "../../models/audio-service";
 
 /**
  * TODO [design] consider defining a Channel component that renders itself,

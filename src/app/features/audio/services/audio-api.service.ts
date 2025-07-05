@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Server } from "../models/server";
 import { catchError, Observable, of } from "rxjs";
 import { Channel } from "../models/channel";
-import { ServersCreateAudioRequest } from "../models/requests/servers-create-audio-request";
+import { ServerAudioCreateRequest } from "../models/requests/server-audio-create-request";
 import { ServerAudio } from "../models/server-audio";
 import { AudioService } from "../models/audio-service";
 import { environment } from "../../../../environments/environment";
@@ -50,7 +50,7 @@ export class AudioApiService {
   }
 
   public createServerAudio(server: Server, channel: Channel): Observable<void> {
-    const request: ServersCreateAudioRequest = {
+    const request: ServerAudioCreateRequest = {
       channel_id: channel.id,
     };
     return this.http.post<void>(

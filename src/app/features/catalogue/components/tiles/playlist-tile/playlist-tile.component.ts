@@ -1,5 +1,5 @@
 import { Component, Input } from "@angular/core";
-import { Playlist } from "../../../../../core/catalogue/models/playlist";
+import { Playlist } from "../../../models/playlist";
 import { SelectorComponent } from "../../../../../shared/components/selector-component";
 import { Tile } from "../tile";
 

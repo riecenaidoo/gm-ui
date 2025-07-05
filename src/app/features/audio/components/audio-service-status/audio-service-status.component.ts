@@ -1,5 +1,5 @@
 import { Component, Input } from "@angular/core";
-import { AudioService } from "../../../../core/audio/models/audio-service";
+import { AudioService } from "../../models/audio-service";
 
 @Component({
   selector: "app-audio-service-status",

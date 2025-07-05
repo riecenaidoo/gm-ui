@@ -1,12 +1,12 @@
 import { Component, OnInit, inject } from "@angular/core";
 import { Observable, Subject } from "rxjs";
-import { AudioService } from "./core/audio/models/audio-service";
+import { AudioService } from "./features/audio/models/audio-service";
 import { SubscriptionComponent } from "./shared/components/subscription-component";
-import { AudioApiService } from "./core/audio/services/audio-api.service";
+import { AudioApiService } from "./features/audio/services/audio-api.service";
 import { AsyncPipe, NgTemplateOutlet } from "@angular/common";
 import { AudioServiceOverlay } from "./features/audio/overlays/audio-service-overlay/audio-service-overlay.component";
 import { RouterOutlet } from "@angular/router";
-import { HeaderComponent } from "./core/layout/header/header.component";
+import { HeaderComponent } from "./shared/components/header/header.component";
 
 @Component({
   selector: "app-root",
