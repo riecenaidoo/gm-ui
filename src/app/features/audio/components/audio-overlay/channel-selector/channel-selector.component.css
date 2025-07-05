@@ -18,8 +18,10 @@ li {
     cursor: pointer;
   }
 
+  i,
   span {
     /* TODO The fonts display differently, even slightly different shades and I don't know why. */
+    color: var(--palette-text);
     font-size: medium;
   }
 }

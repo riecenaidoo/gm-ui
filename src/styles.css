@@ -34,3 +34,18 @@ body {
    tag, the default is different (`context-box`) which will cause the header-bar 'height' to appear inconsistent.
    */
 }
+
+@media (prefers-color-scheme: dark) {
+  .adaptive-filter {
+    /* Lightens colours (mainly for solid black icon images) during dark theme. */
+    filter: invert(60%);
+  }
+
+  :root {
+    --palette-accent: #c9dae2;
+    --palette-bg: #1b1b1b;
+    --palette-bg-darker: #000000;
+    --palette-content: #403f3f;
+    --palette-text: #e6e6e6;
+  }
+}
