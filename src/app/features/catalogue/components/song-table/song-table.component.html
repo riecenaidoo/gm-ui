@@ -6,7 +6,7 @@
     <th></th>
   </thead>
   <tbody>
-    @for (song of songs; track song) {
+    @for (song of songs; track song.id) {
       <tr>
         <td>
           <a href="{{ song.url }}" target="_blank">
