@@ -2,6 +2,7 @@ import { Component, Input } from "@angular/core";
 import { Playlist } from "../../../models/playlist";
 import { SelectorComponent } from "../../../../../shared/components/selector-component";
 import { Tile } from "../tile";
+import { NgOptimizedImage } from "@angular/common";
 
 // Attaching to native element intentionally
 /* eslint-disable @angular-eslint/component-selector */
@@ -9,6 +10,7 @@ import { Tile } from "../tile";
   selector: "article[app-playlist-tile]",
   templateUrl: "./playlist-tile.component.html",
   styleUrls: ["../tile.css", "./playlist-tile.component.css"],
+  imports: [NgOptimizedImage],
 })
 export class PlaylistTileComponent
   extends SelectorComponent<Playlist>
