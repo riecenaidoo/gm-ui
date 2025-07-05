@@ -8,7 +8,7 @@ import { PlaylistsPatchRequest } from "../models/requests/playlists-patch-reques
 @Injectable({
   providedIn: "root",
 })
-export class PlaylistsService {
+export class PlaylistsApiService {
   private http: HttpClient = inject(HttpClient);
 
   // ------ API ------

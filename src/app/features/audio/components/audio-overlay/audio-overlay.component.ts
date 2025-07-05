@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild, inject } from "@angular/core";
 import { SubscriptionComponent } from "../../../../shared/components/subscription-component";
-import { AudioRepositoryService } from "../../../../core/audio/services/resources/audio-repository.service";
+import { AudioApiService } from "../../../../core/audio/services/audio-api.service";
 import { Observable, Subject } from "rxjs";
 import { Server } from "../../../../core/audio/models/server";
 import { Channel } from "../../../../core/audio/models/channel";
@@ -42,9 +42,7 @@ export class AudioOverlayComponent
   @ViewChild("serverSelector")
   private serverSelector?: ServerSelectorComponent;
 
-  private audioRepositoryService: AudioRepositoryService = inject(
-    AudioRepositoryService,
-  );
+  private audioRepositoryService: AudioApiService = inject(AudioApiService);
 
   public constructor() {
     super();
