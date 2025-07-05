@@ -19,7 +19,7 @@ all: images artifacts packages git-hooks
 images: .made/gm-ui
 
 .made/gm-ui: dist/gm-catalogue-builder/browser/index.html
-	docker build -t gm-ui:latest -f Dockerfile-distonly .
+	docker build -t gm-ui:dev -f Dockerfile-distonly .
 	mkdir -p ./.made	# Ensure existence
 	touch ./.made/gm-ui	# Timestamp file
 
