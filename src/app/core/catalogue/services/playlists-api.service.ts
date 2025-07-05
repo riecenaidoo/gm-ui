@@ -4,23 +4,24 @@ import { Playlist } from "../models/playlist";
 import { HttpClient } from "@angular/common/http";
 import { PlaylistsCreateRequest } from "../models/requests/playlists-create-request";
 import { PlaylistsPatchRequest } from "../models/requests/playlists-patch-request";
+import { environment } from "../../../../environments/environment";
 
 @Injectable({
   providedIn: "root",
 })
 export class PlaylistsApiService {
+  readonly playlistsEndpoint = `${environment.catalogueApiBaseUrl}/playlists`;
+
   private http: HttpClient = inject(HttpClient);
 
   // ------ API ------
 
   public findAll(): Observable<Playlist[]> {
-    return this.http.get<Playlist[]>("http://localhost:8080/api/v2/playlists");
+    return this.http.get<Playlist[]>(`${this.playlistsEndpoint}`);
   }
 
   public findById(id: number): Observable<Playlist> {
-    return this.http.get<Playlist>(
-      `http://localhost:8080/api/v2/playlists/${id}`,
-    );
+    return this.http.get<Playlist>(`${this.playlistsEndpoint}/${id}`);
   }
 
   public findByTitle(title: string): Observable<Playlist[]> {
@@ -28,17 +29,14 @@ export class PlaylistsApiService {
       throw new Error("Title must be non-blank.");
     }
     return this.http.get<Playlist[]>(
-      `http://localhost:8080/api/v2/playlists?title=${title}`,
+      `${this.playlistsEndpoint}?title=${title}`,
     );
   }
 
   public createPlaylist(
     playlist: PlaylistsCreateRequest,
   ): Observable<Playlist> {
-    return this.http.post<Playlist>(
-      "http://localhost:8080/api/v2/playlists",
-      playlist,
-    );
+    return this.http.post<Playlist>(`${this.playlistsEndpoint}`, playlist);
   }
 
   public updatePlaylist(
@@ -48,15 +46,10 @@ export class PlaylistsApiService {
     if (Object.keys(patch).length === 0) {
       throw new Error("A patch must have at least one key-value pair.");
     }
-    return this.http.patch<Playlist>(
-      `http://localhost:8080/api/v2/playlists/${id}`,
-      patch,
-    );
+    return this.http.patch<Playlist>(`${this.playlistsEndpoint}/${id}`, patch);
   }
 
   public deletePlaylist(id: number): Observable<void> {
-    return this.http.delete<void>(
-      `http://localhost:8080/api/v2/playlists/${id}`,
-    );
+    return this.http.delete<void>(`${this.playlistsEndpoint}/${id}`);
   }
 }

@@ -6,26 +6,29 @@ import { Channel } from "../models/channel";
 import { ServersCreateAudioRequest } from "../models/requests/servers-create-audio-request";
 import { ServerAudio } from "../models/server-audio";
 import { AudioService } from "../models/audio-service";
+import { environment } from "../../../../environments/environment";
 
 @Injectable({
   providedIn: "root",
 })
 export class AudioApiService {
+  readonly audioEndpoint = `${environment.audioApiBaseUrl}`;
+
   private http: HttpClient = inject(HttpClient);
 
   // ------ API ------
 
   public getAudioService(): Observable<AudioService> {
-    return this.http.get<AudioService>("http://localhost:5050/");
+    return this.http.get<AudioService>(`${this.audioEndpoint}/`);
   }
 
   public findServers(): Observable<Server[]> {
-    return this.http.get<Server[]>("http://localhost:5050/servers");
+    return this.http.get<Server[]>(`${this.audioEndpoint}/servers`);
   }
 
   public getChannels(server: Server): Observable<Channel[]> {
     return this.http.get<Channel[]>(
-      `http://localhost:5050/servers/${server.id}/channels`,
+      `${this.audioEndpoint}/servers/${server.id}/channels`,
     );
   }
 
@@ -34,7 +37,7 @@ export class AudioApiService {
    */
   public getServerAudio(server: Server): Observable<ServerAudio | undefined> {
     return this.http
-      .get<ServerAudio>(`http://localhost:5050/servers/${server.id}/audio`)
+      .get<ServerAudio>(`${this.audioEndpoint}/servers/${server.id}/audio`)
       .pipe(
         catchError((err: HttpErrorResponse) => {
           if (err.status === 404) {
@@ -51,14 +54,14 @@ export class AudioApiService {
       channel_id: channel.id,
     };
     return this.http.post<void>(
-      `http://localhost:5050/servers/${server.id}/audio`,
+      `${this.audioEndpoint}/servers/${server.id}/audio`,
       request,
     );
   }
 
   public deleteServerAudio(server: Server): Observable<void> {
     return this.http.delete<void>(
-      `http://localhost:5050/servers/${server.id}/audio`,
+      `${this.audioEndpoint}/servers/${server.id}/audio`,
     );
   }
 }
