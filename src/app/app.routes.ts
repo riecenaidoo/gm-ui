@@ -1,11 +1,11 @@
 import { Routes } from "@angular/router";
-import { HomeComponent } from "./features/catalogue/components/home/home.component";
+import { CataloguePlaylistsPage } from "./features/catalogue/pages/catalogue-playlists/catalogue-playlists-page.component";
 import { PlaylistDashboardComponent } from "./features/catalogue/components/playlist-dashboard/playlist-dashboard.component";
 
 export const routes: Routes = [
   {
     path: "",
-    component: HomeComponent,
+    component: CataloguePlaylistsPage,
   },
   {
     path: "playlists/:id",

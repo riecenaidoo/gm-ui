@@ -10,17 +10,17 @@ import { Observable, Subject } from "rxjs";
 import { Playlist } from "../../../../core/catalogue/models/playlist";
 import { PlaylistsApiService } from "../../../../core/catalogue/services/playlists-api.service";
 import { Router } from "@angular/router";
-import { CreatePlaylistFormDialogComponent } from "./create-playlist-form-dialog/create-playlist-form-dialog.component";
+import { CreatePlaylistFormDialogComponent } from "../../components/home/create-playlist-form-dialog/create-playlist-form-dialog.component";
 import { PlaylistsCreateRequest } from "../../../../core/catalogue/models/requests/playlists-create-request";
 import { TextSearchInputDirective } from "../../../../shared/directives/text-search-input.directive";
-import { NewPlaylistTileComponent } from "./tiles/new-playlist-tile/new-playlist-tile.component";
+import { NewPlaylistTileComponent } from "../../components/home/tiles/new-playlist-tile/new-playlist-tile.component";
 import { AsyncPipe } from "@angular/common";
-import { PlaylistTileComponent } from "./tiles/playlist-tile/playlist-tile.component";
+import { PlaylistTileComponent } from "../../components/home/tiles/playlist-tile/playlist-tile.component";
 
 @Component({
-  selector: "app-home",
-  templateUrl: "./home.component.html",
-  styleUrl: "./home.component.css",
+  selector: "app-catalogue-playlists-page",
+  templateUrl: "./catalogue-playlists-page.component.html",
+  styleUrl: "./catalogue-playlists-page.component.css",
   imports: [
     TextSearchInputDirective,
     NewPlaylistTileComponent,
@@ -29,11 +29,14 @@ import { PlaylistTileComponent } from "./tiles/playlist-tile/playlist-tile.compo
     AsyncPipe,
   ],
 })
-export class HomeComponent extends SubscriptionComponent implements OnInit {
+export class CataloguePlaylistsPage
+  extends SubscriptionComponent
+  implements OnInit
+{
   readonly #playlists: Subject<Playlist[]> = new Subject<Playlist[]>();
 
-  @ViewChild("createPlaylistForm")
-  private createPlaylistForm!: CreatePlaylistFormDialogComponent;
+  @ViewChild("createPlaylistFormDialog")
+  private createPlaylistFormDialog!: CreatePlaylistFormDialogComponent;
 
   private playlistsService: PlaylistsApiService = inject(PlaylistsApiService);
 
@@ -47,9 +50,9 @@ export class HomeComponent extends SubscriptionComponent implements OnInit {
     this.fetchPlaylists();
   }
 
-  // ------ API ------
+  // ------ Component ------
 
-  public get playlists(): Observable<Playlist[]> {
+  protected get playlists(): Observable<Playlist[]> {
     return this.#playlists;
   }
 
@@ -57,7 +60,7 @@ export class HomeComponent extends SubscriptionComponent implements OnInit {
 
   @HostListener("window:keydown.alt.1")
   protected showCreatePlaylistDialog(): void {
-    this.createPlaylistForm.showDialog();
+    this.createPlaylistFormDialog.showDialog();
   }
 
   // ------ Event Handling ------
@@ -70,8 +73,8 @@ export class HomeComponent extends SubscriptionComponent implements OnInit {
       .createPlaylist(playlist)
       .subscribe((_) => {
         this.fetchPlaylists();
-        this.createPlaylistForm.clearInputs();
-        this.createPlaylistForm.hideDialog();
+        this.createPlaylistFormDialog.clearInputs();
+        this.createPlaylistFormDialog.hideDialog();
       });
     this.registerSubscription(createdPlaylist);
   }
