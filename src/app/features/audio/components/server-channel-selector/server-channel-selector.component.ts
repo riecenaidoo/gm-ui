@@ -1,8 +1,8 @@
 import { Component, Input } from "@angular/core";
-import { Channel } from "../../../../../core/audio/models/channel";
-import { SelectorComponent } from "../../../../../shared/components/selector-component";
-import { ServerAudio } from "../../../../../core/audio/models/server-audio";
-import { AudioService } from "../../../../../core/audio/models/audio-service";
+import { Channel } from "../../../../core/audio/models/channel";
+import { SelectorComponent } from "../../../../shared/components/selector-component";
+import { ServerAudio } from "../../../../core/audio/models/server-audio";
+import { AudioService } from "../../../../core/audio/models/audio-service";
 
 /**
  * TODO [design] consider defining a Channel component that renders itself,
@@ -12,11 +12,11 @@ import { AudioService } from "../../../../../core/audio/models/audio-service";
  *  list selection.
  */
 @Component({
-  selector: "app-channel-selector",
-  templateUrl: "./channel-selector.component.html",
-  styleUrl: "./channel-selector.component.css",
+  selector: "app-server-channel-selector",
+  templateUrl: "./server-channel-selector.component.html",
+  styleUrl: "./server-channel-selector.component.css",
 })
-export class ChannelSelectorComponent extends SelectorComponent<Channel> {
+export class ServerChannelSelectorComponent extends SelectorComponent<Channel> {
   @Input({ required: true })
   public channels!: Channel[];
 

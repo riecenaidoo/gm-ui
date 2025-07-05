@@ -4,27 +4,28 @@ import { AudioApiService } from "../../../../core/audio/services/audio-api.servi
 import { Observable, Subject } from "rxjs";
 import { Server } from "../../../../core/audio/models/server";
 import { Channel } from "../../../../core/audio/models/channel";
-import { ServerSelectorComponent } from "./server-selector/server-selector.component";
+import { ServerSelectorComponent } from "../../components/server-selector/server-selector.component";
 import { ServerAudio } from "../../../../core/audio/models/server-audio";
 import { AudioService } from "../../../../core/audio/models/audio-service";
 import { AsyncPipe } from "@angular/common";
-import { ChannelSelectorComponent } from "./channel-selector/channel-selector.component";
-import { ServerAudioStatusComponent } from "./server-audio-status/server-audio-status.component";
-import { ServiceStatus } from "./service-status/service-status.component";
+import { ServerChannelSelectorComponent } from "../../components/server-channel-selector/server-channel-selector.component";
+import { ServerAudioStatusComponent } from "../../components/server-audio-status/server-audio-status.component";
+import { AudioServiceStatusComponent } from "../../components/audio-service-status/audio-service-status.component";
 
 @Component({
-  selector: "app-audio-overlay",
-  templateUrl: "./audio-overlay.component.html",
-  styleUrl: "./audio-overlay.component.css",
+  selector: "app-audio-service-overlay",
+  templateUrl: "./audio-service-overlay.component.html",
+  styleUrl: "./audio-service-overlay.component.css",
   imports: [
     ServerSelectorComponent,
-    ChannelSelectorComponent,
+    ServerChannelSelectorComponent,
     ServerAudioStatusComponent,
-    ServiceStatus,
+    ServerAudioStatusComponent,
     AsyncPipe,
+    AudioServiceStatusComponent,
   ],
 })
-export class AudioOverlayComponent
+export class AudioServiceOverlay
   extends SubscriptionComponent
   implements OnInit
 {

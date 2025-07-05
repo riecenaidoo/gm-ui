@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
-import { Server } from "../../../../../core/audio/models/server";
-import { SelectorComponent } from "../../../../../shared/components/selector-component";
+import { Server } from "../../../../core/audio/models/server";
+import { SelectorComponent } from "../../../../shared/components/selector-component";
 import { FormsModule } from "@angular/forms";
 
 @Component({

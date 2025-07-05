@@ -4,7 +4,7 @@ import { AudioService } from "./core/audio/models/audio-service";
 import { SubscriptionComponent } from "./shared/components/subscription-component";
 import { AudioApiService } from "./core/audio/services/audio-api.service";
 import { AsyncPipe, NgTemplateOutlet } from "@angular/common";
-import { AudioOverlayComponent } from "./features/audio/components/audio-overlay/audio-overlay.component";
+import { AudioServiceOverlay } from "./features/audio/overlays/audio-service-overlay/audio-service-overlay.component";
 import { RouterOutlet } from "@angular/router";
 import { HeaderComponent } from "./core/layout/header/header.component";
 
@@ -13,7 +13,7 @@ import { HeaderComponent } from "./core/layout/header/header.component";
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.css",
   imports: [
-    AudioOverlayComponent,
+    AudioServiceOverlay,
     RouterOutlet,
     HeaderComponent,
     AsyncPipe,

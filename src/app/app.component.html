@@ -1,7 +1,7 @@
 @if (service | async; as service) {
-  <app-audio-overlay [service]="service">
+  <app-audio-service-overlay [service]="service">
     <ng-container *ngTemplateOutlet="layout"></ng-container>
-  </app-audio-overlay>
+  </app-audio-service-overlay>
 } @else {
   <ng-container *ngTemplateOutlet="layout"></ng-container>
 }

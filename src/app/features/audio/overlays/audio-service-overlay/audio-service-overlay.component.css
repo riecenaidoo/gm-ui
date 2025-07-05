@@ -15,7 +15,7 @@ aside {
     margin-bottom: auto; /*<1>*/
   }
 
-  app-channel-selector {
+  app-server-channel-selector {
     flex-grow: 1; /*<2>*/
     overflow-y: auto;
   }

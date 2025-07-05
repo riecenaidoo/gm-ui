@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { ServerAudio } from "../../../../../core/audio/models/server-audio";
+import { ServerAudio } from "../../../../core/audio/models/server-audio";
 
 @Component({
   selector: "app-server-audio-status",

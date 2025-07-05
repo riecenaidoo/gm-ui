@@ -9,13 +9,13 @@
   }
 
   @if (channels | async; as channels) {
-    <app-channel-selector
+    <app-server-channel-selector
       [channels]="channels"
       [serverAudio]="serverAudio | async"
       [audioService]="service"
       (selected)="joinChannel($event)"
     >
-    </app-channel-selector>
+    </app-server-channel-selector>
   }
 
   @if (serverAudio | async; as serverAudio) {
@@ -26,7 +26,8 @@
     </app-server-audio-status>
   }
 
-  <app-service-status [audioService]="service"> </app-service-status>
+  <app-audio-service-status [audioService]="service">
+  </app-audio-service-status>
 </aside>
 
 <ng-content></ng-content>
