@@ -1,10 +1,11 @@
 header {
-  align-content: center;
   background-color: var(--palette-bg-darker);
-  text-align: center;
+  display: flex;
 }
 
 h1 {
-  margin: 0;
+  align-content: center;
+  margin: 0 auto 0 2rem;
   padding: 0;
+  text-align: center;
 }

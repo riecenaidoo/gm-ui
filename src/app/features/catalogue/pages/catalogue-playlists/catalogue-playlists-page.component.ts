@@ -13,7 +13,7 @@ import { PlaylistsApiService } from "../../services/playlists-api.service";
 import { Router } from "@angular/router";
 import { PlaylistCreateFormDialogComponent } from "../../components/playlist-create-form-dialog/playlist-create-form-dialog.component";
 import { PlaylistsCreateRequest } from "../../models/requests/playlists-create-request";
-import { TextSearchInputDirective } from "../../../../shared/directives/text-search-input.directive";
+import { InputSearchDebounceDirective } from "../../../../shared/directives/input-search-debounce.directive";
 import { PlaylistCreateTileComponent } from "../../components/tiles/playlist-create-tile/playlist-create-tile.component";
 import { AsyncPipe } from "@angular/common";
 import { PlaylistTileComponent } from "../../components/tiles/playlist-tile/playlist-tile.component";
@@ -24,7 +24,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
   templateUrl: "./catalogue-playlists-page.component.html",
   styleUrl: "./catalogue-playlists-page.component.css",
   imports: [
-    TextSearchInputDirective,
+    InputSearchDebounceDirective,
     PlaylistCreateTileComponent,
     PlaylistTileComponent,
     PlaylistCreateFormDialogComponent,

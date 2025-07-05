@@ -1,5 +1,5 @@
-import { Component, OnInit, inject, DestroyRef } from "@angular/core";
-import { Observable, Subject } from "rxjs";
+import { Component, inject, DestroyRef } from "@angular/core";
+import { BehaviorSubject, filter, Observable } from "rxjs";
 import { AudioService } from "./features/audio/models/audio-service";
 import { AudioApiService } from "./features/audio/services/audio-api.service";
 import { AsyncPipe, NgTemplateOutlet } from "@angular/common";
@@ -7,6 +7,7 @@ import { AudioServiceOverlay } from "./features/audio/overlays/audio-service-ove
 import { RouterOutlet } from "@angular/router";
 import { HeaderComponent } from "./shared/components/header/header.component";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { AudioOverlayToggleComponent } from "./features/audio/components/audio-overlay-toggle/audio-overlay-toggle.component";
 
 @Component({
   selector: "app-root",
@@ -18,23 +19,31 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
     HeaderComponent,
     AsyncPipe,
     NgTemplateOutlet,
+    AudioOverlayToggleComponent,
   ],
 })
-export class AppComponent implements OnInit {
-  readonly #service: Subject<AudioService> = new Subject<AudioService>();
+export class AppComponent {
+  readonly #service: BehaviorSubject<AudioService | null> =
+    new BehaviorSubject<AudioService | null>(null);
 
   private audioRepositoryService: AudioApiService = inject(AudioApiService);
 
   private destroyed: DestroyRef = inject(DestroyRef);
 
-  public ngOnInit(): void {
-    this.fetchService();
+  // ------ Component ------
+
+  protected get service(): Observable<AudioService> {
+    return this.#service.pipe(filter((service) => !!service));
   }
 
-  // ------ API ------
+  // ------ Event Handling ------
 
-  public get service(): Observable<AudioService> {
-    return this.#service;
+  protected toggleAudioService(): void {
+    if (this.#service.value == null) {
+      this.fetchService();
+    } else {
+      this.#service.next(null);
+    }
   }
 
   // ------ Internal ------

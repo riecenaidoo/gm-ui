@@ -1,11 +1,5 @@
-import {
-  Directive,
-  EventEmitter,
-  HostListener,
-  Input,
-  OnDestroy,
-  Output,
-} from "@angular/core";
+import { Directive, EventEmitter, HostListener, Output } from "@angular/core";
+import { DebounceDirective } from "./debounce.directive";
 
 /**
  * Directive over the native `input` element that emits events based on how the User interacts with the element.
@@ -14,20 +8,7 @@ import {
 @Directive({
   selector: "input[appTextSearchInput]",
 })
-export class TextSearchInputDirective implements OnDestroy {
-  /**
-   * The delay in milliseconds after the last User interaction before events can be emitted, i.e. if the User
-   * continues to interact within this timeout, events will not fire and the timeout will start again. Only after the
-   * User has stopped interaction and the timeout expires will events be allowed to fire.
-   */
-  @Input()
-  public debounceDelayMs = 500;
-
-  /**
-   * Handle to the timeout scheduled to execute, if any, when the debounceDelay period ends.
-   */
-  private debounceTimeout?: ReturnType<typeof setTimeout>;
-
+export class InputSearchDebounceDirective extends DebounceDirective {
   /**
    * The last (trimmed) text the User searched, or `undefined` if they cleared their search.
    */
@@ -39,14 +20,14 @@ export class TextSearchInputDirective implements OnDestroy {
    * The text searched by the User. Never null, nor blank.
    */
   @Output()
-  public searchedText: EventEmitter<string> = new EventEmitter<string>();
+  protected searchedText: EventEmitter<string> = new EventEmitter<string>();
 
   /**
    * If the User was searching, and has now cleared their search text. Guaranteed to emit only once per clear event.
    * Will only fire again once the User has begun to search non-blank text.
    */
   @Output()
-  public searchCleared: EventEmitter<void> = new EventEmitter<void>();
+  protected searchCleared: EventEmitter<void> = new EventEmitter<void>();
 
   // ------ Event Handling ------
 
@@ -58,9 +39,8 @@ export class TextSearchInputDirective implements OnDestroy {
    * - a `searchCleared` event if they have cleared their search (inputted only blank input).
    */
   @HostListener("input", ["$event.target.value"])
-  private debounceUserInput(searchText: string): void {
-    this.clearDebounceTimeout();
-    this.debounceTimeout = setTimeout(() => {
+  protected debounceUserInput(searchText: string): void {
+    this.debounce(() => {
       const text = searchText.trim();
       if (text.length > 0) {
         if (this.searching !== text) {
@@ -71,19 +51,6 @@ export class TextSearchInputDirective implements OnDestroy {
         this.searching = undefined;
         this.searchCleared.emit();
       }
-    }, this.debounceDelayMs);
-  }
-
-  // ------ Internal ------
-
-  public ngOnDestroy(): void {
-    this.clearDebounceTimeout();
-  }
-
-  private clearDebounceTimeout(): void {
-    if (this.debounceTimeout !== undefined) {
-      clearTimeout(this.debounceTimeout);
-      this.debounceTimeout = undefined;
-    }
+    });
   }
 }

@@ -1,0 +1,25 @@
+:host {
+  align-content: center;
+  aspect-ratio: 1/1;
+}
+
+button {
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  outline: none;
+
+  i {
+    color: var(--palette-text);
+    font-size: 1.5rem;
+  }
+
+  &:hover > i,
+  &:focus-visible > i {
+    color: var(--palette-accent);
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}
