@@ -1,4 +1,7 @@
 <div role="toolbar" aria-label="Catalogue Controls">
+  <button (click)="createPlaylistForm.showDialog()" title="Create a Playlist">
+    <i class="fa fa-plus"></i>
+  </button>
   <input
     appTextSearchInput
     placeholder="Search within Catalogue"
@@ -7,15 +10,16 @@
   />
 </div>
 <section>
-  <article
-    app-new-playlist-tile
-    (creatingPlaylist)="createPlaylistForm.showDialog()"
-  ></article>
   @for (playlist of playlists | async; track playlist) {
     <article
       app-playlist-tile
       [playlist]="playlist"
       (selected)="openPlaylist($event)"
+    ></article>
+  } @empty {
+    <article
+      app-new-playlist-tile
+      (creatingPlaylist)="createPlaylistForm.showDialog()"
     ></article>
   }
 </section>
