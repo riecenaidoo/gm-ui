@@ -11,17 +11,17 @@ import { Observable, Subject } from "rxjs";
 import { Playlist } from "../../../../core/catalogue/models/playlist";
 import { ActivatedRoute, Router } from "@angular/router";
 import { PlaylistSong } from "../../../../core/catalogue/models/playlist-song";
-import { AddSongFormDialogComponent } from "./add-song-form-dialog/add-song-form-dialog.component";
-import { RenamePlaylistFormDialogComponent } from "./rename-playlist-form-dialog/rename-playlist-form-dialog.component";
+import { AddSongFormDialogComponent } from "../../components/playlist-dashboard/add-song-form-dialog/add-song-form-dialog.component";
+import { RenamePlaylistFormDialogComponent } from "../../components/playlist-dashboard/rename-playlist-form-dialog/rename-playlist-form-dialog.component";
 import { PlaylistSongsApiService } from "../../../../core/catalogue/services/playlist-songs-api.service";
 import { PlaylistSongsCreateRequest } from "../../../../core/catalogue/models/requests/playlist-songs-create-request";
 import { AsyncPipe } from "@angular/common";
-import { SongTableComponent } from "./song-table/song-table.component";
+import { SongTableComponent } from "../../components/playlist-dashboard/song-table/song-table.component";
 
 @Component({
-  selector: "app-playlist-dashboard",
-  templateUrl: "./playlist-dashboard.component.html",
-  styleUrl: "./playlist-dashboard.component.css",
+  selector: "app-playlist-songs-page",
+  templateUrl: "./playlist-songs-page.component.html",
+  styleUrl: "./playlist-songs-page.component.css",
   imports: [
     AddSongFormDialogComponent,
     RenamePlaylistFormDialogComponent,
@@ -29,10 +29,7 @@ import { SongTableComponent } from "./song-table/song-table.component";
     AsyncPipe,
   ],
 })
-export class PlaylistDashboardComponent
-  extends SubscriptionComponent
-  implements OnInit
-{
+export class PlaylistSongsPage extends SubscriptionComponent implements OnInit {
   readonly #id: number = Number(
     inject(ActivatedRoute).snapshot.paramMap.get("id"),
   );
@@ -41,11 +38,11 @@ export class PlaylistDashboardComponent
 
   readonly #songs: Subject<PlaylistSong[]> = new Subject<PlaylistSong[]>();
 
-  @ViewChild("addSongForm")
-  private addSongForm!: AddSongFormDialogComponent;
+  @ViewChild("addSongFormDialog")
+  private addSongFormDialog!: AddSongFormDialogComponent;
 
-  @ViewChild("renamePlaylistForm")
-  protected renamePlaylistForm!: RenamePlaylistFormDialogComponent;
+  @ViewChild("renamePlaylistFormDialog")
+  protected renamePlaylistFormDialog!: RenamePlaylistFormDialogComponent;
 
   private playlistsService: PlaylistsApiService = inject(PlaylistsApiService);
 
@@ -64,13 +61,13 @@ export class PlaylistDashboardComponent
     this.fetchSongs();
   }
 
-  // ------ API ------
+  // ------ Component ------
 
-  public get playlist(): Observable<Playlist> {
+  protected get playlist(): Observable<Playlist> {
     return this.#playlist;
   }
 
-  public get songs(): Observable<PlaylistSong[]> {
+  protected get songs(): Observable<PlaylistSong[]> {
     return this.#songs;
   }
 
@@ -78,12 +75,12 @@ export class PlaylistDashboardComponent
 
   @HostListener("window:keydown.alt.1")
   protected showAddSongDialog(): void {
-    this.addSongForm.showDialog();
+    this.addSongFormDialog.showDialog();
   }
 
   @HostListener("window:keydown.alt.2")
   protected showRenamePlaylistDialog(): void {
-    this.renamePlaylistForm.showDialog();
+    this.renamePlaylistFormDialog.showDialog();
   }
 
   // ------ Event Handling ------
@@ -93,8 +90,8 @@ export class PlaylistDashboardComponent
       .createPlaylistSong(this.#id, song)
       .subscribe(() => {
         this.fetchSongs();
-        this.addSongForm.hideDialog();
-        this.addSongForm.clearInputs();
+        this.addSongFormDialog.hideDialog();
+        this.addSongFormDialog.clearInputs();
       });
     this.registerSubscription(addedSong);
   }
@@ -111,7 +108,7 @@ export class PlaylistDashboardComponent
       .updatePlaylist(this.#id, { title })
       .subscribe((playlist: Playlist) => {
         this.#playlist.next(playlist);
-        this.renamePlaylistForm.hideDialog();
+        this.renamePlaylistFormDialog.hideDialog();
       });
     this.registerSubscription(renamedPlaylist);
   }
