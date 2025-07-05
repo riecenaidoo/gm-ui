@@ -5,6 +5,7 @@ import {
   ViewChild,
   inject,
   DestroyRef,
+  ElementRef,
 } from "@angular/core";
 import { Observable, Subject } from "rxjs";
 import { Playlist } from "../../models/playlist";
@@ -36,6 +37,9 @@ export class CataloguePlaylistsPage implements OnInit {
   @ViewChild("createPlaylistFormDialog")
   private createPlaylistFormDialog!: PlaylistCreateFormDialogComponent;
 
+  @ViewChild("playlistSearchInput")
+  private playlistSearchInput!: ElementRef<HTMLInputElement>;
+
   private playlistsService: PlaylistsApiService = inject(PlaylistsApiService);
 
   private router: Router = inject(Router);
@@ -57,6 +61,13 @@ export class CataloguePlaylistsPage implements OnInit {
   @HostListener("window:keydown.alt.1")
   protected showCreatePlaylistDialog(): void {
     this.createPlaylistFormDialog.showDialog();
+  }
+
+  @HostListener("window:keydown.alt.`")
+  protected focusPlaylistSearch(): void {
+    window.requestAnimationFrame(() =>
+      this.playlistSearchInput.nativeElement.focus(),
+    );
   }
 
   // ------ Event Handling ------

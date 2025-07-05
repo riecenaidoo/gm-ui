@@ -43,7 +43,6 @@ tr > td:first-child {
 
   & img {
     vertical-align: middle;
-    horiz-align: center;
     height: auto;
     max-height: 5rem;
     max-width: 5rem;

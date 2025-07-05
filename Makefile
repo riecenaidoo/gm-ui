@@ -22,7 +22,7 @@ images: .made/gm-ui
 	docker build -t gm-ui:dev -f Dockerfile-distonly .
 	mkdir -p ./.made	# Ensure existence
 	touch ./.made/gm-ui	# Timestamp file
-	docker compose down ui # Teardown out of date containers
+	docker compose down ui	# Teardown out of date containers
 
 # ========================================
 # Artifacts
