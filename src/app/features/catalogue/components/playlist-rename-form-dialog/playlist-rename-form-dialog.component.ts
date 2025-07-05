@@ -5,19 +5,19 @@ import {
   Output,
   ViewChild,
 } from "@angular/core";
-import { Playlist } from "../../../../../core/catalogue/models/playlist";
-import { DialogComponent } from "../../../../../shared/components/dialog/dialog/dialog.component";
-import { Dialog } from "../../../../../shared/models/dialog";
-import { Form } from "../../../../../shared/models/form";
+import { Playlist } from "../../../../core/catalogue/models/playlist";
+import { DialogComponent } from "../../../../shared/components/dialog/dialog/dialog.component";
+import { Dialog } from "../../../../shared/models/dialog";
+import { Form } from "../../../../shared/models/form";
 import { FormsModule } from "@angular/forms";
 
 @Component({
-  selector: "app-rename-playlist-form-dialog",
-  templateUrl: "./rename-playlist-form-dialog.component.html",
-  styleUrl: "./rename-playlist-form-dialog.component.css",
+  selector: "app-playlist-rename-form-dialog",
+  templateUrl: "./playlist-rename-form-dialog.component.html",
+  styleUrl: "./playlist-rename-form-dialog.component.css",
   imports: [DialogComponent, FormsModule],
 })
-export class RenamePlaylistFormDialogComponent implements Form, Dialog {
+export class PlaylistRenameFormDialogComponent implements Form, Dialog {
   #playlist!: Playlist;
 
   public title!: string;

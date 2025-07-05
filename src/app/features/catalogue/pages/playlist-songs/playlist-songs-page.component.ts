@@ -11,20 +11,20 @@ import { Observable, Subject } from "rxjs";
 import { Playlist } from "../../../../core/catalogue/models/playlist";
 import { ActivatedRoute, Router } from "@angular/router";
 import { PlaylistSong } from "../../../../core/catalogue/models/playlist-song";
-import { AddSongFormDialogComponent } from "../../components/playlist-dashboard/add-song-form-dialog/add-song-form-dialog.component";
-import { RenamePlaylistFormDialogComponent } from "../../components/playlist-dashboard/rename-playlist-form-dialog/rename-playlist-form-dialog.component";
+import { SongCreateFormDialogComponent } from "../../components/song-create-form-dialog/song-create-form-dialog.component";
+import { PlaylistRenameFormDialogComponent } from "../../components/playlist-rename-form-dialog/playlist-rename-form-dialog.component";
 import { PlaylistSongsApiService } from "../../../../core/catalogue/services/playlist-songs-api.service";
 import { PlaylistSongsCreateRequest } from "../../../../core/catalogue/models/requests/playlist-songs-create-request";
 import { AsyncPipe } from "@angular/common";
-import { SongTableComponent } from "../../components/playlist-dashboard/song-table/song-table.component";
+import { SongTableComponent } from "../../components/song-table/song-table.component";
 
 @Component({
   selector: "app-playlist-songs-page",
   templateUrl: "./playlist-songs-page.component.html",
   styleUrl: "./playlist-songs-page.component.css",
   imports: [
-    AddSongFormDialogComponent,
-    RenamePlaylistFormDialogComponent,
+    SongCreateFormDialogComponent,
+    PlaylistRenameFormDialogComponent,
     SongTableComponent,
     AsyncPipe,
   ],
@@ -39,10 +39,10 @@ export class PlaylistSongsPage extends SubscriptionComponent implements OnInit {
   readonly #songs: Subject<PlaylistSong[]> = new Subject<PlaylistSong[]>();
 
   @ViewChild("addSongFormDialog")
-  private addSongFormDialog!: AddSongFormDialogComponent;
+  private addSongFormDialog!: SongCreateFormDialogComponent;
 
   @ViewChild("renamePlaylistFormDialog")
-  protected renamePlaylistFormDialog!: RenamePlaylistFormDialogComponent;
+  protected renamePlaylistFormDialog!: PlaylistRenameFormDialogComponent;
 
   private playlistsService: PlaylistsApiService = inject(PlaylistsApiService);
 

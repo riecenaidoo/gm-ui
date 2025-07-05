@@ -24,13 +24,13 @@
     ></article>
   } @empty {
     <article
-      app-new-playlist-tile
+      app-playlist-create-tile
       (creatingPlaylist)="createPlaylistFormDialog.showDialog()"
     ></article>
   }
 </section>
 
-<app-create-playlist-form-dialog
+<app-playlist-create-form-dialog
   #createPlaylistFormDialog
   (createdPlaylist)="createPlaylist($event)"
 />

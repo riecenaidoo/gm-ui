@@ -10,12 +10,12 @@ import { Observable, Subject } from "rxjs";
 import { Playlist } from "../../../../core/catalogue/models/playlist";
 import { PlaylistsApiService } from "../../../../core/catalogue/services/playlists-api.service";
 import { Router } from "@angular/router";
-import { CreatePlaylistFormDialogComponent } from "../../components/home/create-playlist-form-dialog/create-playlist-form-dialog.component";
+import { PlaylistCreateFormDialogComponent } from "../../components/playlist-create-form-dialog/playlist-create-form-dialog.component";
 import { PlaylistsCreateRequest } from "../../../../core/catalogue/models/requests/playlists-create-request";
 import { TextSearchInputDirective } from "../../../../shared/directives/text-search-input.directive";
-import { NewPlaylistTileComponent } from "../../components/home/tiles/new-playlist-tile/new-playlist-tile.component";
+import { PlaylistCreateTileComponent } from "../../components/tiles/playlist-create-tile/playlist-create-tile.component";
 import { AsyncPipe } from "@angular/common";
-import { PlaylistTileComponent } from "../../components/home/tiles/playlist-tile/playlist-tile.component";
+import { PlaylistTileComponent } from "../../components/tiles/playlist-tile/playlist-tile.component";
 
 @Component({
   selector: "app-catalogue-playlists-page",
@@ -23,9 +23,9 @@ import { PlaylistTileComponent } from "../../components/home/tiles/playlist-tile
   styleUrl: "./catalogue-playlists-page.component.css",
   imports: [
     TextSearchInputDirective,
-    NewPlaylistTileComponent,
+    PlaylistCreateTileComponent,
     PlaylistTileComponent,
-    CreatePlaylistFormDialogComponent,
+    PlaylistCreateFormDialogComponent,
     AsyncPipe,
   ],
 })
@@ -36,7 +36,7 @@ export class CataloguePlaylistsPage
   readonly #playlists: Subject<Playlist[]> = new Subject<Playlist[]>();
 
   @ViewChild("createPlaylistFormDialog")
-  private createPlaylistFormDialog!: CreatePlaylistFormDialogComponent;
+  private createPlaylistFormDialog!: PlaylistCreateFormDialogComponent;
 
   private playlistsService: PlaylistsApiService = inject(PlaylistsApiService);
 

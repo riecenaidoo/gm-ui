@@ -4,11 +4,11 @@ import { Tile } from "../tile";
 // Attaching to native element intentionally
 /* eslint-disable @angular-eslint/component-selector */
 @Component({
-  selector: "article[app-new-playlist-tile]",
-  templateUrl: "./new-playlist-tile.component.html",
-  styleUrls: ["../tile.css", "./new-playlist-tile.component.css"],
+  selector: "article[app-playlist-create-tile]",
+  templateUrl: "./playlist-create-tile.component.html",
+  styleUrls: ["../tile.css", "./playlist-create-tile.component.css"],
 })
-export class NewPlaylistTileComponent implements Tile {
+export class PlaylistCreateTileComponent implements Tile {
   @Output()
   private creatingPlaylist: EventEmitter<void> = new EventEmitter<void>();
 

@@ -1,17 +1,17 @@
 import { Component, EventEmitter, Output, ViewChild } from "@angular/core";
-import { Form } from "../../../../../shared/models/form";
-import { Dialog } from "../../../../../shared/models/dialog";
-import { DialogComponent } from "../../../../../shared/components/dialog/dialog/dialog.component";
-import { PlaylistSongsCreateRequest } from "../../../../../core/catalogue/models/requests/playlist-songs-create-request";
+import { Form } from "../../../../shared/models/form";
+import { Dialog } from "../../../../shared/models/dialog";
+import { DialogComponent } from "../../../../shared/components/dialog/dialog/dialog.component";
+import { PlaylistSongsCreateRequest } from "../../../../core/catalogue/models/requests/playlist-songs-create-request";
 import { FormsModule } from "@angular/forms";
 
 @Component({
-  selector: "app-add-song-form-dialog",
-  templateUrl: "./add-song-form-dialog.component.html",
-  styleUrl: "./add-song-form-dialog.component.css",
+  selector: "app-song-create-form-dialog",
+  templateUrl: "./song-create-form-dialog.component.html",
+  styleUrl: "./song-create-form-dialog.component.css",
   imports: [DialogComponent, FormsModule],
 })
-export class AddSongFormDialogComponent implements Form, Dialog {
+export class SongCreateFormDialogComponent implements Form, Dialog {
   public url = "";
 
   /**

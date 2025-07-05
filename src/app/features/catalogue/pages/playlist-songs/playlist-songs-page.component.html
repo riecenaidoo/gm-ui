@@ -22,8 +22,11 @@
     <i class="fa fa-trash" aria-hidden="true"></i>
   </button>
 
-  <app-add-song-form-dialog #addSongFormDialog (addedSong)="addSong($event)" />
-  <app-rename-playlist-form-dialog
+  <app-song-create-form-dialog
+    #addSongFormDialog
+    (addedSong)="addSong($event)"
+  />
+  <app-playlist-rename-form-dialog
     #renamePlaylistFormDialog
     (renamedPlaylist)="renamePlaylist($event)"
     [playlist]="playlist"
