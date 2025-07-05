@@ -1,5 +1,11 @@
-import { Component, Input, OnInit, ViewChild, inject } from "@angular/core";
-import { SubscriptionComponent } from "../../../../shared/components/subscription-component";
+import {
+  Component,
+  Input,
+  OnInit,
+  ViewChild,
+  inject,
+  DestroyRef,
+} from "@angular/core";
 import { AudioApiService } from "../../services/audio-api.service";
 import { Observable, Subject } from "rxjs";
 import { Server } from "../../models/server";
@@ -11,6 +17,7 @@ import { AsyncPipe } from "@angular/common";
 import { ServerChannelSelectorComponent } from "../../components/server-channel-selector/server-channel-selector.component";
 import { ServerAudioStatusComponent } from "../../components/server-audio-status/server-audio-status.component";
 import { AudioServiceStatusComponent } from "../../components/audio-service-status/audio-service-status.component";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
   selector: "app-audio-service-overlay",
@@ -25,10 +32,7 @@ import { AudioServiceStatusComponent } from "../../components/audio-service-stat
     AudioServiceStatusComponent,
   ],
 })
-export class AudioServiceOverlay
-  extends SubscriptionComponent
-  implements OnInit
-{
+export class AudioServiceOverlay implements OnInit {
   @Input({ required: true })
   public service!: AudioService;
 
@@ -45,9 +49,7 @@ export class AudioServiceOverlay
 
   private audioRepositoryService: AudioApiService = inject(AudioApiService);
 
-  public constructor() {
-    super();
-  }
+  private destroyed: DestroyRef = inject(DestroyRef);
 
   public ngOnInit(): void {
     this.fetchServers();
@@ -85,10 +87,10 @@ export class AudioServiceOverlay
         "Channel selection depends on Server selection but a Channel was selected before a Server was.",
       );
     }
-    const joinedChannel = this.audioRepositoryService
+    this.audioRepositoryService
       .createServerAudio(server, channel)
+      .pipe(takeUntilDestroyed(this.destroyed))
       .subscribe(() => this.#serverAudio.next({ channel }));
-    this.registerSubscription(joinedChannel);
   }
 
   /**
@@ -102,37 +104,37 @@ export class AudioServiceOverlay
         "Cannot disconnect ServerAudio if no Server was selected.",
       );
     }
-    const disconnectedAudio = this.audioRepositoryService
+    this.audioRepositoryService
       .deleteServerAudio(server)
+      .pipe(takeUntilDestroyed(this.destroyed))
       .subscribe((_) => this.#serverAudio.next(undefined));
-    this.registerSubscription(disconnectedAudio);
   }
 
   // ------ Internal ------
 
   private fetchServers(): void {
-    const fetchedServers = this.audioRepositoryService
+    this.audioRepositoryService
       .findServers()
+      .pipe(takeUntilDestroyed(this.destroyed))
       .subscribe((servers: Server[]) => this.#servers.next(servers));
-    this.registerSubscription(fetchedServers);
   }
 
   private fetchChannels(server: Server): void {
-    const fetchedChannels = this.audioRepositoryService
+    this.audioRepositoryService
       .getChannels(server)
+      .pipe(takeUntilDestroyed(this.destroyed))
       .subscribe((channels: Channel[]) => this.#channels.next(channels));
-    this.registerSubscription(fetchedChannels);
   }
 
   /**
    * At some stage in the future this information needs to come down from the API via a websocket.
    */
   private fetchServerAudio(server: Server): void {
-    const fetchedServerAudio = this.audioRepositoryService
+    this.audioRepositoryService
       .getServerAudio(server)
+      .pipe(takeUntilDestroyed(this.destroyed))
       .subscribe((serverAudio?: ServerAudio) =>
         this.#serverAudio.next(serverAudio),
       );
-    this.registerSubscription(fetchedServerAudio);
   }
 }

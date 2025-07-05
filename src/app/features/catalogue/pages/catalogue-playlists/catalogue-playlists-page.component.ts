@@ -4,8 +4,8 @@ import {
   OnInit,
   ViewChild,
   inject,
+  DestroyRef,
 } from "@angular/core";
-import { SubscriptionComponent } from "../../../../shared/components/subscription-component";
 import { Observable, Subject } from "rxjs";
 import { Playlist } from "../../models/playlist";
 import { PlaylistsApiService } from "../../services/playlists-api.service";
@@ -16,6 +16,7 @@ import { TextSearchInputDirective } from "../../../../shared/directives/text-sea
 import { PlaylistCreateTileComponent } from "../../components/tiles/playlist-create-tile/playlist-create-tile.component";
 import { AsyncPipe } from "@angular/common";
 import { PlaylistTileComponent } from "../../components/tiles/playlist-tile/playlist-tile.component";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
   selector: "app-catalogue-playlists-page",
@@ -29,10 +30,7 @@ import { PlaylistTileComponent } from "../../components/tiles/playlist-tile/play
     AsyncPipe,
   ],
 })
-export class CataloguePlaylistsPage
-  extends SubscriptionComponent
-  implements OnInit
-{
+export class CataloguePlaylistsPage implements OnInit {
   readonly #playlists: Subject<Playlist[]> = new Subject<Playlist[]>();
 
   @ViewChild("createPlaylistFormDialog")
@@ -42,9 +40,7 @@ export class CataloguePlaylistsPage
 
   private router: Router = inject(Router);
 
-  public constructor() {
-    super();
-  }
+  private destroyed: DestroyRef = inject(DestroyRef);
 
   public ngOnInit(): void {
     this.fetchPlaylists();
@@ -69,14 +65,14 @@ export class CataloguePlaylistsPage
    * The user has created a playlist, and we must coordinate with the service to issue the request.
    */
   protected createPlaylist(playlist: PlaylistsCreateRequest): void {
-    const createdPlaylist = this.playlistsService
+    this.playlistsService
       .createPlaylist(playlist)
+      .pipe(takeUntilDestroyed(this.destroyed))
       .subscribe((_) => {
         this.fetchPlaylists();
         this.createPlaylistFormDialog.clearInputs();
         this.createPlaylistFormDialog.hideDialog();
       });
-    this.registerSubscription(createdPlaylist);
   }
 
   /**
@@ -96,16 +92,16 @@ export class CataloguePlaylistsPage
    * @param {string} title a non-blank string containing a title, or part of a title, to filter `Playlists` by.
    */
   protected searchByTitle(title: string): void {
-    const fetchedPlaylists = this.playlistsService
+    this.playlistsService
       .findByTitle(title)
+      .pipe(takeUntilDestroyed(this.destroyed))
       .subscribe((playlists: Playlist[]) => this.#playlists.next(playlists));
-    this.registerSubscription(fetchedPlaylists);
   }
 
   protected fetchPlaylists(): void {
-    const fetchedPlaylists = this.playlistsService
+    this.playlistsService
       .findAll()
+      .pipe(takeUntilDestroyed(this.destroyed))
       .subscribe((playlists: Playlist[]) => this.#playlists.next(playlists));
-    this.registerSubscription(fetchedPlaylists);
   }
 }

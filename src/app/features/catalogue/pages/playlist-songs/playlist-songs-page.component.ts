@@ -4,8 +4,8 @@ import {
   OnInit,
   ViewChild,
   inject,
+  DestroyRef,
 } from "@angular/core";
-import { SubscriptionComponent } from "../../../../shared/components/subscription-component";
 import { PlaylistsApiService } from "../../services/playlists-api.service";
 import { Observable, Subject } from "rxjs";
 import { Playlist } from "../../models/playlist";
@@ -17,6 +17,7 @@ import { PlaylistSongsApiService } from "../../services/playlist-songs-api.servi
 import { PlaylistSongsCreateRequest } from "../../models/requests/playlist-songs-create-request";
 import { AsyncPipe } from "@angular/common";
 import { SongTableComponent } from "../../components/song-table/song-table.component";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
   selector: "app-playlist-songs-page",
@@ -29,7 +30,7 @@ import { SongTableComponent } from "../../components/song-table/song-table.compo
     AsyncPipe,
   ],
 })
-export class PlaylistSongsPage extends SubscriptionComponent implements OnInit {
+export class PlaylistSongsPage implements OnInit {
   readonly #id: number = Number(
     inject(ActivatedRoute).snapshot.paramMap.get("id"),
   );
@@ -52,9 +53,7 @@ export class PlaylistSongsPage extends SubscriptionComponent implements OnInit {
 
   private router: Router = inject(Router);
 
-  public constructor() {
-    super();
-  }
+  private destroyed: DestroyRef = inject(DestroyRef);
 
   public ngOnInit(): void {
     this.fetchPlaylist();
@@ -86,36 +85,37 @@ export class PlaylistSongsPage extends SubscriptionComponent implements OnInit {
   // ------ Event Handling ------
 
   protected addSong(song: PlaylistSongsCreateRequest): void {
-    const addedSong = this.playlistSongsService
+    this.playlistSongsService
       .createPlaylistSong(this.#id, song)
+      .pipe(takeUntilDestroyed(this.destroyed))
       .subscribe(() => {
         this.fetchSongs();
         this.addSongFormDialog.hideDialog();
         this.addSongFormDialog.clearInputs();
       });
-    this.registerSubscription(addedSong);
   }
 
   protected removeSong(song: PlaylistSong): void {
-    const removedSong = this.playlistSongsService
+    this.playlistSongsService
       .deletePlaylistSong(this.#id, song)
+      .pipe(takeUntilDestroyed(this.destroyed))
       .subscribe(() => this.fetchSongs());
-    this.registerSubscription(removedSong);
   }
 
   protected renamePlaylist(title: string): void {
-    const renamedPlaylist = this.playlistsService
+    this.playlistsService
       .updatePlaylist(this.#id, { title })
+      .pipe(takeUntilDestroyed(this.destroyed))
       .subscribe((playlist: Playlist) => {
         this.#playlist.next(playlist);
         this.renamePlaylistFormDialog.hideDialog();
       });
-    this.registerSubscription(renamedPlaylist);
   }
 
   protected deletePlaylist(): void {
-    const deletedPlaylist = this.playlistsService
+    this.playlistsService
       .deletePlaylist(this.#id)
+      .pipe(takeUntilDestroyed(this.destroyed))
       .subscribe(() => {
         this.router.navigate([""]).then((routed: boolean) => {
           if (!routed) {
@@ -125,22 +125,21 @@ export class PlaylistSongsPage extends SubscriptionComponent implements OnInit {
           }
         });
       });
-    this.registerSubscription(deletedPlaylist);
   }
 
   // ------ Internal ------
 
   private fetchPlaylist(): void {
-    const fetchedPlaylist = this.playlistsService
+    this.playlistsService
       .findById(this.#id)
+      .pipe(takeUntilDestroyed(this.destroyed))
       .subscribe((playlist: Playlist) => this.#playlist.next(playlist));
-    this.registerSubscription(fetchedPlaylist);
   }
 
   private fetchSongs(): void {
-    const fetchedSongs = this.playlistSongsService
+    this.playlistSongsService
       .getPlaylistSongs(this.#id)
+      .pipe(takeUntilDestroyed(this.destroyed))
       .subscribe((songs: PlaylistSong[]) => this.#songs.next(songs));
-    this.registerSubscription(fetchedSongs);
   }
 }
