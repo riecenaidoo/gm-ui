@@ -9,11 +9,17 @@
   grid-template-rows: repeat(3, 1fr) minmax(0, 0.75fr); /*<1>*/
   width: 100%;
 
-  &:hover {
+  &:hover,
+  &:focus-within {
     /* The tile is interactable. */
     background-color: rgba(0, 0, 0, 0.2);
     border-bottom: 0.25rem solid var(--palette-accent);
     box-sizing: border-box; /*<2>*/
+  }
+
+  :focus-visible {
+    /* We use custom fx to denote it is focused/interactable */
+    outline: none;
   }
 
   button {
