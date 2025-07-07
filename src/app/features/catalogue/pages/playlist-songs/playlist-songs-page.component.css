@@ -1,7 +1,16 @@
+/* TODO these styles are the same as on the CataloguePlaylists page. We should probably figure out how to extract
+     a `page` class style, or layout component.
+*/
 :host {
-  /* TODO This is the same as the CataloguePlaylistsPage, so perhaps it should be rather one level higher
-        - on whoever is calling these components to render.
-    */
-  display: block;
-  margin: 3rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  height: 100%;
+  padding: 3rem 3rem 0;
+}
+
+app-song-table {
+  overflow-y: auto;
+  padding-bottom: 1rem;
 }

@@ -1,38 +1,38 @@
 @if (playlist | async; as playlist) {
-  <button
-    (click)="addSongFormDialog.showDialog()"
-    title="Add a Song"
-    aria-label="Add a Song"
-  >
-    <i class="fa fa-plus" aria-hidden="true"></i>
-  </button>
-  <button
-    (click)="renamePlaylistFormDialog.showDialog()"
-    title="Rename a Playlist"
-    aria-label="Rename a Playlist"
-  >
-    <i class="fa fa-pencil" aria-hidden="true"></i>
-  </button>
-  <button
-    (click)="deletePlaylist()"
-    title="Delete a Playlist"
-    aria-label="Delete a Playlist"
-  >
-    <i class="fa fa-trash" aria-hidden="true"></i>
-  </button>
-
-  <app-song-create-form-dialog
-    #addSongFormDialog
-    (addedSong)="addSong($event)"
-  />
-  <app-playlist-rename-form-dialog
-    #renamePlaylistFormDialog
-    (renamedPlaylist)="renamePlaylist($event)"
-    [playlist]="playlist"
-  />
+  <div class="control-bar" role="toolbar" aria-label="'Catalogue Controls'">
+    <button
+      (click)="addSongFormDialog.showDialog()"
+      title="Add a Song"
+      aria-label="Add a Song"
+    >
+      <i class="fa fa-plus" aria-hidden="true"></i>
+    </button>
+    <button
+      (click)="renamePlaylistFormDialog.showDialog()"
+      title="Rename a Playlist"
+      aria-label="Rename a Playlist"
+    >
+      <i class="fa fa-pencil" aria-hidden="true"></i>
+    </button>
+    <button
+      (click)="deletePlaylist()"
+      title="Delete a Playlist"
+      aria-label="Delete a Playlist"
+    >
+      <i class="fa fa-trash" aria-hidden="true"></i>
+    </button>
+    <app-song-create-form-dialog
+      #addSongFormDialog
+      (addedSong)="addSong($event)"
+    />
+    <app-playlist-rename-form-dialog
+      #renamePlaylistFormDialog
+      (renamedPlaylist)="renamePlaylist($event)"
+      [playlist]="playlist"
+    />
+  </div>
 }
 <!--TODO Do we need some sort of 'loading' spinner?-->
-
 @if ((songs | async) ?? []; as songs) {
   <!--    [(...)?? []](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing)-->
   <app-song-table [songs]="songs" (removingSong)="removeSong($event)" />
