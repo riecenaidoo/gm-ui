@@ -1,5 +1,4 @@
 @if (playlist | async; as playlist) {
-  <h2>{{ playlist.title }}</h2>
   <button
     (click)="addSongFormDialog.showDialog()"
     title="Add a Song"

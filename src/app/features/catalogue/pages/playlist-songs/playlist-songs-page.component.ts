@@ -18,6 +18,7 @@ import { PlaylistSongsCreateRequest } from "../../models/requests/playlist-songs
 import { AsyncPipe } from "@angular/common";
 import { SongTableComponent } from "../../components/song-table/song-table.component";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { PageService } from "../../../../shared/services/page.service";
 
 @Component({
   selector: "app-playlist-songs-page",
@@ -50,6 +51,8 @@ export class PlaylistSongsPage implements OnInit {
   private playlistSongsService: PlaylistSongsApiService = inject(
     PlaylistSongsApiService,
   );
+
+  private pageService: PageService = inject(PageService);
 
   private router: Router = inject(Router);
 
@@ -133,7 +136,12 @@ export class PlaylistSongsPage implements OnInit {
     this.playlistsService
       .findById(this.#id)
       .pipe(takeUntilDestroyed(this.destroyed))
-      .subscribe((playlist: Playlist) => this.#playlist.next(playlist));
+      .subscribe((playlist: Playlist) => {
+        this.#playlist.next(playlist);
+        this.pageService.currentPage = {
+          title: playlist.title,
+        };
+      });
   }
 
   private fetchSongs(): void {

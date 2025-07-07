@@ -18,6 +18,7 @@ import { PlaylistCreateTileComponent } from "../../components/tiles/playlist-cre
 import { AsyncPipe } from "@angular/common";
 import { PlaylistTileComponent } from "../../components/tiles/playlist-tile/playlist-tile.component";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { PageService } from "../../../../shared/services/page.service";
 
 @Component({
   selector: "app-catalogue-playlists-page",
@@ -42,11 +43,16 @@ export class CataloguePlaylistsPage implements OnInit {
 
   private playlistsService: PlaylistsApiService = inject(PlaylistsApiService);
 
+  private pageService: PageService = inject(PageService);
+
   private router: Router = inject(Router);
 
   private destroyed: DestroyRef = inject(DestroyRef);
 
   public ngOnInit(): void {
+    this.pageService.currentPage = {
+      title: "Gamemaster Catalogue",
+    };
     this.fetchPlaylists();
   }
 

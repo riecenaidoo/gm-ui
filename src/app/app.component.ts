@@ -8,6 +8,7 @@ import { RouterOutlet } from "@angular/router";
 import { HeaderComponent } from "./shared/components/header/header.component";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { AudioOverlayToggleComponent } from "./features/audio/components/audio-overlay-toggle/audio-overlay-toggle.component";
+import { PageService } from "./shared/services/page.service";
 
 @Component({
   selector: "app-root",
@@ -28,12 +29,18 @@ export class AppComponent {
 
   private audioRepositoryService: AudioApiService = inject(AudioApiService);
 
+  private pageService: PageService = inject(PageService);
+
   private destroyed: DestroyRef = inject(DestroyRef);
 
   // ------ Component ------
 
   protected get service(): Observable<AudioService> {
     return this.#service.pipe(filter((service) => !!service));
+  }
+
+  protected get pageTitle(): string {
+    return this.pageService.currentPage()?.title ?? "Gamemaster Dashboard";
   }
 
   // ------ Event Handling ------
