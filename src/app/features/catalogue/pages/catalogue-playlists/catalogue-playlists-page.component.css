@@ -1,32 +1,9 @@
-:host {
-  box-sizing: border-box; /* <1> */
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  height: 100%; /* <1> */
-  padding: 3rem 3rem 0; /* <1> */
-}
-
 section {
   display: grid;
-  flex-grow: 1; /* <1> */
   grid-column-gap: 2rem;
   grid-row-gap: 1rem;
   grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); /* <2> */
-  overflow-y: auto;
-  padding-bottom: 1rem; /* <1> */
 }
-
-/* <1> Scrolling Layout
-
-We want the Playlists section to be the only portion of the site that scrolls, but the app itself should not.
-To accomplish this we want the component to consume 100% of its parent's height, and then let the Playlists section grow
-as large as possible (while preserving the size needed for the Control bar).
-
-We need to use border-box sizing so the padding and border sizes for the elements are included in the calculation for its
-height. If we do not do this the app itself will scroll because it will be of 100vh + margin/padding in height.
-
-*/
 
 /* <2> Reactive Grids
 

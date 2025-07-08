@@ -19,9 +19,12 @@ import { AsyncPipe } from "@angular/common";
 import { PlaylistTileComponent } from "../../components/playlist-tile/playlist-tile.component";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { PageService } from "../../../../shared/services/page.service";
+import { PageDirective } from "../../../../shared/directives/page.directive";
 
 @Component({
-  selector: "app-catalogue-playlists-page",
+  // Intentional `main` attribute-selector.
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: "main[app-catalogue-playlists-page]",
   templateUrl: "./catalogue-playlists-page.component.html",
   styleUrl: "./catalogue-playlists-page.component.css",
   imports: [
@@ -32,7 +35,7 @@ import { PageService } from "../../../../shared/services/page.service";
     AsyncPipe,
   ],
 })
-export class CataloguePlaylistsPage implements OnInit {
+export class CataloguePlaylistsPage extends PageDirective implements OnInit {
   readonly #playlists: Subject<Playlist[]> = new Subject<Playlist[]>();
 
   @ViewChild("createPlaylistFormDialog")

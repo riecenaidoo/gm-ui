@@ -35,6 +35,10 @@
 <!--TODO Do we need some sort of 'loading' spinner?-->
 @if ((songs | async) ?? []; as songs) {
   <!--    [(...)?? []](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing)-->
-  <app-song-table [songs]="songs" (removingSong)="removeSong($event)" />
+  <app-song-table
+    class="page-scrolling"
+    [songs]="songs"
+    (removingSong)="removeSong($event)"
+  />
 }
 <!--TODO Need to consider what our placeholder content will be. See @empty-->

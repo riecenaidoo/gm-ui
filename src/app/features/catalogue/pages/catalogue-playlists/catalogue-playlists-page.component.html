@@ -14,7 +14,7 @@
     (searchCleared)="fetchPlaylists()"
   />
 </div>
-<section>
+<section class="page-scrolling">
   @for (playlist of (playlists | async) ?? []; track playlist.id) {
     <!--    [(...)?? []](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing)-->
     <!--    [track playlist.id](https://angular.dev/api/core/@for#track-and-objects-identity)-->

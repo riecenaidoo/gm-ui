@@ -19,9 +19,12 @@ import { AsyncPipe } from "@angular/common";
 import { SongTableComponent } from "../../components/song-table/song-table.component";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { PageService } from "../../../../shared/services/page.service";
+import { PageDirective } from "../../../../shared/directives/page.directive";
 
 @Component({
-  selector: "app-playlist-songs-page",
+  // Intentional `main` attribute-selector.
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: "main[app-playlist-songs-page]",
   templateUrl: "./playlist-songs-page.component.html",
   styleUrl: "./playlist-songs-page.component.css",
   imports: [
@@ -31,7 +34,7 @@ import { PageService } from "../../../../shared/services/page.service";
     AsyncPipe,
   ],
 })
-export class PlaylistSongsPage implements OnInit {
+export class PlaylistSongsPage extends PageDirective implements OnInit {
   readonly #id: number = Number(
     inject(ActivatedRoute).snapshot.paramMap.get("id"),
   );
