@@ -3,6 +3,8 @@
  *
  * The `selector` of a `Tile` component is always an attribute selector of the native `article` element.
  *
+ * The article must always have the `tile` style class.
+ *
  * e.g:
  * ```
  * @Component({

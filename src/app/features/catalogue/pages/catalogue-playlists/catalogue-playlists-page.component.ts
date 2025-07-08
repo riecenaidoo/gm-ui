@@ -14,9 +14,9 @@ import { Router } from "@angular/router";
 import { PlaylistCreateFormDialogComponent } from "../../components/playlist-create-form-dialog/playlist-create-form-dialog.component";
 import { PlaylistsCreateRequest } from "../../models/requests/playlists-create-request";
 import { InputSearchDebounceDirective } from "../../../../shared/directives/input-search-debounce.directive";
-import { PlaylistCreateTileComponent } from "../../components/tiles/playlist-create-tile/playlist-create-tile.component";
+import { PlaylistCreateTileComponent } from "../../components/playlist-create-tile/playlist-create-tile.component";
 import { AsyncPipe } from "@angular/common";
-import { PlaylistTileComponent } from "../../components/tiles/playlist-tile/playlist-tile.component";
+import { PlaylistTileComponent } from "../../components/playlist-tile/playlist-tile.component";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { PageService } from "../../../../shared/services/page.service";
 

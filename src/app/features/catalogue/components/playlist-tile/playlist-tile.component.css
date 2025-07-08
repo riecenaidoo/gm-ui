@@ -18,3 +18,8 @@ img {
 i {
   display: none;
 }
+
+button {
+  grid-column: 2;
+  grid-row: 2;
+}

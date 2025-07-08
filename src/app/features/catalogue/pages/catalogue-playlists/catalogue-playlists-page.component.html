@@ -19,12 +19,14 @@
     <!--    [(...)?? []](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing)-->
     <!--    [track playlist.id](https://angular.dev/api/core/@for#track-and-objects-identity)-->
     <article
+      class="tile"
       app-playlist-tile
       [playlist]="playlist"
       (selected)="openPlaylist($event)"
     ></article>
   } @empty {
     <article
+      class="tile"
       app-playlist-create-tile
       (creatingPlaylist)="createPlaylistFormDialog.showDialog()"
     ></article>
