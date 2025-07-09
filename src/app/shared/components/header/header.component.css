@@ -1,4 +1,4 @@
-header {
+:host {
   background-color: var(--palette-bg-darker);
   display: flex;
 }
