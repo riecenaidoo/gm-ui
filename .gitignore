@@ -5,3 +5,6 @@ dist/
 
 # Timestamps for Makefile
 .made/
+
+# Notes are ignored unless explicitly added
+*.md
