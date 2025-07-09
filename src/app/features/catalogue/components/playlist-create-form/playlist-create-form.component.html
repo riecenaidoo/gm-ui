@@ -1,0 +1,4 @@
+<label for="name">Playlist Name</label>
+<input type="text" id="name" name="name" [(ngModel)]="title" #autofocus />
+
+<button type="submit" [disabled]="noInput()">Create Playlist</button>

@@ -7,11 +7,7 @@ import { Component, EventEmitter, HostListener, Output } from "@angular/core";
 })
 export class OverlayComponent {
   @Output()
-  private interactedWithOverlay: EventEmitter<void>;
-
-  public constructor() {
-    this.interactedWithOverlay = new EventEmitter();
-  }
+  private interactedWithOverlay: EventEmitter<void> = new EventEmitter<void>();
 
   // ------ Events ------
 

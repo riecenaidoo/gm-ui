@@ -10,14 +10,17 @@ import { Observable, Subject } from "rxjs";
 import { Playlist } from "../../models/playlist";
 import { ActivatedRoute } from "@angular/router";
 import { PlaylistSong } from "../../models/playlist-song";
-import { SongCreateFormDialogComponent } from "../../components/song-create-form-dialog/song-create-form-dialog.component";
-import { PlaylistRenameFormDialogComponent } from "../../components/playlist-rename-form-dialog/playlist-rename-form-dialog.component";
 import { PlaylistSongsApiService } from "../../services/playlist-songs-api.service";
 import { PlaylistSongsCreateRequest } from "../../models/requests/playlist-songs-create-request";
 import { AsyncPipe } from "@angular/common";
 import { SongTableComponent } from "../../components/song-table/song-table.component";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { PageComponent } from "../page.component";
+import { DialogComponent } from "../../../../shared/components/dialog/dialog/dialog.component";
+import { SongCreateFormComponent } from "../../components/song-create-form/song-create-form.component";
+import { PlaylistRenameFormComponent } from "../../components/playlist-rename-form/playlist-rename-form.component";
+import { FormsModule } from "@angular/forms";
+import { PlaylistsPatchRequest } from "../../models/requests/playlists-patch-request";
 
 @Component({
   // Intentional `main` attribute-selector.
@@ -26,10 +29,12 @@ import { PageComponent } from "../page.component";
   templateUrl: "./playlist-songs-page.component.html",
   styleUrl: "./playlist-songs-page.component.css",
   imports: [
-    SongCreateFormDialogComponent,
-    PlaylistRenameFormDialogComponent,
     SongTableComponent,
     AsyncPipe,
+    DialogComponent,
+    SongCreateFormComponent,
+    PlaylistRenameFormComponent,
+    FormsModule,
   ],
 })
 export class PlaylistSongsPage extends PageComponent implements OnInit {
@@ -41,11 +46,11 @@ export class PlaylistSongsPage extends PageComponent implements OnInit {
 
   readonly #songs: Subject<PlaylistSong[]> = new Subject<PlaylistSong[]>();
 
-  @ViewChild("addSongFormDialog")
-  private addSongFormDialog!: SongCreateFormDialogComponent;
+  @ViewChild("addSongDialog")
+  private addSongDialog!: DialogComponent;
 
-  @ViewChild("renamePlaylistFormDialog")
-  protected renamePlaylistFormDialog!: PlaylistRenameFormDialogComponent;
+  @ViewChild("renamePlaylistDialog")
+  protected renamePlaylistDialog!: DialogComponent;
 
   private playlistsService: PlaylistsApiService = inject(PlaylistsApiService);
 
@@ -72,12 +77,12 @@ export class PlaylistSongsPage extends PageComponent implements OnInit {
 
   @HostListener("window:keydown.alt.1")
   protected showAddSongDialog(): void {
-    this.addSongFormDialog.showDialog();
+    this.addSongDialog.showDialog();
   }
 
   @HostListener("window:keydown.alt.2")
   protected showRenamePlaylistDialog(): void {
-    this.renamePlaylistFormDialog.showDialog();
+    this.renamePlaylistDialog.showDialog();
   }
 
   // ------ Event Handling ------
@@ -88,8 +93,7 @@ export class PlaylistSongsPage extends PageComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyed))
       .subscribe(() => {
         this.fetchSongs();
-        this.addSongFormDialog.hideDialog();
-        this.addSongFormDialog.clearInputs();
+        this.addSongDialog.hideDialog();
       });
   }
 
@@ -100,13 +104,13 @@ export class PlaylistSongsPage extends PageComponent implements OnInit {
       .subscribe(() => this.fetchSongs());
   }
 
-  protected renamePlaylist(title: string): void {
+  protected updatePlaylist(patch: PlaylistsPatchRequest): void {
     this.playlistsService
-      .updatePlaylist(this.#id, { title })
+      .updatePlaylist(this.#id, patch)
       .pipe(takeUntilDestroyed(this.destroyed))
       .subscribe((playlist: Playlist) => {
-        this.#playlist.next(playlist);
-        this.renamePlaylistFormDialog.hideDialog();
+        this.playlist = playlist;
+        this.renamePlaylistDialog.hideDialog();
       });
   }
 
@@ -127,16 +131,20 @@ export class PlaylistSongsPage extends PageComponent implements OnInit {
 
   // ------ Internal ------
 
+  // Intentional. Internal mutation utility.
+  // eslint-disable-next-line @typescript-eslint/adjacent-overload-signatures
+  private set playlist(playlist: Playlist) {
+    this.#playlist.next(playlist);
+    this.pageService.currentPage = {
+      title: playlist.title,
+    };
+  }
+
   private fetchPlaylist(): void {
     this.playlistsService
       .findById(this.#id)
       .pipe(takeUntilDestroyed(this.destroyed))
-      .subscribe((playlist: Playlist) => {
-        this.#playlist.next(playlist);
-        this.pageService.currentPage = {
-          title: playlist.title,
-        };
-      });
+      .subscribe((playlist: Playlist) => (this.playlist = playlist));
   }
 
   private fetchSongs(): void {

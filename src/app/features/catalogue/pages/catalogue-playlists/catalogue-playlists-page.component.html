@@ -1,6 +1,6 @@
 <div class="control-bar" role="toolbar" aria-label="'Catalogue Controls'">
   <button
-    (click)="createPlaylistFormDialog.showDialog()"
+    (click)="createPlaylistDialog.showDialog()"
     title="Create a Playlist"
     aria-label="Create a Playlist"
   >
@@ -28,12 +28,21 @@
     <article
       class="tile"
       app-playlist-create-tile
-      (creatingPlaylist)="createPlaylistFormDialog.showDialog()"
+      (creatingPlaylist)="createPlaylistDialog.showDialog()"
     ></article>
   }
 </section>
 
-<app-playlist-create-form-dialog
-  #createPlaylistFormDialog
-  (createdPlaylist)="createPlaylist($event)"
-/>
+<app-dialog
+  #createPlaylistDialog
+  (opened)="createPlaylistForm.focus()"
+  (closed)="createPlaylistForm.clearInputs()"
+>
+  <form
+    class="modal"
+    app-playlist-create-form
+    #createPlaylistForm
+    (ngSubmit)="createPlaylistForm.submit()"
+    (createdPlaylist)="createPlaylist($event)"
+  ></form>
+</app-dialog>

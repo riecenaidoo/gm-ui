@@ -74,6 +74,18 @@ height. If we do not do this the app itself will scroll because it will be of 10
   */
 }
 
+.modal {
+  background: var(--palette-content);
+  border-radius: 0.5rem;
+  left: 50%;
+  padding: 3rem;
+  position: absolute;
+  top: 50%;
+  /* Moves it 50% to the left and 50% up, so that it is now centered at its point */
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
 .control-bar {
   background: var(--palette-bg-darker);
   display: flex;

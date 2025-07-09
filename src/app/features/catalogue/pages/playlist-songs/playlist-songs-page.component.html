@@ -1,14 +1,15 @@
+<!--TODO Do we need some sort of 'loading' spinner?-->
 @if (playlist | async; as playlist) {
   <div class="control-bar" role="toolbar" aria-label="'Catalogue Controls'">
     <button
-      (click)="addSongFormDialog.showDialog()"
+      (click)="addSongDialog.showDialog()"
       title="Add a Song"
       aria-label="Add a Song"
     >
       <i class="fa fa-plus" aria-hidden="true"></i>
     </button>
     <button
-      (click)="renamePlaylistFormDialog.showDialog()"
+      (click)="renamePlaylistDialog.showDialog()"
       title="Rename a Playlist"
       aria-label="Rename a Playlist"
     >
@@ -21,27 +22,46 @@
     >
       <i class="fa fa-trash" aria-hidden="true"></i>
     </button>
-    <app-song-create-form-dialog
-      #addSongFormDialog
-      (addedSong)="addSong($event)"
-    />
-    <app-playlist-rename-form-dialog
-      #renamePlaylistFormDialog
-      (renamedPlaylist)="renamePlaylist($event)"
-      [playlist]="playlist"
-    />
   </div>
-}
 
-<section class="page-scrolling">
-  <!--TODO Do we need some sort of 'loading' spinner?-->
-  @if ((songs | async) ?? []; as songs) {
-    <!--    [(...)?? []](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing)-->
-    <table
-      app-song-table
-      [songs]="songs"
-      (removingSong)="removeSong($event)"
-    ></table>
-  }
-  <!--TODO Need to consider what our placeholder content will be. See @empty-->
-</section>
+  <section class="page-scrolling">
+    @if ((songs | async) ?? []; as songs) {
+      <!--    [(...)?? []](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing)-->
+      <table
+        app-song-table
+        [songs]="songs"
+        (removingSong)="removeSong($event)"
+      ></table>
+    }
+  </section>
+
+  <app-dialog
+    #addSongDialog
+    (opened)="addSongForm.focus()"
+    (closed)="addSongForm.clearInputs()"
+  >
+    <form
+      class="modal"
+      app-song-create-form
+      #addSongForm
+      (ngSubmit)="addSongForm.submit()"
+      (addedSong)="addSong($event)"
+    ></form>
+  </app-dialog>
+
+  <app-dialog
+    #renamePlaylistDialog
+    (opened)="renamePlaylistForm.focus()"
+    (closed)="renamePlaylistForm.clearInputs()"
+  >
+    <form
+      class="modal"
+      app-playlist-rename-form
+      #renamePlaylistForm
+      (ngSubmit)="renamePlaylistForm.submit()"
+      (renamedPlaylist)="updatePlaylist($event)"
+      [playlist]="playlist"
+    ></form>
+  </app-dialog>
+}
+<!--TODO Need to consider what our placeholder content will be. See @empty-->

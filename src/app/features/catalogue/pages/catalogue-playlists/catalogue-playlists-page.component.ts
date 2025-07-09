@@ -9,7 +9,7 @@ import {
 import { Observable, Subject } from "rxjs";
 import { Playlist } from "../../models/playlist";
 import { PlaylistsApiService } from "../../services/playlists-api.service";
-import { PlaylistCreateFormDialogComponent } from "../../components/playlist-create-form-dialog/playlist-create-form-dialog.component";
+import { PlaylistCreateFormComponent } from "../../components/playlist-create-form/playlist-create-form.component";
 import { PlaylistsCreateRequest } from "../../models/requests/playlists-create-request";
 import { InputSearchDebounceDirective } from "../../../../shared/directives/input-search-debounce.directive";
 import { PlaylistCreateTileComponent } from "../../components/playlist-create-tile/playlist-create-tile.component";
@@ -17,6 +17,8 @@ import { AsyncPipe } from "@angular/common";
 import { PlaylistTileComponent } from "../../components/playlist-tile/playlist-tile.component";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { PageComponent } from "../page.component";
+import { DialogComponent } from "../../../../shared/components/dialog/dialog/dialog.component";
+import { FormsModule } from "@angular/forms";
 
 @Component({
   // Intentional `main` attribute-selector.
@@ -28,15 +30,17 @@ import { PageComponent } from "../page.component";
     InputSearchDebounceDirective,
     PlaylistCreateTileComponent,
     PlaylistTileComponent,
-    PlaylistCreateFormDialogComponent,
+    PlaylistCreateFormComponent,
     AsyncPipe,
+    DialogComponent,
+    FormsModule,
   ],
 })
 export class CataloguePlaylistsPage extends PageComponent implements OnInit {
   readonly #playlists: Subject<Playlist[]> = new Subject<Playlist[]>();
 
-  @ViewChild("createPlaylistFormDialog")
-  private createPlaylistFormDialog!: PlaylistCreateFormDialogComponent;
+  @ViewChild("createPlaylistDialog")
+  private createPlaylistDialog!: DialogComponent;
 
   @ViewChild("playlistSearchInput")
   private playlistSearchInput!: ElementRef<HTMLInputElement>;
@@ -60,7 +64,7 @@ export class CataloguePlaylistsPage extends PageComponent implements OnInit {
 
   @HostListener("window:keydown.alt.1")
   protected showCreatePlaylistDialog(): void {
-    this.createPlaylistFormDialog.showDialog();
+    this.createPlaylistDialog.showDialog();
   }
 
   @HostListener("window:keydown.alt.`")
@@ -81,8 +85,7 @@ export class CataloguePlaylistsPage extends PageComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyed))
       .subscribe((_) => {
         this.fetchPlaylists();
-        this.createPlaylistFormDialog.clearInputs();
-        this.createPlaylistFormDialog.hideDialog();
+        this.createPlaylistDialog.hideDialog();
       });
   }
 

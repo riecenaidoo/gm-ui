@@ -1,4 +1,10 @@
-import { Component, HostListener, Input } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  HostBinding,
+  HostListener,
+  Output,
+} from "@angular/core";
 import { Dialog } from "../../../models/dialog";
 
 import { OverlayComponent } from "../overlay/overlay.component";
@@ -15,40 +21,27 @@ import { OverlayComponent } from "../overlay/overlay.component";
   imports: [OverlayComponent],
 })
 export class DialogComponent implements Dialog {
-  /**
-   * Indicates whether the `Dialog` should be displayed. Defaults to false.
-   * @type {boolean}
-   */
-  @Input()
-  public display: boolean;
+  #display = false;
 
-  /**
-   * The HTML `autofocus` attribute only works once on page load,
-   * which is a problem in an SPA like Angular.
-   *
-   * This is a workaround to apply focus to an `HTMLElement` when the Dialog is opened.
-   *
-   * NOTE: A Directive would be ideal, but focusing requires the component to be rendered which is a problem
-   * for all my current inputs that are hidden inside a Dialog.
-   */
-  @Input({ required: false })
-  public autofocus?: HTMLElement;
+  @HostBinding("style.display")
+  protected displayStyle: string = this.display ? "block" : "none";
 
-  public constructor() {
-    this.display = false;
-  }
+  @Output()
+  public readonly opened: EventEmitter<void> = new EventEmitter<void>();
+
+  @Output()
+  public readonly closed: EventEmitter<void> = new EventEmitter<void>();
 
   // ------ API ------
 
   public showDialog(): void {
     this.display = true;
-    if (this.autofocus) {
-      window.requestAnimationFrame(() => this.autofocus!.focus());
-    }
+    this.opened.next();
   }
 
   public hideDialog(): void {
     this.display = false;
+    this.closed.next();
   }
 
   // ------ Dialog Services ------
@@ -68,5 +61,18 @@ export class DialogComponent implements Dialog {
     if (this.display) {
       this.hideDialog();
     }
+  }
+
+  // ------ Component ------
+
+  protected get display(): boolean {
+    return this.#display;
+  }
+
+  // ------ Internal ------
+
+  private set display(show: boolean) {
+    this.#display = show;
+    this.displayStyle = this.display ? "block" : "none";
   }
 }
