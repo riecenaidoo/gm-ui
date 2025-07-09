@@ -8,7 +8,7 @@ import { RouterOutlet } from "@angular/router";
 import { HeaderComponent } from "./shared/components/header/header.component";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { AudioOverlayToggleComponent } from "./features/audio/components/audio-overlay-toggle/audio-overlay-toggle.component";
-import { PageService } from "./shared/services/page.service";
+import { PageService } from "./features/catalogue/services/page.service";
 
 @Component({
   selector: "app-root",

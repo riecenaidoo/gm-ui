@@ -4,13 +4,11 @@ import {
   OnInit,
   ViewChild,
   inject,
-  DestroyRef,
   ElementRef,
 } from "@angular/core";
 import { Observable, Subject } from "rxjs";
 import { Playlist } from "../../models/playlist";
 import { PlaylistsApiService } from "../../services/playlists-api.service";
-import { Router } from "@angular/router";
 import { PlaylistCreateFormDialogComponent } from "../../components/playlist-create-form-dialog/playlist-create-form-dialog.component";
 import { PlaylistsCreateRequest } from "../../models/requests/playlists-create-request";
 import { InputSearchDebounceDirective } from "../../../../shared/directives/input-search-debounce.directive";
@@ -18,8 +16,7 @@ import { PlaylistCreateTileComponent } from "../../components/playlist-create-ti
 import { AsyncPipe } from "@angular/common";
 import { PlaylistTileComponent } from "../../components/playlist-tile/playlist-tile.component";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { PageService } from "../../../../shared/services/page.service";
-import { PageDirective } from "../../../../shared/directives/page.directive";
+import { PageComponent } from "../page.component";
 
 @Component({
   // Intentional `main` attribute-selector.
@@ -35,7 +32,7 @@ import { PageDirective } from "../../../../shared/directives/page.directive";
     AsyncPipe,
   ],
 })
-export class CataloguePlaylistsPage extends PageDirective implements OnInit {
+export class CataloguePlaylistsPage extends PageComponent implements OnInit {
   readonly #playlists: Subject<Playlist[]> = new Subject<Playlist[]>();
 
   @ViewChild("createPlaylistFormDialog")
@@ -45,12 +42,6 @@ export class CataloguePlaylistsPage extends PageDirective implements OnInit {
   private playlistSearchInput!: ElementRef<HTMLInputElement>;
 
   private playlistsService: PlaylistsApiService = inject(PlaylistsApiService);
-
-  private pageService: PageService = inject(PageService);
-
-  private router: Router = inject(Router);
-
-  private destroyed: DestroyRef = inject(DestroyRef);
 
   public ngOnInit(): void {
     this.pageService.currentPage = {

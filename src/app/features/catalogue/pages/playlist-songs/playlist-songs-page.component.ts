@@ -4,12 +4,11 @@ import {
   OnInit,
   ViewChild,
   inject,
-  DestroyRef,
 } from "@angular/core";
 import { PlaylistsApiService } from "../../services/playlists-api.service";
 import { Observable, Subject } from "rxjs";
 import { Playlist } from "../../models/playlist";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import { PlaylistSong } from "../../models/playlist-song";
 import { SongCreateFormDialogComponent } from "../../components/song-create-form-dialog/song-create-form-dialog.component";
 import { PlaylistRenameFormDialogComponent } from "../../components/playlist-rename-form-dialog/playlist-rename-form-dialog.component";
@@ -18,8 +17,7 @@ import { PlaylistSongsCreateRequest } from "../../models/requests/playlist-songs
 import { AsyncPipe } from "@angular/common";
 import { SongTableComponent } from "../../components/song-table/song-table.component";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { PageService } from "../../../../shared/services/page.service";
-import { PageDirective } from "../../../../shared/directives/page.directive";
+import { PageComponent } from "../page.component";
 
 @Component({
   // Intentional `main` attribute-selector.
@@ -34,7 +32,7 @@ import { PageDirective } from "../../../../shared/directives/page.directive";
     AsyncPipe,
   ],
 })
-export class PlaylistSongsPage extends PageDirective implements OnInit {
+export class PlaylistSongsPage extends PageComponent implements OnInit {
   readonly #id: number = Number(
     inject(ActivatedRoute).snapshot.paramMap.get("id"),
   );
@@ -54,12 +52,6 @@ export class PlaylistSongsPage extends PageDirective implements OnInit {
   private playlistSongsService: PlaylistSongsApiService = inject(
     PlaylistSongsApiService,
   );
-
-  private pageService: PageService = inject(PageService);
-
-  private router: Router = inject(Router);
-
-  private destroyed: DestroyRef = inject(DestroyRef);
 
   public ngOnInit(): void {
     this.fetchPlaylist();
