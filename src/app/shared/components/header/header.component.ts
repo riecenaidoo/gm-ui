@@ -7,9 +7,6 @@ import { Component, Input } from "@angular/core";
   templateUrl: "./header.component.html",
   styleUrl: "./header.component.css",
   imports: [],
-  host: {
-    class: "header-bar",
-  },
 })
 export class HeaderComponent {
   @Input({ required: true })

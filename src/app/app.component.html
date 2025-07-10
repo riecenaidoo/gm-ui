@@ -8,7 +8,7 @@
 
 <ng-template #layout>
   <div class="app-layout">
-    <header app-header [pageTitle]="pageTitle">
+    <header class="header-bar" app-header [pageTitle]="pageTitle">
       <app-audio-overlay-toggle
         (toggled)="toggleAudioService()"
         [initialToggle]="!!(service | async)"

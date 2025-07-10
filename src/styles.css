@@ -42,11 +42,17 @@ body {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
   box-sizing: border-box; /* <1> */
+  flex-shrink: 0; /* <2> */
 
   /* <1>
    Include the border in the height calculation. This is usually the default, but for some elements like the `<header>`
    tag, the default is different (`context-box`) which will cause the header-bar 'height' to appear inconsistent.
    */
+
+  /* <2>
+   The header-bar should remain fixed and never shrink.
+   This is only applicable in a layout where the header-bar is a flex child.
+  */
 }
 
 main.page {
