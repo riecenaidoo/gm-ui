@@ -1,6 +1,24 @@
 :host {
   align-content: center;
   aspect-ratio: 1/1;
+  display: flex;
+
+  &:hover,
+  &:focus-within {
+    i {
+      color: var(--palette-accent);
+    }
+
+    img {
+      filter: invert(80%);
+    }
+
+    @media (prefers-color-scheme: light) {
+      .darken-bright-accent {
+        filter: brightness(80%);
+      }
+    }
+  }
 }
 
 button {
@@ -14,12 +32,21 @@ button {
     font-size: 1.5rem;
   }
 
-  &:hover > i,
-  &:focus-visible > i {
-    color: var(--palette-accent);
-  }
-
   &:hover {
     cursor: pointer;
+  }
+}
+
+img {
+  max-height: 100%;
+  width: auto;
+}
+
+@media (prefers-color-scheme: light) {
+  /*   The accented blue is slightly too bright with the current light mode palette.
+  TODO [theme] when a proper theme for light mode is created we should account for this and remove this.cd
+  */
+  .darken-bright-accent {
+    filter: brightness(60%);
   }
 }

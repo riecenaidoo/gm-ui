@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { DebounceDirective } from "../../../../shared/directives/debounce.directive";
+import { NgOptimizedImage } from "@angular/common";
 
 @Component({
   selector: "app-audio-overlay-toggle",
-  imports: [],
+  imports: [NgOptimizedImage],
   templateUrl: "./audio-overlay-toggle.component.html",
   styleUrl: "./audio-overlay-toggle.component.css",
 })
