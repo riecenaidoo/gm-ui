@@ -44,3 +44,11 @@ tr > td:first-child {
     width: auto;
   }
 }
+
+button {
+  aspect-ratio: 1/1;
+  border-radius: 0;
+  border: none;
+  margin: 0.5rem 0 0.5rem 0.5rem;
+  width: 2rem;
+}
