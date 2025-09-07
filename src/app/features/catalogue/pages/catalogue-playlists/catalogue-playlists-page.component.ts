@@ -6,7 +6,7 @@ import {
   inject,
   ElementRef,
 } from "@angular/core";
-import { Observable, Subject } from "rxjs";
+import { combineLatest, Observable, startWith, Subject, switchMap } from "rxjs";
 import { Playlist } from "../../models/playlist";
 import { PlaylistsApiService } from "../../services/playlists-api.service";
 import { PlaylistCreateFormComponent } from "../../components/playlist-create-form/playlist-create-form.component";
@@ -19,6 +19,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { PageComponent } from "../page.component";
 import { DialogComponent } from "../../../../shared/components/dialog/dialog/dialog.component";
 import { FormsModule } from "@angular/forms";
+import { CatalogueStateService } from "../../services/catalogue-state.service";
 
 @Component({
   // Intentional `main` attribute-selector.
@@ -39,6 +40,8 @@ import { FormsModule } from "@angular/forms";
 export class CataloguePlaylistsPage extends PageComponent implements OnInit {
   readonly #playlists: Subject<Playlist[]> = new Subject<Playlist[]>();
 
+  readonly #refresh: Subject<void> = new Subject<void>();
+
   @ViewChild("createPlaylistDialog")
   private createPlaylistDialog!: DialogComponent;
 
@@ -47,11 +50,27 @@ export class CataloguePlaylistsPage extends PageComponent implements OnInit {
 
   private playlistsService: PlaylistsApiService = inject(PlaylistsApiService);
 
+  protected catalogueStateService: CatalogueStateService = inject(
+    CatalogueStateService,
+  );
+
   public ngOnInit(): void {
     this.pageService.currentPage = {
       title: "Gamemaster Catalogue",
     };
-    this.fetchPlaylists();
+    combineLatest([
+      this.catalogueStateService.search,
+      this.#refresh.pipe(startWith(undefined)),
+    ])
+      .pipe(
+        switchMap(([term, _]: [string | undefined, void]) =>
+          term
+            ? this.playlistsService.findByTitle(term)
+            : this.playlistsService.findAll(),
+        ),
+        takeUntilDestroyed(this.destroyed),
+      )
+      .subscribe((playlists: Playlist[]) => this.#playlists.next(playlists));
   }
 
   // ------ Component ------
@@ -84,7 +103,7 @@ export class CataloguePlaylistsPage extends PageComponent implements OnInit {
       .createPlaylist(playlist)
       .pipe(takeUntilDestroyed(this.destroyed))
       .subscribe((_) => {
-        this.fetchPlaylists();
+        this.#refresh.next();
         this.createPlaylistDialog.hideDialog();
       });
   }
@@ -100,22 +119,5 @@ export class CataloguePlaylistsPage extends PageComponent implements OnInit {
         console.log("Failed to load requested route.");
       }
     });
-  }
-
-  /**
-   * @param {string} title a non-blank string containing a title, or part of a title, to filter `Playlists` by.
-   */
-  protected searchByTitle(title: string): void {
-    this.playlistsService
-      .findByTitle(title)
-      .pipe(takeUntilDestroyed(this.destroyed))
-      .subscribe((playlists: Playlist[]) => this.#playlists.next(playlists));
-  }
-
-  protected fetchPlaylists(): void {
-    this.playlistsService
-      .findAll()
-      .pipe(takeUntilDestroyed(this.destroyed))
-      .subscribe((playlists: Playlist[]) => this.#playlists.next(playlists));
   }
 }

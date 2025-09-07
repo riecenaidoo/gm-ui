@@ -1,4 +1,12 @@
-import { Directive, EventEmitter, HostListener, Output } from "@angular/core";
+import {
+  Directive,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  inject,
+  OnInit,
+  Output,
+} from "@angular/core";
 import { DebounceDirective } from "./debounce.directive";
 
 /**
@@ -8,11 +16,20 @@ import { DebounceDirective } from "./debounce.directive";
 @Directive({
   selector: "input[appTextSearchInput]",
 })
-export class InputSearchDebounceDirective extends DebounceDirective {
+export class InputSearchDebounceDirective
+  extends DebounceDirective
+  implements OnInit
+{
   /**
    * The last (trimmed) text the User searched, or `undefined` if they cleared their search.
    */
   private searching?: string;
+
+  private el: ElementRef<HTMLInputElement> = inject(ElementRef);
+
+  public ngOnInit() {
+    this.searching = this.el.nativeElement.value;
+  }
 
   // ------ API ------
 
