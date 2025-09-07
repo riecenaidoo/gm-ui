@@ -6,5 +6,6 @@ dist/
 # Timestamps for Makefile
 .made/
 
-# Notes are ignored unless explicitly added
+# Notes and documentation are ignored, unless explicitly added
 *.md
+_doc/
