@@ -10,9 +10,9 @@
     #playlistSearchInput
     appTextSearchInput
     placeholder="Search within Catalogue"
-    (searchedText)="catalogueStateService.search = $event"
-    (searchCleared)="catalogueStateService.search = undefined"
-    value="{{ catalogueStateService.search | async }}"
+    (searchedText)="filterPlaylists($event)"
+    (searchCleared)="clearFilter()"
+    [value]="currentPlaylistTitleFilter"
   />
 </div>
 <section class="page-scrolling">

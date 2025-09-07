@@ -5,16 +5,29 @@ import { BehaviorSubject, Observable } from "rxjs";
   providedIn: "root",
 })
 export class CatalogueStateService {
-  readonly #search = new BehaviorSubject<string | undefined>(undefined);
+  readonly #playlistTitleFilter = new BehaviorSubject<string | undefined>(
+    undefined,
+  );
 
-  public get search(): Observable<string | undefined> {
-    return this.#search;
+  /**
+   * @returns {Observable<string | undefined>} an observation of what the current filter is, or `undefined` if there is none. Emits immediately.
+   */
+  public get playlistTitleFilter(): Observable<string | undefined> {
+    return this.#playlistTitleFilter;
   }
 
-  public set search(term: string | undefined) {
-    if (term) {
-      term = term.trim().length === 0 ? undefined : term.trim();
+  public set playlistTitleFilter(titleFilter: string | undefined) {
+    if (titleFilter) {
+      titleFilter =
+        titleFilter.trim().length === 0 ? undefined : titleFilter.trim();
     }
-    this.#search.next(term);
+    this.#playlistTitleFilter.next(titleFilter);
+  }
+
+  /**
+   * @returns {string | undefined} the value of the current `filter`, if it exists.
+   */
+  public get currentPlaylistTitleFilter(): string | undefined {
+    return this.#playlistTitleFilter.value;
   }
 }
