@@ -29,6 +29,12 @@
         {{ song.artist ? song.artist : "" }}
       </td>
       <td>
+        <button
+          title="Copy to Clipboard"
+          (click)="copyingSongToClipboardEvent(song)"
+        >
+          <i class="fa fa-clone" aria-hidden="true"></i>
+        </button>
         <button title="Remove Song" (click)="removingSongEvent(song)">
           <i class="fa fa-minus"></i>
         </button>

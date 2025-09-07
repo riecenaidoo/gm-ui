@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, Input, output } from "@angular/core";
 import { PlaylistSong } from "../../models/playlist-song";
 import { NgOptimizedImage } from "@angular/common";
 
@@ -14,13 +14,17 @@ export class SongTableComponent {
   @Input({ required: true })
   public songs!: PlaylistSong[];
 
-  @Output()
-  private removingSong: EventEmitter<PlaylistSong> =
-    new EventEmitter<PlaylistSong>();
+  public readonly removingSong = output<PlaylistSong>();
+
+  public readonly copyingSongToClipboard = output<PlaylistSong>();
 
   // ------ Events ------
 
   protected removingSongEvent(song: PlaylistSong): void {
     this.removingSong.emit(song);
+  }
+
+  protected copyingSongToClipboardEvent(song: PlaylistSong): void {
+    this.copyingSongToClipboard.emit(song);
   }
 }

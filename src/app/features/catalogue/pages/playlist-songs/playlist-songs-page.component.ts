@@ -97,6 +97,21 @@ export class PlaylistSongsPage extends PageComponent implements OnInit {
       });
   }
 
+  /**
+   * Copying to clipboard might be a global utility, but for now it is localised to this page.
+   * TODO When we introduce toasts, these logs should be replaced with toast messages instead.
+   */
+  public copySongToClipboard($event: PlaylistSong) {
+    navigator.clipboard
+      .writeText($event.url)
+      .then(() => console.info(`Copied ${$event.url} to clipboard.`))
+      .catch((err) =>
+        console.error(
+          `Failed to copy ${$event.url} to clipboard. Cause: ${err}`,
+        ),
+      );
+  }
+
   protected removeSong(song: PlaylistSong): void {
     this.playlistSongsService
       .deletePlaylistSong(this.#id, song)
