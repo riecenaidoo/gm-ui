@@ -38,14 +38,11 @@ import { CatalogueStateService } from "../../services/catalogue-state.service";
   ],
 })
 export class CataloguePlaylistsPage extends PageComponent implements OnInit {
+  // State
+
   readonly #playlists: Subject<Playlist[]> = new Subject<Playlist[]>();
 
-  private readonly playlistsService: PlaylistsApiService =
-    inject(PlaylistsApiService);
-
-  private readonly catalogueStateService: CatalogueStateService = inject(
-    CatalogueStateService,
-  );
+  // Components
 
   @ViewChild("createPlaylistDialog")
   private createPlaylistDialog!: DialogComponent;
@@ -55,6 +52,17 @@ export class CataloguePlaylistsPage extends PageComponent implements OnInit {
    */
   @ViewChild("playlistSearchInput")
   private playlistSearchInput!: ElementRef<HTMLInputElement>;
+
+  // Services
+
+  private readonly playlistsService: PlaylistsApiService =
+    inject(PlaylistsApiService);
+
+  private readonly catalogueStateService: CatalogueStateService = inject(
+    CatalogueStateService,
+  );
+
+  // Initialisation
 
   public ngOnInit(): void {
     this.pageService.currentPage = {
@@ -69,6 +77,11 @@ export class CataloguePlaylistsPage extends PageComponent implements OnInit {
    * - Data is loaded initially.
    * - Data is reloaded on {@link PageComponent#refreshed}.
    * - Data is re-fetched whenever {@link CatalogueStateService#playlistTitleFilter} changes.
+   *
+   * @implNote {@link combineLatest} will wait for all observables to emit at least once.
+   * The {@link CatalogueStateService#playlistTitleFilter} specifies it emits immediately,
+   * but the {@link PageComponent#refreshed} does not,
+   * so we use {@link startWith} to trigger a first emission in order to jump start the pipeline.
    */
   private setupPlaylistsDataSource(): void {
     combineLatest([
@@ -86,7 +99,7 @@ export class CataloguePlaylistsPage extends PageComponent implements OnInit {
       .subscribe((playlists: Playlist[]) => this.#playlists.next(playlists));
   }
 
-  // ------ Component ------
+  // ------ Component Data ------
 
   protected get playlists(): Observable<Playlist[]> {
     return this.#playlists;
@@ -96,7 +109,7 @@ export class CataloguePlaylistsPage extends PageComponent implements OnInit {
     return this.catalogueStateService.currentPlaylistTitleFilter;
   }
 
-  // ------ Hotkeys ------
+  // ------ Hotkey Bindings ------
 
   @HostListener("window:keydown.alt.1")
   protected showCreatePlaylistDialog(): void {

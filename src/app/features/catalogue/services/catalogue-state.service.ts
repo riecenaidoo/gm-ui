@@ -10,7 +10,7 @@ export class CatalogueStateService {
   );
 
   /**
-   * @returns {Observable<string | undefined>} an observation of what the current filter is, or `undefined` if there is none. Emits immediately.
+   * @returns an observation of what the current filter is, or `undefined` if there is none. Emits immediately.
    */
   public get playlistTitleFilter(): Observable<string | undefined> {
     return this.#playlistTitleFilter;
@@ -25,7 +25,7 @@ export class CatalogueStateService {
   }
 
   /**
-   * @returns {string | undefined} the value of the current `filter`, if it exists.
+   * @returns the value of the current `filter`, if it exists.
    */
   public get currentPlaylistTitleFilter(): string | undefined {
     return this.#playlistTitleFilter.value;
