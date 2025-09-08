@@ -6,7 +6,7 @@ import {
   inject,
   ElementRef,
 } from "@angular/core";
-import { Observable, Subject } from "rxjs";
+import { combineLatest, Observable, startWith, Subject, switchMap } from "rxjs";
 import { Playlist } from "../../models/playlist";
 import { PlaylistsApiService } from "../../services/playlists-api.service";
 import { PlaylistCreateFormComponent } from "../../components/playlist-create-form/playlist-create-form.component";
@@ -19,6 +19,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { PageComponent } from "../page.component";
 import { DialogComponent } from "../../../../shared/components/dialog/dialog/dialog.component";
 import { FormsModule } from "@angular/forms";
+import { CatalogueStateService } from "../../services/catalogue-state.service";
 
 @Component({
   // Intentional `main` attribute-selector.
@@ -37,30 +38,78 @@ import { FormsModule } from "@angular/forms";
   ],
 })
 export class CataloguePlaylistsPage extends PageComponent implements OnInit {
+  // State
+
   readonly #playlists: Subject<Playlist[]> = new Subject<Playlist[]>();
+
+  // Components
 
   @ViewChild("createPlaylistDialog")
   private createPlaylistDialog!: DialogComponent;
 
+  /**
+   * Input field for searching (filtering) `Playlists` within the `Catalogue`.
+   */
   @ViewChild("playlistSearchInput")
   private playlistSearchInput!: ElementRef<HTMLInputElement>;
 
-  private playlistsService: PlaylistsApiService = inject(PlaylistsApiService);
+  // Services
+
+  private readonly playlistsService: PlaylistsApiService =
+    inject(PlaylistsApiService);
+
+  private readonly catalogueStateService: CatalogueStateService = inject(
+    CatalogueStateService,
+  );
+
+  // Initialisation
 
   public ngOnInit(): void {
     this.pageService.currentPage = {
       title: "Gamemaster Catalogue",
     };
-    this.fetchPlaylists();
+    this.setupPlaylistsDataSource();
   }
 
-  // ------ Component ------
+  /**
+   * Define the data source for {@link #playlists}.
+   *
+   * - Data is loaded initially.
+   * - Data is reloaded on {@link PageComponent#refreshed}.
+   * - Data is re-fetched whenever {@link CatalogueStateService#playlistTitleFilter} changes.
+   *
+   * @implNote {@link combineLatest} will wait for all observables to emit at least once.
+   * The {@link CatalogueStateService#playlistTitleFilter} specifies it emits immediately,
+   * but the {@link PageComponent#refreshed} does not,
+   * so we use {@link startWith} to trigger a first emission in order to jump start the pipeline.
+   */
+  private setupPlaylistsDataSource(): void {
+    combineLatest([
+      this.refreshed.pipe(startWith(undefined)),
+      this.catalogueStateService.playlistTitleFilter,
+    ])
+      .pipe(
+        switchMap(([_, titleFilter]: [void, string | undefined]) =>
+          titleFilter
+            ? this.playlistsService.findByTitle(titleFilter)
+            : this.playlistsService.findAll(),
+        ),
+        takeUntilDestroyed(this.destroyed),
+      )
+      .subscribe((playlists: Playlist[]) => this.#playlists.next(playlists));
+  }
+
+  // ------ Component Data ------
 
   protected get playlists(): Observable<Playlist[]> {
     return this.#playlists;
   }
 
-  // ------ Hotkeys ------
+  protected get currentPlaylistTitleFilter(): string {
+    return this.catalogueStateService.currentPlaylistTitleFilter ?? "";
+  }
+
+  // ------ Hotkey Bindings ------
 
   @HostListener("window:keydown.alt.1")
   protected showCreatePlaylistDialog(): void {
@@ -77,20 +126,20 @@ export class CataloguePlaylistsPage extends PageComponent implements OnInit {
   // ------ Event Handling ------
 
   /**
-   * The user has created a playlist, and we must coordinate with the service to issue the request.
+   * The User has created a `Playlist`. We must coordinate with the service to submit their request.
    */
   protected createPlaylist(playlist: PlaylistsCreateRequest): void {
     this.playlistsService
       .createPlaylist(playlist)
       .pipe(takeUntilDestroyed(this.destroyed))
       .subscribe((_) => {
-        this.fetchPlaylists();
+        this.refresh();
         this.createPlaylistDialog.hideDialog();
       });
   }
 
   /**
-   * The user has selected a `Playlist` to view.
+   * The User has selected a `Playlist` to view. We must navigate to it.
    */
   protected openPlaylist(playlist: Playlist): void {
     this.router.navigate(["playlists", playlist.id]).then((routed: boolean) => {
@@ -103,19 +152,16 @@ export class CataloguePlaylistsPage extends PageComponent implements OnInit {
   }
 
   /**
-   * @param {string} title a non-blank string containing a title, or part of a title, to filter `Playlists` by.
+   * The User has filtered the `Playlists` in the `Catalogue`.
    */
-  protected searchByTitle(title: string): void {
-    this.playlistsService
-      .findByTitle(title)
-      .pipe(takeUntilDestroyed(this.destroyed))
-      .subscribe((playlists: Playlist[]) => this.#playlists.next(playlists));
+  protected filterPlaylists($event: string) {
+    this.catalogueStateService.playlistTitleFilter = $event;
   }
 
-  protected fetchPlaylists(): void {
-    this.playlistsService
-      .findAll()
-      .pipe(takeUntilDestroyed(this.destroyed))
-      .subscribe((playlists: Playlist[]) => this.#playlists.next(playlists));
+  /**
+   * The User has cleared their filter on the `Playlists` in the `Catalogue`.
+   */
+  protected clearFilter() {
+    this.catalogueStateService.playlistTitleFilter = undefined;
   }
 }

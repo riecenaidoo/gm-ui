@@ -1,6 +1,7 @@
 import { DestroyRef, Directive, inject } from "@angular/core";
 import { PageService } from "../services/page.service";
 import { Router } from "@angular/router";
+import { Observable, Subject } from "rxjs";
 
 /**
  * The main routed component of the view that is represented in HTML as the `main` element.
@@ -36,11 +37,29 @@ import { Router } from "@angular/router";
   },
 })
 export abstract class PageComponent {
+  readonly #refreshed: Subject<void> = new Subject<void>();
+
   protected readonly pageService: PageService = inject(PageService);
 
   protected readonly router: Router = inject(Router);
 
   protected readonly destroyed: DestroyRef = inject(DestroyRef);
+
+  /**
+   * Request the `Page` be refreshed.
+   *
+   * Intended to be used with {@link #refreshed}.
+   */
+  protected refresh() {
+    this.#refreshed.next();
+  }
+
+  /**
+   * @returns {Observable<void>} an observation of when the `Page` has been refreshed.
+   */
+  protected get refreshed(): Observable<void> {
+    return this.#refreshed;
+  }
 }
 
 /*

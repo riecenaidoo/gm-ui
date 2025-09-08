@@ -10,8 +10,9 @@
     #playlistSearchInput
     appTextSearchInput
     placeholder="Search within Catalogue"
-    (searchedText)="searchByTitle($event)"
-    (searchCleared)="fetchPlaylists()"
+    (searchedText)="filterPlaylists($event)"
+    (searchCleared)="clearFilter()"
+    [value]="currentPlaylistTitleFilter"
   />
 </div>
 <section class="page-scrolling">
