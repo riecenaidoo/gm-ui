@@ -45,5 +45,6 @@
     #createPlaylistForm
     (ngSubmit)="createPlaylistForm.submit()"
     (createdPlaylist)="createPlaylist($event)"
+    [initialTitle]="newPlaylistTitle"
   ></form>
 </app-dialog>

@@ -1,7 +1,9 @@
 import {
   Component,
+  effect,
   ElementRef,
   EventEmitter,
+  input,
   Output,
   ViewChild,
 } from "@angular/core";
@@ -18,7 +20,9 @@ import { FormsModule } from "@angular/forms";
   imports: [FormsModule],
 })
 export class PlaylistCreateFormComponent implements Form {
-  public title = "";
+  protected title = "";
+
+  public initialTitle = input<string>();
 
   @Output()
   private createdPlaylist: EventEmitter<PlaylistsCreateRequest> =
@@ -26,6 +30,15 @@ export class PlaylistCreateFormComponent implements Form {
 
   @ViewChild("autofocus")
   private autoFocusTarget!: ElementRef<HTMLInputElement>;
+
+  public constructor() {
+    effect(() => {
+      const initialTitle = this.initialTitle();
+      if (initialTitle) {
+        this.title = initialTitle;
+      }
+    });
+  }
 
   // ------ API ------
 
