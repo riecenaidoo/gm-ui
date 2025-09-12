@@ -6,7 +6,13 @@ import {
   inject,
   ElementRef,
 } from "@angular/core";
-import { combineLatest, Observable, startWith, Subject, switchMap } from "rxjs";
+import {
+  BehaviorSubject,
+  combineLatest,
+  Observable,
+  startWith,
+  switchMap,
+} from "rxjs";
 import { Playlist } from "../../models/playlist";
 import { PlaylistsApiService } from "../../services/playlists-api.service";
 import { PlaylistCreateFormComponent } from "../../components/playlist-create-form/playlist-create-form.component";
@@ -40,7 +46,9 @@ import { CatalogueStateService } from "../../services/catalogue-state.service";
 export class CataloguePlaylistsPage extends PageComponent implements OnInit {
   // State
 
-  readonly #playlists: Subject<Playlist[]> = new Subject<Playlist[]>();
+  readonly #playlists: BehaviorSubject<Playlist[]> = new BehaviorSubject<
+    Playlist[]
+  >([]);
 
   // Components
 
@@ -107,6 +115,13 @@ export class CataloguePlaylistsPage extends PageComponent implements OnInit {
 
   protected get currentPlaylistTitleFilter(): string {
     return this.catalogueStateService.currentPlaylistTitleFilter ?? "";
+  }
+
+  protected get newPlaylistTitle(): string {
+    const s =
+      this.#playlists.value.length === 0 ? this.currentPlaylistTitleFilter : "";
+    console.log(`new playlist title ${s}`);
+    return s;
   }
 
   // ------ Hotkey Bindings ------
