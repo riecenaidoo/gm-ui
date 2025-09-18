@@ -2,9 +2,10 @@ import {
   Component,
   effect,
   ElementRef,
-  EventEmitter,
   input,
-  Output,
+  InputSignal,
+  output,
+  OutputEmitterRef,
   ViewChild,
 } from "@angular/core";
 import { Form } from "../../../../shared/models/form";
@@ -20,24 +21,26 @@ import { FormsModule } from "@angular/forms";
   imports: [FormsModule],
 })
 export class PlaylistCreateFormComponent implements Form {
+  // State
+
   protected title = "";
 
-  public initialTitle = input<string>();
+  // Components
 
-  @Output()
-  private createdPlaylist: EventEmitter<PlaylistsCreateRequest> =
-    new EventEmitter<PlaylistsCreateRequest>();
-
-  @ViewChild("autofocus")
+  @ViewChild("autofocus", { static: true })
   private autoFocusTarget!: ElementRef<HTMLInputElement>;
 
+  // I/O
+
+  public initialTitle: InputSignal<string | undefined> = input<string>();
+
+  public createdPlaylist: OutputEmitterRef<PlaylistsCreateRequest> =
+    output<PlaylistsCreateRequest>();
+
+  // Initialisation
+
   public constructor() {
-    effect(() => {
-      const initialTitle = this.initialTitle();
-      if (initialTitle) {
-        this.title = initialTitle;
-      }
-    });
+    effect(() => (this.title = this.initialTitle() ?? ""));
   }
 
   // ------ API ------
@@ -56,7 +59,8 @@ export class PlaylistCreateFormComponent implements Form {
   }
 
   public clearInputs(): void {
-    this.title = "";
+    // TODO mv clearInputs resetInputs
+    this.title = this.initialTitle() ?? "";
   }
 
   // ------ Internal ------
