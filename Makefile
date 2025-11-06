@@ -35,11 +35,14 @@ ANGULAR ?= npx ng
 # =============================================================================
 # Script Macros
 # =============================================================================
+XARGS := xargs -0 --no-run-if-empty
+PLAINTEXT_FILTER := $(XARGS) file --mime-type | awk -F: '/text\// { printf "%s\0", $$1 }'
+
 STOP_PROCESS := ./.scripts/stop-process.sh
 
 define stop_process	##> Given the PID file, stop the process
 @if [ -f "$(1)" ]; then \
-	xargs --no-run-if-empty --arg-file "$(1)" "$(STOP_PROCESS)"; \
+	$(XARGS) --arg-file "$(1)" "$(STOP_PROCESS)"; \
 fi
 endef
 # =============================================================================
@@ -123,61 +126,64 @@ serve: $(APP) kill-serve | $(MADE)	##> start the Angular server
 kill-serve:	##> kill the Angular server process
 	$(call stop_process,$(MADE)/serve.pid)
 
+ANGULAR_FILTER := $(XARGS) awk -v RS='\0' '/\.(ts|css|html|json)$$/'
+
 .PHONY: angular rm-angular serve kill-serve
 # =============================================================================
 # Linting
 # =============================================================================
-LINT := $(NPX) eslint --fix
-LINT_CHECK := $(NPX) eslint
+LINT := $(ANGULAR_FILTER) | $(XARGS) $(NPX) eslint --fix
+LINT_CHECK := $(ANGULAR_FILTER) | $(XARGS) $(NPX) eslint
 
 lint: lint-diff lint-untracked	## alias to run linting (lint-diff) (lint-untracked) rules
 	git status -s
 
 lint-diff: ./node_modules	##> run linting on modified (git diff HEAD) files
-	$(DIFF_FILES) "./src/" | xargs -r -0 $(LINT)
+	$(DIFF_FILES) | $(LINT)
 
 lint-diff-check: ./node_modules	##> run linting on modified (git diff HEAD) files
-	$(DIFF_FILES) "./src/" | xargs -r -0 $(LINT_CHECK)
+	$(DIFF_FILES) | $(LINT_CHECK)
 
 lint-untracked: ./node_modules	##> run linting on untracked files
-	$(UNTRACKED_FILES) "./src/" | xargs -r -0 $(LINT)
+	$(UNTRACKED_FILES) | $(LINT)
 
 lint-all: ./node_modules	##> run linting on all files
-	$(LINT) .
+	find src/ -type f (-name '*.ts' -o -name '*.html' -o -name '*.css' -o -name '*.json') -print0 | $(LINT)
 
 .PHONY: lint lint-diff lint-untracked lint-all
 # =============================================================================
 # Formatting
 # =============================================================================
-FORMAT := $(NPX) prettier --write
-FORMAT_CHECK := $(NPX) prettier --check
+FORMAT := $(ANGULAR_FILTER) | $(XARGS) $(NPX) prettier --write
+FORMAT_CHECK := $(ANGULAR_FILTER) | $(XARGS) $(NPX) prettier --check
 
-TRIM_CHECK := xargs -0 grep -lZ '[[:blank:]]$$'
-TRIM := $(TRIM_CHECK) | xargs -0 --no-run-if-empty sed -i 's/[ \t]*$$//'
+TRIM_CHECK := $(PLAINTEXT_FILTER) | $(XARGS) grep -lZ '[[:blank:]]$$'
+TRIM := $(TRIM_CHECK) | $(XARGS) sed -i 's/[ \t]*$$//'
 
 format: format-diff format-untracked	## alias to run formatting (format-diff) (format-untracked) rules
 	git status -s
 
 format-diff: ./node_modules	##> run formatting on modified (git diff HEAD) files
 	$(DIFF_FILES) | $(TRIM)
-	$(DIFF_FILES) "./src/" | xargs -r -0 $(FORMAT)
+	$(DIFF_FILES) | $(FORMAT)
 
 format-diff-check: ./node_modules	##> check formatting on modified (git diff HEAD) files
-	$(DIFF_FILES) "./src/" | xargs -r -0 $(FORMAT_CHECK)
 	@TRAILING_WHITESPACE_FILES=$$($(DIFF_FILES) | $(TRIM_CHECK)); \
 	if [ -n "$$TRAILING_WHITESPACE_FILES" ]; then \
 		  printf '\033[0;31m%s\033[0m' "Trailing Whitespaces!"; \
 		  printf '\t- %s\n' "$$TRAILING_WHITESPACE_FILES"; \
 		exit 1; \
 	fi
+	$(DIFF_FILES) | $(FORMAT_CHECK)
 
 format-untracked: ./node_modules	##> run formatting on untracked files
-	$(UNTRACKED_FILES) "./src/" | xargs -r -0 $(FORMAT)
 	$(UNTRACKED_FILES) | $(TRIM)
+	$(UNTRACKED_FILES) | $(FORMAT)
 
 format-all: ./node_modules	##> run formatting on all files
 	find . -maxdepth 1 -type f -print0 | $(TRIM)
-	$(FORMAT) .
+	find .scripts/ src/ -type f -print0 | $(TRIM)
+	find src/ -type f (-name '*.ts' -o -name '*.html' -o -name '*.css' -o -name '*.json') -print0 | $(FORMAT)
 
 .PHONY: format format-diff format-untracked format-all
 # =============================================================================
