@@ -1,5 +1,5 @@
 # Secondary Dockerfile for use locally during development.
-# If you already have the tooling (node, npm, ng) use this after `ng build`.
+# If you already have the tooling (node, npm, ng) use this after `make build`.
 
 # [Source](https://hub.docker.com/_/nginx)
 FROM nginx:stable-alpine

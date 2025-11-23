@@ -1,5 +1,5 @@
 # 1) Build
-# This stage can be skipped if you have the tooling locally. See `Dockerfile-distonly`.
+# This stage can be skipped if you have the tooling locally. See `/.scripts/Dockerfile`.
 FROM node:22-alpine AS builder
 
 # Set the working directory to avoid installing in system root

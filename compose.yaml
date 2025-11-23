@@ -1,19 +1,45 @@
-# --------------------------------------------------------------------------------
-# NOTE:
-# The `gm-ui` service cannot run standalone; it depends on other components
-# of the `gm` project being up and running for full functionality.
-#
-# This Docker-Compose file is purely for development convenience.
-#
-# For full project orchestration including backend and other services,
-# please refer to the main `gm` project's Docker-Compose setup.
-# --------------------------------------------------------------------------------
-name: gamemaster-soundboard-dev
+name: gm-dev
 services:
-  ui:
-    image: gm-ui:dev
+  # [gm-storage]
+  storage:
+    container_name: "gm-dev-storage"
+    image: gm-storage:latest
     build:
-      dockerfile: "Dockerfile"
-    container_name: "gm-ui-dev"
+      context: "../gm-storage"
+      dockerfile: "./Dockerfile"
     ports:
-      - "4200:80"
+      - "8080:8080"
+    environment:
+      # Default User & Password already specified in .properties
+      # [How we resolve hostname 'db'](https://docs.docker.com/compose/networking/)
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/gm
+      - SPRING.JPA.OPEN-IN-VIEW=false
+    depends_on:
+      - db
+  db:
+    container_name: "gm-dev-db"
+    image: postgres:14.12-bullseye
+    # [Source](https://www.docker.com/blog/how-to-use-the-postgres-docker-official-image/)
+    environment:
+      # [Environment Variables for Postgres Img](https://hub.docker.com/_/postgres)
+      - POSTGRES_DB=gm
+      - POSTGRES_PASSWORD=admin
+    volumes:
+      # This is where the DDL would go, for now it just is a placeholder.
+      - "../gm-storage/core/src/main/sql/:/docker-entrypoint-initdb.d/"
+      # Persist data between sessions.
+      - data:/var/lib/postgresql/data
+  # [gm-discord]
+  discord:
+    container_name: "gm-dev-discord"
+    image: gm-discord:latest
+    build:
+      context: "../gm-discord"
+      dockerfile: "./Dockerfile"
+    ports:
+      - "5050:5050"
+    tty: true
+    env_file:
+      - "../gm-discord/.env"
+volumes:
+  data:
