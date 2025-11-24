@@ -1,19 +1,22 @@
 import {
   Component,
-  HostListener,
-  OnInit,
-  ViewChild,
-  inject,
+  computed,
   ElementRef,
+  HostListener,
+  inject,
+  OnInit,
+  signal,
+  Signal,
+  ViewChild,
+  WritableSignal,
 } from "@angular/core";
-import { combineLatest, Observable, startWith, Subject, switchMap } from "rxjs";
+import { combineLatest, startWith, switchMap } from "rxjs";
 import { Playlist } from "../../models/playlist";
 import { PlaylistsApiService } from "../../services/playlists-api.service";
 import { PlaylistCreateFormComponent } from "../../components/playlist-create-form/playlist-create-form.component";
 import { PlaylistsCreateRequest } from "../../models/requests/playlists-create-request";
 import { InputSearchDebounceDirective } from "../../../../shared/directives/input-search-debounce.directive";
 import { PlaylistCreateTileComponent } from "../../components/playlist-create-tile/playlist-create-tile.component";
-import { AsyncPipe } from "@angular/common";
 import { PlaylistTileComponent } from "../../components/playlist-tile/playlist-tile.component";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { PageComponent } from "../page.component";
@@ -32,7 +35,6 @@ import { CatalogueStateService } from "../../services/catalogue-state.service";
     PlaylistCreateTileComponent,
     PlaylistTileComponent,
     PlaylistCreateFormComponent,
-    AsyncPipe,
     DialogComponent,
     FormsModule,
   ],
@@ -40,17 +42,27 @@ import { CatalogueStateService } from "../../services/catalogue-state.service";
 export class CataloguePlaylistsPage extends PageComponent implements OnInit {
   // State
 
-  readonly #playlists: Subject<Playlist[]> = new Subject<Playlist[]>();
+  readonly #playlists: WritableSignal<Playlist[]> = signal<Playlist[]>([]);
+
+  /**
+   * When the User is filtering Playlists, and there is no match, set the default title for Playlist creation to the
+   * title they were searching for, for convenience.
+   */
+  protected readonly defaultPlaylistTitle: Signal<string | undefined> =
+    computed<string | undefined>(() => {
+      const filter = this.catalogueStateService.playlistTitleFilter();
+      return filter && this.#playlists().length === 0 ? filter : undefined;
+    });
 
   // Components
 
-  @ViewChild("createPlaylistDialog")
+  @ViewChild("createPlaylistDialog", { static: true })
   private createPlaylistDialog!: DialogComponent;
 
   /**
    * Input field for searching (filtering) `Playlists` within the `Catalogue`.
    */
-  @ViewChild("playlistSearchInput")
+  @ViewChild("playlistSearchInput", { static: true })
   private playlistSearchInput!: ElementRef<HTMLInputElement>;
 
   // Services
@@ -79,14 +91,15 @@ export class CataloguePlaylistsPage extends PageComponent implements OnInit {
    * - Data is re-fetched whenever {@link CatalogueStateService#playlistTitleFilter} changes.
    *
    * @implNote {@link combineLatest} will wait for all observables to emit at least once.
-   * The {@link CatalogueStateService#playlistTitleFilter} specifies it emits immediately,
-   * but the {@link PageComponent#refreshed} does not,
-   * so we use {@link startWith} to trigger a first emission in order to jump start the pipeline.
+   * We use {@link startWith} to trigger a first emission in order to jump start the pipeline and load the content for
+   * the page initially.
    */
   private setupPlaylistsDataSource(): void {
     combineLatest([
       this.refreshed.pipe(startWith(undefined)),
-      this.catalogueStateService.playlistTitleFilter,
+      this.catalogueStateService.playlistTitleFilter$.pipe(
+        startWith(undefined),
+      ),
     ])
       .pipe(
         switchMap(([_, titleFilter]: [void, string | undefined]) =>
@@ -96,17 +109,17 @@ export class CataloguePlaylistsPage extends PageComponent implements OnInit {
         ),
         takeUntilDestroyed(this.destroyed),
       )
-      .subscribe((playlists: Playlist[]) => this.#playlists.next(playlists));
+      .subscribe((playlists: Playlist[]) => this.#playlists.set(playlists));
   }
 
   // ------ Component Data ------
 
-  protected get playlists(): Observable<Playlist[]> {
+  protected get playlists(): Signal<Playlist[]> {
     return this.#playlists;
   }
 
-  protected get currentPlaylistTitleFilter(): string {
-    return this.catalogueStateService.currentPlaylistTitleFilter ?? "";
+  protected get playlistTitleFilter(): Signal<string | undefined> {
+    return this.catalogueStateService.playlistTitleFilter;
   }
 
   // ------ Hotkey Bindings ------

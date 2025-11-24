@@ -154,6 +154,9 @@ serve: $(APP) kill-serve | $(MADE)	##> start the Angular server
 kill-serve:	##> kill the Angular server process
 	$(call stop_process,$(MADE)/serve.pid)
 
+test:	./node_modules
+	npx ng test --browsers=ChromeHeadless --watch=false
+
 ANGULAR_FILTER := $(XARGS) awk -v RS='\0' '/\.(ts|css|html|json)$$/'
 
 .PHONY: angular rm-angular serve kill-serve

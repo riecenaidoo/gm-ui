@@ -12,12 +12,11 @@
     placeholder="Search within Catalogue"
     (searchedText)="filterPlaylists($event)"
     (searchCleared)="clearFilter()"
-    [value]="currentPlaylistTitleFilter"
+    [value]="playlistTitleFilter() ?? ''"
   />
 </div>
 <section class="page-scrolling">
-  @for (playlist of (playlists | async) ?? []; track playlist.id) {
-    <!--    [(...)?? []](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing)-->
+  @for (playlist of playlists(); track playlist.id) {
     <!--    [track playlist.id](https://angular.dev/api/core/@for#track-and-objects-identity)-->
     <article
       class="tile"
@@ -45,5 +44,6 @@
     #createPlaylistForm
     (ngSubmit)="createPlaylistForm.submit()"
     (createdPlaylist)="createPlaylist($event)"
+    [initialTitle]="defaultPlaylistTitle()"
   ></form>
 </app-dialog>

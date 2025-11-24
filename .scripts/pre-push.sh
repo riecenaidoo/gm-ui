@@ -47,4 +47,18 @@ Stage or stash the changes."
 fi
 printf "${GREEN}%s${NONE}\n" "Passed."
 # =============================================================================
+# Test Check
+# =============================================================================
+printf "[${YELLOW}%s${NONE}]\t\tChecking... " "Test"
+STDOUT=$(make test 2>&1)
+if [ "$?" -ne 0 ]; then
+	printf "${RED}%s${NONE} - %s\n" "Failed!" "There are test failures; the build is unstable. Resolve and restage."
+
+	printf "\n${RED}%s${NONE}\n\n" "$STDOUT"
+
+	printf "Hint:\t${CYAN}%s${NONE}\n" "make test"
+	exit 1
+fi
+printf "${GREEN}%s${NONE}\n" "Passed."
+# =============================================================================
 printf "%s\n" "==============================================================================="
