@@ -29,7 +29,7 @@ export class CatalogueStateService {
   >(undefined);
 
   /**
-   * @returns An `Observable` of the `playlistTitleFilter`.
+   * @returns An {@link Observable} of the `playlistTitleFilter`.
    * @remarks Provided for interop with Rxjs. Prefer the signal accessor in components whenever possible.
    * @see #playlistTitleFilter
    */
@@ -38,19 +38,26 @@ export class CatalogueStateService {
   );
 
   /**
-   * The `Playlist` filter, which is a text fragment (`string`) that a `Playlist#title` must match against.
+   * The {@link Playlist#title} filter, which is a text fragment (`string`) that a {@link Playlist#title} must match against.
    * It is case-insensitive, and optional.
-   * If a filter is defined, it is guaranteed to be non-empty.
+   * If a filter is defined, it is guaranteed to be non-blank.
+   *
+   * @see PlaylistsApiService#findByTitle
    */
   public get playlistTitleFilter(): Signal<string | undefined> {
     return this.#playlistTitleFilter;
   }
 
+  /**
+   * @remarks Will only update if the {@link titleFilter} is distinct.
+   */
   public set playlistTitleFilter(titleFilter: string | undefined) {
-    if (titleFilter) {
+    if (titleFilter != undefined) {
       titleFilter = titleFilter.trim();
       titleFilter = titleFilter.length === 0 ? undefined : titleFilter;
     }
-    this.#playlistTitleFilter.set(titleFilter);
+    if(titleFilter !== this.#playlistTitleFilter()){
+      this.#playlistTitleFilter.set(titleFilter);
+    }
   }
 }

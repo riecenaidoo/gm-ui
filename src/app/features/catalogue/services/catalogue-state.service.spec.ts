@@ -1,5 +1,6 @@
-import { TestBed } from "@angular/core/testing";
-import { CatalogueStateService } from "./catalogue-state.service";
+import {TestBed} from "@angular/core/testing";
+import {CatalogueStateService} from "./catalogue-state.service";
+import {effect, Injector, runInInjectionContext} from '@angular/core';
 
 /**
  * @see CatalogueStateService
@@ -25,7 +26,31 @@ describe("CatalogueStateService", () => {
 
     it("should normalise empty strings to undefined", () => {
       service.playlistTitleFilter = " ";
-      expect(service.playlistTitleFilter()).toBe(undefined);
+      expect(service.playlistTitleFilter()).toBeUndefined();
+    });
+
+    it("should allow clearing the filter", () => {
+      service.playlistTitleFilter = undefined;
+      // noinspection JSObjectNullOrUndefined
+      expect(service.playlistTitleFilter()).toBeUndefined();
+    });
+
+    it("should only signal after a distinct change", () => {
+      expect(service.playlistTitleFilter()).toBeUndefined();
+
+      let numSignals = 0;
+      runInInjectionContext(TestBed.inject(Injector), () => {
+        effect(() => {
+          service.playlistTitleFilter();
+          numSignals++;
+        });
+      })
+
+      service.playlistTitleFilter = "foo";
+      service.playlistTitleFilter = "foo";
+
+      TestBed.tick();
+      expect(numSignals).toBe(1);
     });
   });
 

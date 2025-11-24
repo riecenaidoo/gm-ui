@@ -24,6 +24,10 @@ export class PlaylistsApiService {
     return this.http.get<Playlist>(`${this.playlistsEndpoint}/${id}`);
   }
 
+  /**
+   * @param {string} title a non-blank, case-insensitive text fragment (`string`) that a {@link Playlist#title} must
+   * match against.
+   */
   public findByTitle(title: string): Observable<Playlist[]> {
     if (title.trim().length === 0) {
       throw new Error("Title must be non-blank.");
