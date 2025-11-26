@@ -6,6 +6,11 @@
   --palette-content: #ffffff;
   --palette-text: #333333;
 
+  --z-index-page: 0;
+  --z-index-panel: 5;
+  --z-index-overlay: 10;
+  --z-index-dialog: 15;
+
   /* Default Fonts */
   font-style: normal;
   font-family: Tahoma, sans-serif;
@@ -93,7 +98,7 @@ height. If we do not do this the app itself will scroll because it will be of 10
   top: 50%;
   /* Moves it 50% to the left and 50% up, so that it is now centered at its point */
   transform: translate(-50%, -50%);
-  z-index: 2;
+  z-index: var(--z-index-dialog);
 }
 
 .control-bar {
