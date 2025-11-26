@@ -1,5 +1,5 @@
 # =============================================================================
-# configs:/makefiles/v1.3.1;/angular/v1.1.0
+# configs:/makefiles/v1.3.1;/angular/v1.1.1
 # =============================================================================
 # ANSI Color Escape Codes
 # =============================================================================
@@ -157,7 +157,7 @@ kill-serve:	##> kill the Angular server process
 test:	./node_modules
 	npx ng test --browsers=ChromeHeadless --watch=false
 
-ANGULAR_FILTER := $(XARGS) awk -v RS='\0' '/\.(ts|css|html|json)$$/'
+ANGULAR_FILTER := grep -zE '\.(ts|css|html|json)$$'
 
 .PHONY: angular rm-angular serve kill-serve
 # =============================================================================
