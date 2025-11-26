@@ -1,5 +1,5 @@
 # =============================================================================
-# configs:/makefiles/v1.3.1;/angular/v1.1.1
+# configs:/makefiles/v1.3.2;/angular/v2.0.0
 # =============================================================================
 # ANSI Color Escape Codes
 # =============================================================================
@@ -19,17 +19,17 @@ init: project git	## default (no-arg) target to initialise the Project and local
 # See [7.2.6 Standard Targets for Users > 'all'](https://www.gnu.org/prep/standards/html_node/Standard-Targets.html)
 all: init docker angular	## primary target for creating all Project artifacts
 
-start: docker serve	## start the Project (make stop)
+start: docker	## start the Project (make stop)
 	$(COMPOSE) start
 
-stop: kill-serve	## stop the Project
+stop:	## stop the Project
 	$(COMPOSE) stop
 
 build: angular 	## build the Project
 
-log:	## show logs of the Project
-	tail $(MADE)/serve
-	@printf "$(CYAN)\n%s\n$(NONE)" "(Streaming Mode) tail -f $(MADE)/serve"
+logs:	## show logs of the Project
+	$(COMPOSE) logs nginx
+	@printf "$(CYAN)\n%s\n$(NONE)" "(Streaming Mode) $(COMPOSE) logs nginx -f"
 
 .PHONY: init all start stop build log
 # =============================================================================
@@ -46,29 +46,15 @@ ANGULAR ?= npx ng
 # =============================================================================
 XARGS := xargs -0 --no-run-if-empty
 PLAINTEXT_FILTER := $(XARGS) file --mime-type | awk -F: '/text\// { printf "%s\0", $$1 }'
-
-STOP_PROCESS := ./.scripts/stop-process.sh
-
-##> Given the PID file, stop the process
-define stop_process
-@if [ -f "$(1)" ]; then \
-	xargs --no-run-if-empty --arg-file "$(1)" "$(STOP_PROCESS)"; \
-fi
-endef
 # =============================================================================
 # Project
 # =============================================================================
 MADE := ./.made
 
-project: $(MADE) $(MADE)/stop-script	##> alias for initialising the Project
+project: $(MADE)	##> alias for initialising the Project
 
 $(MADE):
 	mkdir $(MADE)
-
-# See [4.3 Types of Prerequisites](https://www.gnu.org/software/make/manual/html_node/Prerequisite-Types.html) > order-only-prerequisites
-$(MADE)/stop-script: $(STOP_PROCESS) | $(MADE)	##> mark scripts executable
-	chmod +x $(STOP_PROCESS)
-	touch $(MADE)/stop-script
 
 rm-project:	##> remove all Project initialisation artifacts
 	rm -rf $(MADE)
@@ -108,9 +94,33 @@ rm-git:	##> remove all Git artifacts produced by this script
 
 .PHONY: git rm-git
 # =============================================================================
+# Angular
+# =============================================================================
+APP := dist/gm-catalogue-builder/browser/index.html
+SRC_FILES := $(shell find src -type f)
+
+angular: $(APP)	##> alias for creating all Angular artifacts
+
+./node_modules: package.json package-lock.json	##> install, or update Project dependencies
+	$(NPM) install
+
+$(APP): ./node_modules $(SRC_FILES)	## build Angular Artifacts
+	$(ANGULAR) build --configuration=development
+
+rm-angular: stop	##> remove all Angular artifacts produced by this script
+	rm -rf ./node_modules/
+	rm -rf ./dist/
+
+test:	./node_modules
+	npx ng test --browsers=ChromeHeadless --watch=false
+
+ANGULAR_FILTER := grep -zE '\.(ts|css|html|json)$$'
+
+.PHONY: angular rm-angular
+# =============================================================================
 # Docker
 # =============================================================================
-docker:	##> create all Docker artifacts
+docker:	$(APP)	##> create all Docker artifacts
 	$(COMPOSE) create
 
 image: $(MADE)/image-dev	## build the (dev) image
@@ -128,38 +138,6 @@ rm-docker:	##> remove all Docker artifacts produced by this script
 	rm -f $(MADE)/image-dev
 
 .PHONY: docker image latest rm-docker
-# =============================================================================
-# Angular
-# =============================================================================
-APP := dist/gm-catalogue-builder/browser/index.html
-SRC_FILES := $(shell find src -type f)
-
-angular: $(APP)	##> alias for creating all Angular artifacts
-
-./node_modules: package.json package-lock.json	##> install, or update Project dependencies
-	$(NPM) install
-
-$(APP): ./node_modules $(SRC_FILES)	## build Angular Artifacts
-	$(ANGULAR) build --configuration=development
-
-rm-angular: kill-serve	##> remove all Angular artifacts produced by this script
-	rm -rf ./node_modules/
-	rm -rf ./dist/
-	rm -f $(MADE)/serve
-	rm -f $(MADE)/serve.pid
-
-serve: $(APP) kill-serve | $(MADE)	##> start the Angular server
-	$(ANGULAR) serve --no-watch --no-live-reload --host 0.0.0.0 > $(MADE)/serve 2>&1 & echo $$! > $(MADE)/serve.pid
-
-kill-serve:	##> kill the Angular server process
-	$(call stop_process,$(MADE)/serve.pid)
-
-test:	./node_modules
-	npx ng test --browsers=ChromeHeadless --watch=false
-
-ANGULAR_FILTER := grep -zE '\.(ts|css|html|json)$$'
-
-.PHONY: angular rm-angular serve kill-serve
 # =============================================================================
 # Linting
 # =============================================================================
