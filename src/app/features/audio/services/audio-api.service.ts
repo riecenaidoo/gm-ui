@@ -12,23 +12,23 @@ import { environment } from "../../../../environments/environment";
   providedIn: "root",
 })
 export class AudioApiService {
-  readonly audioEndpoint = `${environment.audioApiBaseUrl}`;
+  readonly #audioEndpoint = `${environment.audioApiBaseUrl}`;
 
   private http: HttpClient = inject(HttpClient);
 
   // ------ API ------
 
   public getAudioService(): Observable<AudioService> {
-    return this.http.get<AudioService>(`${this.audioEndpoint}/`);
+    return this.http.get<AudioService>(`${this.#audioEndpoint}/`);
   }
 
   public findServers(): Observable<Server[]> {
-    return this.http.get<Server[]>(`${this.audioEndpoint}/servers`);
+    return this.http.get<Server[]>(`${this.#audioEndpoint}/servers`);
   }
 
   public getChannels(server: Server): Observable<Channel[]> {
     return this.http.get<Channel[]>(
-      `${this.audioEndpoint}/servers/${server.id}/channels`,
+      `${this.#audioEndpoint}/servers/${server.id}/channels`,
     );
   }
 
@@ -37,7 +37,7 @@ export class AudioApiService {
    */
   public getServerAudio(server: Server): Observable<ServerAudio | undefined> {
     return this.http
-      .get<ServerAudio>(`${this.audioEndpoint}/servers/${server.id}/audio`)
+      .get<ServerAudio>(`${this.#audioEndpoint}/servers/${server.id}/audio`)
       .pipe(
         catchError((err: HttpErrorResponse) => {
           if (err.status === 404) {
@@ -54,14 +54,14 @@ export class AudioApiService {
       channel_id: channel.id,
     };
     return this.http.post<void>(
-      `${this.audioEndpoint}/servers/${server.id}/audio`,
+      `${this.#audioEndpoint}/servers/${server.id}/audio`,
       request,
     );
   }
 
   public deleteServerAudio(server: Server): Observable<void> {
     return this.http.delete<void>(
-      `${this.audioEndpoint}/servers/${server.id}/audio`,
+      `${this.#audioEndpoint}/servers/${server.id}/audio`,
     );
   }
 }
