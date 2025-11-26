@@ -1,19 +1,15 @@
 @if (service | async; as service) {
-  <app-audio-service-overlay [service]="service">
-    <ng-container *ngTemplateOutlet="layout"></ng-container>
-  </app-audio-service-overlay>
-} @else {
-  <ng-container *ngTemplateOutlet="layout"></ng-container>
+  <app-drawer position="left">
+    <app-audio-service-overlay [service]="service" />
+  </app-drawer>
 }
 
-<ng-template #layout>
-  <div class="app-layout">
-    <header class="header-bar" app-header [pageTitle]="pageTitle">
-      <app-audio-overlay-toggle
-        (toggled)="toggleAudioService()"
-        [initialToggle]="!!(service | async)"
-      />
-    </header>
-    <router-outlet />
-  </div>
-</ng-template>
+<div class="app-layout">
+  <header class="header-bar" app-header [pageTitle]="pageTitle">
+    <app-audio-overlay-toggle
+      (toggled)="toggleAudioService()"
+      [initialToggle]="!!(service | async)"
+    />
+  </header>
+  <router-outlet />
+</div>

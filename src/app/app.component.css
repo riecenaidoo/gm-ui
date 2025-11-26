@@ -1,0 +1,6 @@
+.app-layout {
+  /* Allow the header, and any navigation to stack on top of the main content of the page */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}

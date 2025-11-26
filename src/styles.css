@@ -24,19 +24,11 @@ body {
 }
 
 /* Layout Classes */
-
-.app-layout {
-  /* Allow the header, and any navigation to stack on top of the main content of the page */
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-
-  main {
-    /* The main content should consume the remaining space, and if it is not enough it should scroll so that the
-     remainder of the layout stays in view. */
-    flex-grow: 1;
-    overflow-y: auto;
-  }
+main {
+  /* The main content should consume the remaining space, and if it is not enough it should scroll so that the
+ remainder of the layout stays in view. */
+  flex-grow: 1;
+  overflow-y: auto;
 }
 
 .header-bar {

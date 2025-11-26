@@ -1,14 +1,15 @@
-import { Component, inject, DestroyRef } from "@angular/core";
+import { Component, DestroyRef, inject } from "@angular/core";
 import { BehaviorSubject, filter, Observable } from "rxjs";
 import { AudioService } from "./features/audio/models/audio-service";
 import { AudioApiService } from "./features/audio/services/audio-api.service";
-import { AsyncPipe, NgTemplateOutlet } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import { AudioServiceOverlay } from "./features/audio/overlays/audio-service-overlay/audio-service-overlay.component";
 import { RouterOutlet } from "@angular/router";
 import { HeaderComponent } from "./shared/components/header/header.component";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { AudioOverlayToggleComponent } from "./features/audio/components/audio-overlay-toggle/audio-overlay-toggle.component";
 import { PageService } from "./features/catalogue/services/page.service";
+import { DrawerComponent } from "./shared/components/drawer/drawer.component";
 
 @Component({
   selector: "app-root",
@@ -19,8 +20,8 @@ import { PageService } from "./features/catalogue/services/page.service";
     RouterOutlet,
     HeaderComponent,
     AsyncPipe,
-    NgTemplateOutlet,
     AudioOverlayToggleComponent,
+    DrawerComponent,
   ],
 })
 export class AppComponent {

@@ -1,24 +1,17 @@
 :host {
-  display: grid;
-  grid-template-columns: 1fr 5fr;
-  grid-template-rows: minmax(0, 100vh);
-  height: 100%;
-}
-
-aside {
   background: var(--palette-bg-darker);
   display: flex;
   flex-direction: column;
   height: 100%;
+}
 
-  app-server-selector {
-    margin-bottom: auto; /*<1>*/
-  }
+app-server-selector {
+  margin-bottom: auto; /*<1>*/
+}
 
-  app-server-channel-selector {
-    flex-grow: 1; /*<2>*/
-    overflow-y: auto;
-  }
+app-server-channel-selector {
+  flex-grow: 1; /*<2>*/
+  overflow-y: auto;
 }
 
 /*  <1>
