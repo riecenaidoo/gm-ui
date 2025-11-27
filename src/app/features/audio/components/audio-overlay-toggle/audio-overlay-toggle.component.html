@@ -1,17 +1,6 @@
-<button
-  title="Toggle Audio Overlay"
-  aria-label="Toggle Audio Overlay"
-  (click)="toggle()"
->
-  @if (toggledOn()) {
-    <i class="fa fa-toggle-on" aria-hidden="true"></i>
-  } @else {
-    <i class="fa fa-toggle-off" aria-hidden="true"></i>
-  }
-</button>
 <!--The image is adjacent to the button, not within it. This makes the most sense,
 but does cause a little repetition in the control blocks.-->
-@if (toggledOn()) {
+@if (connected()) {
   <img
     class="darken-bright-accent"
     ngSrc="assets/gm-logo-blue.svg"
@@ -21,6 +10,17 @@ but does cause a little repetition in the control blocks.-->
     priority
   />
 } @else {
+  <button
+    title="Connect to Discord"
+    aria-label="Connect to Discord"
+    (click)="reconnect()"
+  >
+    @if (reconnecting()) {
+      <i class="fa fa-toggle-on" aria-hidden="true"></i>
+    } @else {
+      <i class="fa fa-toggle-off" aria-hidden="true"></i>
+    }
+  </button>
   <img
     class="adaptive-filter"
     ngSrc="assets/gm-logo-dark.svg"

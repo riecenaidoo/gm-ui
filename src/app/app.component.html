@@ -1,15 +1,12 @@
-@if (service | async; as service) {
+@if (service() !== undefined) {
   <app-drawer position="left">
     <app-audio-service-overlay />
   </app-drawer>
 }
 
 <div class="app-layout">
-  <header class="header-bar" app-header [pageTitle]="pageTitle">
-    <app-audio-overlay-toggle
-      (toggled)="toggleAudioService()"
-      [initialToggle]="!!(service | async)"
-    />
+  <header class="header-bar" app-header [pageTitle]="pageTitle()">
+    <app-audio-overlay-toggle />
   </header>
   <router-outlet />
 </div>
