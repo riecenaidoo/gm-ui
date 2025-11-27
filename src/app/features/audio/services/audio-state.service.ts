@@ -13,7 +13,6 @@ import {
   startWith,
   Subject,
   switchMap,
-  throwError,
 } from "rxjs";
 import { HttpErrorResponse } from "@angular/common/http";
 import { toSignal } from "@angular/core/rxjs-interop";
@@ -125,13 +124,11 @@ export class AudioStateService implements AudioBot {
   readonly #audioBot: Observable<AudioService | undefined> =
     this.#reconnect.pipe(
       startWith(undefined),
-      switchMap(() => this.#api.getAudioService()),
-      catchError((error: HttpErrorResponse) => {
-        if (error.status === 404) {
-          return of(undefined);
-        }
-        return throwError(() => error);
-      }),
+      switchMap(() =>
+        this.#api
+          .getAudioService()
+          .pipe(catchError((_: HttpErrorResponse) => of(undefined))),
+      ),
       share(),
     );
 
@@ -184,14 +181,17 @@ export class AudioStateService implements AudioBot {
         server,
     ),
     switchMap((server: Server | undefined) =>
-      server == undefined ? of(undefined) : this.#api.getServerAudio(server),
+      server == undefined
+        ? of(undefined)
+        : this.#api.getServerAudio(server).pipe(
+            catchError((error: HttpErrorResponse) => {
+              if (error.status === 404) {
+                return of(undefined);
+              }
+              throw error;
+            }),
+          ),
     ),
-    catchError((error: HttpErrorResponse) => {
-      if (error.status === 404) {
-        return of(undefined);
-      }
-      return throwError(() => error);
-    }),
     share(),
   );
 
@@ -199,8 +199,14 @@ export class AudioStateService implements AudioBot {
   // Derived State
   // ==========================================================================
 
+  // noinspection JSUnusedGlobalSymbols // false positive on equal key
+  /**
+   * @remarks Consecutive `undefined` values are expected for this, as it is the reconnection mechanism so we override
+   * the equality mechanism.
+   */
   public readonly audioBot: Signal<AudioService | undefined> = toSignal(
     this.#audioBot,
+    { equal: () => false },
   );
 
   public readonly online: Signal<boolean> = computed(
@@ -232,7 +238,7 @@ export class AudioStateService implements AudioBot {
   // ==========================================================================
 
   public reconnect(): void {
-    this.#reconnect.next();
+    this.#reconnect.next(undefined);
   }
 
   /**
@@ -284,8 +290,4 @@ export class AudioStateService implements AudioBot {
 
     this.#connect.next(channel);
   }
-
-  // ==========================================================================
-  // Implementation Details
-  // ==========================================================================
 }
