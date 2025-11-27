@@ -1,5 +1,9 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, inject, Signal } from "@angular/core";
 import { ServerAudio } from "../../models/server-audio";
+import {
+  AudioBot,
+  AudioStateService,
+} from "../../services/audio-state.service";
 
 @Component({
   selector: "app-server-audio-status",
@@ -7,15 +11,24 @@ import { ServerAudio } from "../../models/server-audio";
   styleUrl: "./server-audio-status.component.css",
 })
 export class ServerAudioStatusComponent {
-  @Input({ required: true })
-  public serverAudio!: ServerAudio;
+  // ==========================================================================
+  // Dependencies
+  // ==========================================================================
 
-  @Output()
-  private audioDisconnected: EventEmitter<void> = new EventEmitter<void>();
+  readonly #bot: AudioBot = inject(AudioStateService);
 
-  // ------ Event Handling ------
+  // ==========================================================================
+  // External State
+  // ==========================================================================
 
-  protected disconnectAudio() {
-    this.audioDisconnected.emit();
+  protected readonly serverAudio: Signal<ServerAudio | undefined> =
+    this.#bot.serverAudio;
+
+  // ==========================================================================
+  // Event Handling
+  // ==========================================================================
+
+  protected disconnect(): void {
+    this.#bot.connect(undefined);
   }
 }

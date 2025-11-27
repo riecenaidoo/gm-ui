@@ -2,15 +2,7 @@
 @if (servicez) {
   <app-server-selector />
   <app-server-channel-selector />
-
-  @let serverAudioz = serverAudio();
-  @if (serverAudioz) {
-    <app-server-audio-status
-      [serverAudio]="serverAudioz"
-      (audioDisconnected)="disconnectAudio()"
-    >
-    </app-server-audio-status>
-  }
+  <app-server-audio-status />
 
   <app-audio-service-status [audioService]="servicez">
   </app-audio-service-status>

@@ -7,7 +7,6 @@ import {
   AudioBot,
   AudioStateService,
 } from "../../services/audio-state.service";
-import { ServerAudio } from "../../models/server-audio";
 import { AudioService } from "../../models/audio-service";
 
 @Component({
@@ -35,15 +34,4 @@ export class AudioServiceOverlay {
 
   protected readonly service: Signal<AudioService | undefined> =
     this.#bot.audioBot;
-
-  protected readonly serverAudio: Signal<ServerAudio | undefined> =
-    this.#bot.serverAudio;
-
-  // ==========================================================================
-  // Event Handling
-  // ==========================================================================
-
-  protected disconnectAudio(): void {
-    this.#bot.connect(undefined);
-  }
 }
