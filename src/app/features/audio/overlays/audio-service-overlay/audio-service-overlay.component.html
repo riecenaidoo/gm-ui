@@ -1,9 +1,6 @@
-@let servicez = service();
-@if (servicez) {
+@if (service() !== undefined) {
   <app-server-selector />
   <app-server-channel-selector />
   <app-server-audio-status />
-
-  <app-audio-service-status [audioService]="servicez">
-  </app-audio-service-status>
+  <app-audio-service-status />
 }
