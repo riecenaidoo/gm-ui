@@ -1,5 +1,4 @@
 import { Component, inject, Signal } from "@angular/core";
-import { Channel } from "../../models/channel";
 import { ServerSelectorComponent } from "../../components/server-selector/server-selector.component";
 import { ServerChannelSelectorComponent } from "../../components/server-channel-selector/server-channel-selector.component";
 import { ServerAudioStatusComponent } from "../../components/server-audio-status/server-audio-status.component";
@@ -37,19 +36,12 @@ export class AudioServiceOverlay {
   protected readonly service: Signal<AudioService | undefined> =
     this.#bot.audioBot;
 
-  protected readonly channels: Signal<Channel[] | undefined> =
-    this.#bot.channels;
-
   protected readonly serverAudio: Signal<ServerAudio | undefined> =
     this.#bot.serverAudio;
 
   // ==========================================================================
   // Event Handling
   // ==========================================================================
-
-  protected joinChannel(channel: Channel) {
-    this.#bot.connect(channel);
-  }
 
   protected disconnectAudio(): void {
     this.#bot.connect(undefined);

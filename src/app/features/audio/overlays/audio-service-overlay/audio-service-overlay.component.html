@@ -1,17 +1,7 @@
 @let servicez = service();
 @if (servicez) {
   <app-server-selector />
-
-  @let channelz = channels();
-  @if (channelz) {
-    <app-server-channel-selector
-      [channels]="channelz"
-      [serverAudio]="serverAudio()"
-      [audioService]="servicez"
-      (selected)="joinChannel($event)"
-    >
-    </app-server-channel-selector>
-  }
+  <app-server-channel-selector />
 
   @let serverAudioz = serverAudio();
   @if (serverAudioz) {
