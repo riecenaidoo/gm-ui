@@ -1,28 +1,31 @@
-@if (servers | async; as servers) {
-  <app-server-selector
-    #serverSelector
-    [servers]="servers"
-    (selected)="selectServer($event)"
-  >
-  </app-server-selector>
-}
+@let servicez = service();
+@if (servicez) {
+  @let serverz = servers();
+  @if (serverz) {
+    <app-server-selector [servers]="serverz" (selected)="selectServer($event)">
+    </app-server-selector>
+  }
 
-@if (channels | async; as channels) {
-  <app-server-channel-selector
-    [channels]="channels"
-    [serverAudio]="serverAudio | async"
-    [audioService]="service"
-    (selected)="joinChannel($event)"
-  >
-  </app-server-channel-selector>
-}
+  @let channelz = channels();
+  @if (channelz) {
+    <app-server-channel-selector
+      [channels]="channelz"
+      [serverAudio]="serverAudio()"
+      [audioService]="servicez"
+      (selected)="joinChannel($event)"
+    >
+    </app-server-channel-selector>
+  }
 
-@if (serverAudio | async; as serverAudio) {
-  <app-server-audio-status
-    [serverAudio]="serverAudio"
-    (audioDisconnected)="disconnectAudio()"
-  >
-  </app-server-audio-status>
-}
+  @let serverAudioz = serverAudio();
+  @if (serverAudioz) {
+    <app-server-audio-status
+      [serverAudio]="serverAudioz"
+      (audioDisconnected)="disconnectAudio()"
+    >
+    </app-server-audio-status>
+  }
 
-<app-audio-service-status [audioService]="service"> </app-audio-service-status>
+  <app-audio-service-status [audioService]="servicez">
+  </app-audio-service-status>
+}
