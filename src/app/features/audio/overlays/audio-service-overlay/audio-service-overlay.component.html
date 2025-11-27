@@ -1,10 +1,6 @@
 @let servicez = service();
 @if (servicez) {
-  @let serverz = servers();
-  @if (serverz) {
-    <app-server-selector [servers]="serverz" (selected)="selectServer($event)">
-    </app-server-selector>
-  }
+  <app-server-selector />
 
   @let channelz = channels();
   @if (channelz) {
