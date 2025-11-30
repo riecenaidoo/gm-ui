@@ -1,5 +1,5 @@
 # =============================================================================
-# configs:/makefiles/v1.3.2;/angular/v2.0.0
+# configs:/makefiles/v1.3.2;/angular/v2.0.1
 # =============================================================================
 # ANSI Color Escape Codes
 # =============================================================================
@@ -103,6 +103,7 @@ angular: $(APP)	##> alias for creating all Angular artifacts
 
 ./node_modules: package.json package-lock.json	##> install, or update Project dependencies
 	$(NPM) install
+	touch ./node_modules
 
 $(APP): ./node_modules $(SRC_FILES)	## build Angular Artifacts
 	$(ANGULAR) build --configuration=development
