@@ -15,12 +15,12 @@ import { NgOptimizedImage } from "@angular/common";
  *    and audio service?
  */
 @Component({
-  selector: "app-server-channel-selector",
-  templateUrl: "./server-channel-selector.component.html",
-  styleUrl: "./server-channel-selector.component.css",
+  selector: "app-channel-selector",
+  templateUrl: "./channel-selector.component.html",
+  styleUrl: "./channel-selector.component.css",
   imports: [NgOptimizedImage],
 })
-export class ServerChannelSelectorComponent {
+export class ChannelSelectorComponent {
   // ==========================================================================
   // Dependencies
   // ==========================================================================

@@ -1,12 +1,12 @@
 @if (service() !== undefined) {
   <app-drawer position="left">
-    <app-audio-service-overlay />
+    <app-discord-control-panel />
   </app-drawer>
 }
 
 <div class="app-layout">
   <header class="header-bar" app-header [pageTitle]="pageTitle()">
-    <app-audio-overlay-toggle />
+    <app-discord-status />
   </header>
   <router-outlet />
 </div>

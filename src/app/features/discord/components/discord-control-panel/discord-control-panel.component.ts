@@ -1,8 +1,8 @@
 import { Component, inject, Signal } from "@angular/core";
-import { ServerSelectorComponent } from "../../components/server-selector/server-selector.component";
-import { ServerChannelSelectorComponent } from "../../components/server-channel-selector/server-channel-selector.component";
-import { ServerAudioStatusComponent } from "../../components/server-audio-status/server-audio-status.component";
-import { AudioServiceStatusComponent } from "../../components/audio-service-status/audio-service-status.component";
+import { ServerSelectorComponent } from "../server-selector/server-selector.component";
+import { ChannelSelectorComponent } from "../channel-selector/channel-selector.component";
+import { AudioStatusComponent } from "../audio-status/audio-status.component";
+import { BotStatusComponent } from "../bot-status/bot-status.component";
 import {
   AudioBot,
   AudioStateService,
@@ -10,18 +10,18 @@ import {
 import { AudioService } from "../../models/audio-service";
 
 @Component({
-  selector: "app-audio-service-overlay",
-  templateUrl: "./audio-service-overlay.component.html",
-  styleUrl: "./audio-service-overlay.component.css",
+  selector: "app-discord-control-panel",
+  templateUrl: "./discord-control-panel.component.html",
+  styleUrl: "./discord-control-panel.component.css",
   imports: [
     ServerSelectorComponent,
-    ServerChannelSelectorComponent,
-    ServerAudioStatusComponent,
-    ServerAudioStatusComponent,
-    AudioServiceStatusComponent,
+    ChannelSelectorComponent,
+    AudioStatusComponent,
+    AudioStatusComponent,
+    BotStatusComponent,
   ],
 })
-export class AudioServiceOverlay {
+export class DiscordControlPanelComponent {
   // ==========================================================================
   // Dependencies
   // ==========================================================================

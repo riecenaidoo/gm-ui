@@ -14,12 +14,12 @@ import {
 } from "../../services/audio-state.service";
 
 @Component({
-  selector: "app-audio-overlay-toggle",
+  selector: "app-discord-status",
   imports: [NgOptimizedImage],
-  templateUrl: "./audio-overlay-toggle.component.html",
-  styleUrl: "./audio-overlay-toggle.component.css",
+  templateUrl: "./discord-status.component.html",
+  styleUrl: "./discord-status.component.css",
 })
-export class AudioOverlayToggleComponent {
+export class DiscordStatusComponent {
   // ==========================================================================
   // Dependencies
   // ==========================================================================
