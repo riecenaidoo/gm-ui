@@ -1,6 +1,6 @@
 import { Component, computed, inject, Signal } from "@angular/core";
 import { AudioService } from "./features/discord/models/audio-service";
-import { AudioServiceOverlay } from "./features/discord/components/audio-service-overlay/audio-service-overlay.component";
+import { DiscordControlPanelComponent } from "./features/discord/components/discord-control-panel/discord-control-panel.component";
 import { RouterOutlet } from "@angular/router";
 import { HeaderComponent } from "./shared/components/header/header.component";
 import { DiscordStatusComponent } from "./features/discord/components/discord-status/discord-status.component";
@@ -16,7 +16,7 @@ import {
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.css",
   imports: [
-    AudioServiceOverlay,
+    DiscordControlPanelComponent,
     RouterOutlet,
     HeaderComponent,
     DiscordStatusComponent,

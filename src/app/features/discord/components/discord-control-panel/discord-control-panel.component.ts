@@ -10,9 +10,9 @@ import {
 import { AudioService } from "../../models/audio-service";
 
 @Component({
-  selector: "app-audio-service-overlay",
-  templateUrl: "./audio-service-overlay.component.html",
-  styleUrl: "./audio-service-overlay.component.css",
+  selector: "app-discord-control-panel",
+  templateUrl: "./discord-control-panel.component.html",
+  styleUrl: "./discord-control-panel.component.css",
   imports: [
     ServerSelectorComponent,
     ChannelSelectorComponent,
@@ -21,7 +21,7 @@ import { AudioService } from "../../models/audio-service";
     BotStatusComponent,
   ],
 })
-export class AudioServiceOverlay {
+export class DiscordControlPanelComponent {
   // ==========================================================================
   // Dependencies
   // ==========================================================================
