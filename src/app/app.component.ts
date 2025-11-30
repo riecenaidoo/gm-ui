@@ -1,15 +1,15 @@
 import { Component, computed, inject, Signal } from "@angular/core";
-import { AudioService } from "./features/audio/models/audio-service";
-import { AudioServiceOverlay } from "./features/audio/overlays/audio-service-overlay/audio-service-overlay.component";
+import { AudioService } from "./features/discord/models/audio-service";
+import { AudioServiceOverlay } from "./features/discord/overlays/audio-service-overlay/audio-service-overlay.component";
 import { RouterOutlet } from "@angular/router";
 import { HeaderComponent } from "./shared/components/header/header.component";
-import { AudioOverlayToggleComponent } from "./features/audio/components/audio-overlay-toggle/audio-overlay-toggle.component";
+import { AudioOverlayToggleComponent } from "./features/discord/components/audio-overlay-toggle/audio-overlay-toggle.component";
 import { PageService } from "./features/catalogue/services/page.service";
 import { DrawerComponent } from "./shared/components/drawer/drawer.component";
 import {
   AudioBot,
   AudioStateService,
-} from "./features/audio/services/audio-state.service";
+} from "./features/discord/services/audio-state.service";
 
 @Component({
   selector: "app-root",
