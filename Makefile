@@ -50,11 +50,16 @@ PLAINTEXT_FILTER := $(XARGS) file --mime-type | awk -F: '/text\// { printf "%s\0
 # Project
 # =============================================================================
 MADE := ./.made
+ENV := ./.env
 
-project: $(MADE)	##> alias for initialising the Project
+project: $(MADE) $(ENV)	##> alias for initialising the Project
 
 $(MADE):
 	mkdir $(MADE)
+
+$(ENV):
+	cp $(ENV).sample $(ENV)
+	@printf "$(CYAN)\n%s\n$(NONE)" "A template $(ENV) file was added from the sample (.env.sample)."
 
 rm-project:	##> remove all Project initialisation artifacts
 	rm -rf $(MADE)
@@ -106,7 +111,7 @@ angular: $(APP)	##> alias for creating all Angular artifacts
 	touch ./node_modules
 
 $(APP): ./node_modules $(SRC_FILES)	## build Angular Artifacts
-	$(ANGULAR) build --configuration=development
+	$(ANGULAR) build
 
 rm-angular: stop	##> remove all Angular artifacts produced by this script
 	rm -rf ./node_modules/

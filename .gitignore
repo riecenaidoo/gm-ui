@@ -1,5 +1,13 @@
+# Environments
+.env
+
+# Configs
 .idea/
+
+# Caches
 .angular/
+
+# Artifacts
 node_modules/
 dist/
 

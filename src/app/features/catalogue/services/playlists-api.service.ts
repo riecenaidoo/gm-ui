@@ -10,7 +10,7 @@ import { environment } from "../../../../environments/environment";
   providedIn: "root",
 })
 export class PlaylistsApiService {
-  readonly playlistsEndpoint = `${environment.catalogueApiBaseUrl}/playlists`;
+  readonly playlistsEndpoint = `${environment.apiStorage}/playlists`;
 
   private http: HttpClient = inject(HttpClient);
 

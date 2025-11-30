@@ -43,17 +43,6 @@
                 }
               ],
               "outputHashing": "all"
-            },
-            "development": {
-              "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.development.ts"
-                }
-              ]
             }
           },
           "defaultConfiguration": "production"
@@ -63,12 +52,9 @@
           "configurations": {
             "production": {
               "buildTarget": "gm-ui:build:production"
-            },
-            "development": {
-              "buildTarget": "gm-ui:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "production"
         },
         "extract-i18n": {
           "builder": "@angular/build:extract-i18n"

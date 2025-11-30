@@ -78,5 +78,5 @@ export class AudioApiService {
   // Implementation Details
   // ==========================================================================
 
-  readonly #audioEndpoint = `${environment.audioApiBaseUrl}`;
+  readonly #audioEndpoint = `${environment.apiDiscord}`;
 }
