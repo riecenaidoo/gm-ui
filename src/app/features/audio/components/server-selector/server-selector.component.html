@@ -1,12 +1,12 @@
 <select
-  class="header-bar"
   (ngModelChange)="select($event)"
-  [(ngModel)]="selectedServer"
+  [ngModel]="selectedServer()"
   id="selectServer"
   name="selectedServer"
   title="Server Selector"
+  class="header-bar"
 >
-  @for (server of servers; track server.id) {
+  @for (server of servers(); track server.id) {
     <option [ngValue]="server">
       {{ server.name }}
     </option>

@@ -1,15 +1,15 @@
-import { Component, DestroyRef, inject } from "@angular/core";
-import { BehaviorSubject, filter, Observable } from "rxjs";
+import { Component, computed, inject, Signal } from "@angular/core";
 import { AudioService } from "./features/audio/models/audio-service";
-import { AudioApiService } from "./features/audio/services/audio-api.service";
-import { AsyncPipe } from "@angular/common";
 import { AudioServiceOverlay } from "./features/audio/overlays/audio-service-overlay/audio-service-overlay.component";
 import { RouterOutlet } from "@angular/router";
 import { HeaderComponent } from "./shared/components/header/header.component";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { AudioOverlayToggleComponent } from "./features/audio/components/audio-overlay-toggle/audio-overlay-toggle.component";
 import { PageService } from "./features/catalogue/services/page.service";
 import { DrawerComponent } from "./shared/components/drawer/drawer.component";
+import {
+  AudioBot,
+  AudioStateService,
+} from "./features/audio/services/audio-state.service";
 
 @Component({
   selector: "app-root",
@@ -19,47 +19,27 @@ import { DrawerComponent } from "./shared/components/drawer/drawer.component";
     AudioServiceOverlay,
     RouterOutlet,
     HeaderComponent,
-    AsyncPipe,
     AudioOverlayToggleComponent,
     DrawerComponent,
   ],
 })
 export class AppComponent {
-  readonly #service: BehaviorSubject<AudioService | null> =
-    new BehaviorSubject<AudioService | null>(null);
+  // ==========================================================================
+  // Dependencies
+  // ==========================================================================
 
-  private audioRepositoryService: AudioApiService = inject(AudioApiService);
+  readonly #bot: AudioBot = inject(AudioStateService);
 
-  private pageService: PageService = inject(PageService);
+  readonly #pageService: PageService = inject(PageService);
 
-  private destroyed: DestroyRef = inject(DestroyRef);
+  // ==========================================================================
+  // State
+  // ==========================================================================
 
-  // ------ Component ------
+  protected readonly service: Signal<AudioService | undefined> =
+    this.#bot.audioBot;
 
-  protected get service(): Observable<AudioService> {
-    return this.#service.pipe(filter((service) => !!service));
-  }
-
-  protected get pageTitle(): string {
-    return this.pageService.currentPage()?.title ?? "Gamemaster Dashboard";
-  }
-
-  // ------ Event Handling ------
-
-  protected toggleAudioService(): void {
-    if (this.#service.value == null) {
-      this.fetchService();
-    } else {
-      this.#service.next(null);
-    }
-  }
-
-  // ------ Internal ------
-
-  private fetchService(): void {
-    this.audioRepositoryService
-      .getAudioService()
-      .pipe(takeUntilDestroyed(this.destroyed))
-      .subscribe((service: AudioService) => this.#service.next(service));
-  }
+  protected readonly pageTitle: Signal<string> = computed(() => {
+    return this.#pageService.currentPage()?.title ?? "Gamemaster Dashboard";
+  });
 }

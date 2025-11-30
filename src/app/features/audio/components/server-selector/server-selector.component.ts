@@ -1,7 +1,10 @@
-import { Component, Input } from "@angular/core";
+import { Component, inject, Signal } from "@angular/core";
 import { Server } from "../../models/server";
-import { SelectorComponent } from "../../../../shared/components/selector-component";
 import { FormsModule } from "@angular/forms";
+import {
+  AudioBot,
+  AudioStateService,
+} from "../../services/audio-state.service";
 
 @Component({
   selector: "app-server-selector",
@@ -9,9 +12,27 @@ import { FormsModule } from "@angular/forms";
   styleUrl: "./server-selector.component.css",
   imports: [FormsModule],
 })
-export class ServerSelectorComponent extends SelectorComponent<Server> {
-  @Input({ required: true })
-  public servers!: Server[];
+export class ServerSelectorComponent {
+  // ==========================================================================
+  // Dependencies
+  // ==========================================================================
 
-  public selectedServer?: Server;
+  readonly #bot: AudioBot = inject(AudioStateService);
+
+  // ==========================================================================
+  // State
+  // ==========================================================================
+
+  protected readonly servers: Signal<Server[] | undefined> = this.#bot.servers;
+
+  protected readonly selectedServer: Signal<Server | undefined> =
+    this.#bot.selectedServer;
+
+  // ==========================================================================
+  // Event Handling
+  // ==========================================================================
+
+  protected select(server: Server | undefined) {
+    this.#bot.selectServer(server);
+  }
 }

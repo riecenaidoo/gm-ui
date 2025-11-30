@@ -1,3 +1,6 @@
-<span><strong>Audio Connected</strong></span>
-<span>{{ serverAudio.channel.name }}</span>
-<button (click)="disconnectAudio()">Disconnect</button>
+@let audio = serverAudio();
+@if (audio) {
+  <span><strong>Audio Connected</strong></span>
+  <span>{{ audio.channel.name }}</span>
+  <button (click)="disconnect()">Disconnect</button>
+}

@@ -12,23 +12,42 @@ import { environment } from "../../../../environments/environment";
   providedIn: "root",
 })
 export class AudioApiService {
-  readonly audioEndpoint = `${environment.audioApiBaseUrl}`;
+  // ==========================================================================
+  // Dependencies
+  // ==========================================================================
 
-  private http: HttpClient = inject(HttpClient);
+  readonly #http: HttpClient = inject(HttpClient);
 
-  // ------ API ------
+  // ==========================================================================
+  // API
+  // ==========================================================================
 
-  public getAudioService(): Observable<AudioService> {
-    return this.http.get<AudioService>(`${this.audioEndpoint}/`);
+  /**
+   * @return {@link AudioService} if it is available, or `undefined` if there was a failure to connect.
+   */
+  public getAudioService(): Observable<AudioService | undefined> {
+    return this.#http
+      .get<AudioService | undefined>(`${this.#audioEndpoint}/`)
+      .pipe(catchError((_: HttpErrorResponse) => of(undefined)));
   }
 
-  public findServers(): Observable<Server[]> {
-    return this.http.get<Server[]>(`${this.audioEndpoint}/servers`);
+  public getServers(): Observable<Server[]> {
+    return this.#http.get<Server[]>(`${this.#audioEndpoint}/servers`);
   }
 
   public getChannels(server: Server): Observable<Channel[]> {
-    return this.http.get<Channel[]>(
-      `${this.audioEndpoint}/servers/${server.id}/channels`,
+    return this.#http.get<Channel[]>(
+      `${this.#audioEndpoint}/servers/${server.id}/channels`,
+    );
+  }
+
+  public createServerAudio(server: Server, channel: Channel): Observable<void> {
+    const request: ServerAudioCreateRequest = {
+      channel_id: channel.id,
+    };
+    return this.#http.post<void>(
+      `${this.#audioEndpoint}/servers/${server.id}/audio`,
+      request,
     );
   }
 
@@ -36,8 +55,8 @@ export class AudioApiService {
    * @returns {Observable<ServerAudio | undefined>} ServerAudio if present, undefined if it has not been connected as yet.
    */
   public getServerAudio(server: Server): Observable<ServerAudio | undefined> {
-    return this.http
-      .get<ServerAudio>(`${this.audioEndpoint}/servers/${server.id}/audio`)
+    return this.#http
+      .get<ServerAudio>(`${this.#audioEndpoint}/servers/${server.id}/audio`)
       .pipe(
         catchError((err: HttpErrorResponse) => {
           if (err.status === 404) {
@@ -49,19 +68,15 @@ export class AudioApiService {
       );
   }
 
-  public createServerAudio(server: Server, channel: Channel): Observable<void> {
-    const request: ServerAudioCreateRequest = {
-      channel_id: channel.id,
-    };
-    return this.http.post<void>(
-      `${this.audioEndpoint}/servers/${server.id}/audio`,
-      request,
+  public deleteServerAudio(server: Server): Observable<void> {
+    return this.#http.delete<void>(
+      `${this.#audioEndpoint}/servers/${server.id}/audio`,
     );
   }
 
-  public deleteServerAudio(server: Server): Observable<void> {
-    return this.http.delete<void>(
-      `${this.audioEndpoint}/servers/${server.id}/audio`,
-    );
-  }
+  // ==========================================================================
+  // Implementation Details
+  // ==========================================================================
+
+  readonly #audioEndpoint = `${environment.audioApiBaseUrl}`;
 }
