@@ -3,7 +3,7 @@ import { AudioService } from "./features/discord/models/audio-service";
 import { AudioServiceOverlay } from "./features/discord/components/audio-service-overlay/audio-service-overlay.component";
 import { RouterOutlet } from "@angular/router";
 import { HeaderComponent } from "./shared/components/header/header.component";
-import { AudioOverlayToggleComponent } from "./features/discord/components/audio-overlay-toggle/audio-overlay-toggle.component";
+import { DiscordStatusComponent } from "./features/discord/components/discord-status/discord-status.component";
 import { PageService } from "./features/catalogue/services/page.service";
 import { DrawerComponent } from "./shared/components/drawer/drawer.component";
 import {
@@ -19,7 +19,7 @@ import {
     AudioServiceOverlay,
     RouterOutlet,
     HeaderComponent,
-    AudioOverlayToggleComponent,
+    DiscordStatusComponent,
     DrawerComponent,
   ],
 })
