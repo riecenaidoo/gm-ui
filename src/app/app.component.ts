@@ -1,6 +1,6 @@
 import { Component, computed, inject, Signal } from "@angular/core";
 import { AudioService } from "./features/discord/models/audio-service";
-import { AudioServiceOverlay } from "./features/discord/overlays/audio-service-overlay/audio-service-overlay.component";
+import { AudioServiceOverlay } from "./features/discord/components/audio-service-overlay/audio-service-overlay.component";
 import { RouterOutlet } from "@angular/router";
 import { HeaderComponent } from "./shared/components/header/header.component";
 import { AudioOverlayToggleComponent } from "./features/discord/components/audio-overlay-toggle/audio-overlay-toggle.component";

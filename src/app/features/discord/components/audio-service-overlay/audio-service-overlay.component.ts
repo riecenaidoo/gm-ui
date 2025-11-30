@@ -1,8 +1,8 @@
 import { Component, inject, Signal } from "@angular/core";
-import { ServerSelectorComponent } from "../../components/server-selector/server-selector.component";
-import { ServerChannelSelectorComponent } from "../../components/server-channel-selector/server-channel-selector.component";
-import { ServerAudioStatusComponent } from "../../components/server-audio-status/server-audio-status.component";
-import { AudioServiceStatusComponent } from "../../components/audio-service-status/audio-service-status.component";
+import { ServerSelectorComponent } from "../server-selector/server-selector.component";
+import { ServerChannelSelectorComponent } from "../server-channel-selector/server-channel-selector.component";
+import { ServerAudioStatusComponent } from "../server-audio-status/server-audio-status.component";
+import { AudioServiceStatusComponent } from "../audio-service-status/audio-service-status.component";
 import {
   AudioBot,
   AudioStateService,
