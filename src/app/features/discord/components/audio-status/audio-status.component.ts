@@ -6,11 +6,11 @@ import {
 } from "../../services/audio-state.service";
 
 @Component({
-  selector: "app-server-audio-status",
-  templateUrl: "./server-audio-status.component.html",
-  styleUrl: "./server-audio-status.component.css",
+  selector: "app-audio-status",
+  templateUrl: "./audio-status.component.html",
+  styleUrl: "./audio-status.component.css",
 })
-export class ServerAudioStatusComponent {
+export class AudioStatusComponent {
   // ==========================================================================
   // Dependencies
   // ==========================================================================
