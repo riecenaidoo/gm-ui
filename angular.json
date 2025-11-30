@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "gm-catalogue-builder": {
+    "gm-ui": {
       "projectType": "application",
       "root": "",
       "sourceRoot": "src",
@@ -12,7 +12,7 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
-            "outputPath": "dist/gm-catalogue-builder",
+            "outputPath": "dist/gm-ui",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -62,10 +62,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "gm-catalogue-builder:build:production"
+              "buildTarget": "gm-ui:build:production"
             },
             "development": {
-              "buildTarget": "gm-catalogue-builder:build:development"
+              "buildTarget": "gm-ui:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -100,9 +100,7 @@
     }
   },
   "cli": {
-    "schematicCollections": [
-      "angular-eslint"
-    ],
+    "schematicCollections": ["angular-eslint"],
     "analytics": false
   },
   "schematics": {

@@ -96,7 +96,7 @@ rm-git:	##> remove all Git artifacts produced by this script
 # =============================================================================
 # Angular
 # =============================================================================
-APP := dist/gm-catalogue-builder/browser/index.html
+APP := dist/gm-ui/browser/index.html
 SRC_FILES := $(shell find src -type f)
 
 angular: $(APP)	##> alias for creating all Angular artifacts
