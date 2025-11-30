@@ -9,7 +9,7 @@ app-server-selector {
   margin-bottom: auto; /*<1>*/
 }
 
-app-server-channel-selector {
+app-channel-selector {
   flex-grow: 1; /*<2>*/
   overflow-y: auto;
 }

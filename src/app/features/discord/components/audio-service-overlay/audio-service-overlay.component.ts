@@ -1,6 +1,6 @@
 import { Component, inject, Signal } from "@angular/core";
 import { ServerSelectorComponent } from "../server-selector/server-selector.component";
-import { ServerChannelSelectorComponent } from "../server-channel-selector/server-channel-selector.component";
+import { ChannelSelectorComponent } from "../channel-selector/channel-selector.component";
 import { ServerAudioStatusComponent } from "../server-audio-status/server-audio-status.component";
 import { AudioServiceStatusComponent } from "../audio-service-status/audio-service-status.component";
 import {
@@ -15,7 +15,7 @@ import { AudioService } from "../../models/audio-service";
   styleUrl: "./audio-service-overlay.component.css",
   imports: [
     ServerSelectorComponent,
-    ServerChannelSelectorComponent,
+    ChannelSelectorComponent,
     ServerAudioStatusComponent,
     ServerAudioStatusComponent,
     AudioServiceStatusComponent,
