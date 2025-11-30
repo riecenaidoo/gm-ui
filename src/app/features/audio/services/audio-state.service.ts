@@ -4,7 +4,6 @@ import { Server } from "../models/server";
 import { AudioApiService } from "./audio-api.service";
 import { AudioService } from "../models/audio-service";
 import {
-  catchError,
   combineLatest,
   map,
   Observable,
@@ -14,7 +13,6 @@ import {
   Subject,
   switchMap,
 } from "rxjs";
-import { HttpErrorResponse } from "@angular/common/http";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { ServerAudio } from "../models/server-audio";
 
@@ -113,6 +111,9 @@ export class AudioStateService implements AudioBot {
     Server | undefined
   >();
 
+  /**
+   * The {@link Channel} to connect to, or `undefined` to disconnect.
+   */
   readonly #connect: Subject<Channel | undefined> = new Subject<
     Channel | undefined
   >();
@@ -124,17 +125,13 @@ export class AudioStateService implements AudioBot {
   readonly #audioBot: Observable<AudioService | undefined> =
     this.#reconnect.pipe(
       startWith(undefined),
-      switchMap(() =>
-        this.#api
-          .getAudioService()
-          .pipe(catchError((_: HttpErrorResponse) => of(undefined))),
-      ),
+      switchMap(() => this.#api.getAudioService()),
       share(),
     );
 
   readonly #servers: Observable<Server[] | undefined> = this.#audioBot.pipe(
     switchMap((bot: AudioService | undefined) =>
-      bot == undefined ? of(undefined) : this.#api.findServers(),
+      bot == undefined ? of(undefined) : this.#api.getServers(),
     ),
     share(),
   );
@@ -168,9 +165,10 @@ export class AudioStateService implements AudioBot {
   );
 
   /**
-   * @remarks TODO gm-discord. When the endpoint is actually asynchronous and returns the ServerAudio instance,
-   *           we will be able to {@link combineLatest} by either grabbing the returned ServerAudio, or sending a request
-   *           if the server changed.
+   * @remarks TODO gm-discord. The underlying endpoint should be returning the latest ServerAudio instance, but it does
+   *            not work as expected currently. When it does do this, we would simplify {@link combineLatest} to say:
+   *             - take that latest ServerAudio instance we joined
+   *             - or if the {@link #selectServer} changed, grab audio for that {@link Server}.
    */
   readonly #serverAudio: Observable<ServerAudio | undefined> = combineLatest([
     this.#selectServer,
@@ -181,16 +179,7 @@ export class AudioStateService implements AudioBot {
         server,
     ),
     switchMap((server: Server | undefined) =>
-      server == undefined
-        ? of(undefined)
-        : this.#api.getServerAudio(server).pipe(
-            catchError((error: HttpErrorResponse) => {
-              if (error.status === 404) {
-                return of(undefined);
-              }
-              throw error;
-            }),
-          ),
+      server == undefined ? of(undefined) : this.#api.getServerAudio(server),
     ),
     share(),
   );
