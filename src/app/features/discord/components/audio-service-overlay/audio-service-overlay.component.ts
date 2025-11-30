@@ -2,7 +2,7 @@ import { Component, inject, Signal } from "@angular/core";
 import { ServerSelectorComponent } from "../server-selector/server-selector.component";
 import { ChannelSelectorComponent } from "../channel-selector/channel-selector.component";
 import { AudioStatusComponent } from "../audio-status/audio-status.component";
-import { AudioServiceStatusComponent } from "../audio-service-status/audio-service-status.component";
+import { BotStatusComponent } from "../bot-status/bot-status.component";
 import {
   AudioBot,
   AudioStateService,
@@ -18,7 +18,7 @@ import { AudioService } from "../../models/audio-service";
     ChannelSelectorComponent,
     AudioStatusComponent,
     AudioStatusComponent,
-    AudioServiceStatusComponent,
+    BotStatusComponent,
   ],
 })
 export class AudioServiceOverlay {

@@ -7,12 +7,12 @@ import {
 import { NgOptimizedImage } from "@angular/common";
 
 @Component({
-  selector: "app-audio-service-status",
-  templateUrl: "./audio-service-status.component.html",
-  styleUrl: "./audio-service-status.component.css",
+  selector: "app-bot-status",
+  templateUrl: "./bot-status.component.html",
+  styleUrl: "./bot-status.component.css",
   imports: [NgOptimizedImage],
 })
-export class AudioServiceStatusComponent {
+export class BotStatusComponent {
   // ==========================================================================
   // Dependencies
   // ==========================================================================
