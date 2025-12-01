@@ -6,6 +6,14 @@
   --palette-content: #ffffff;
   --palette-text: #333333;
 
+  @media (prefers-color-scheme: dark) {
+    --palette-accent: #c9dae2;
+    --palette-bg: #1b1b1b;
+    --palette-bg-darker: #000000;
+    --palette-content: #403f3f;
+    --palette-text: #e6e6e6;
+  }
+
   --z-index-page: 0;
   --z-index-panel: 5;
   --z-index-overlay: 10;
@@ -182,17 +190,9 @@ article.tile {
    */
 }
 
-@media (prefers-color-scheme: dark) {
-  .adaptive-filter {
+.adaptive-filter {
+  @media (prefers-color-scheme: dark) {
     /* Lightens colours (mainly for solid black icon images) during dark theme. */
     filter: invert(60%);
-  }
-
-  :root {
-    --palette-accent: #c9dae2;
-    --palette-bg: #1b1b1b;
-    --palette-bg-darker: #000000;
-    --palette-content: #403f3f;
-    --palette-text: #e6e6e6;
   }
 }
