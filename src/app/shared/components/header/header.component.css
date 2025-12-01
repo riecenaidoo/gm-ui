@@ -4,15 +4,14 @@
 }
 
 h1 {
-  align-content: center;
-  margin: 0 auto 0 2rem;
-  padding: 0;
-  text-align: center;
+  flex-grow: 1;
+  margin-top: auto;
+  margin-bottom: auto;
   overflow-x: auto; /* <1> */
+  text-align: center;
   text-wrap: nowrap; /* <1> */
 }
 
 /* <1>
 Scroll horizontally without wrapping if there is not enough space to render the title.
-TODO A media query would probably be better here, but that might be done at an app wide level for the layout.
 */
