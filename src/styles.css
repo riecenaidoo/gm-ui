@@ -44,7 +44,7 @@ main {
   height: 4rem;
   border-bottom-style: solid;
   border-bottom-width: 0.25rem;
-  border-bottom-color: var(--palette-accent);
+  border-bottom-color: var(--palette-text);
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
   box-sizing: border-box; /* <1> */

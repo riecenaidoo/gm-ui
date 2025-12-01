@@ -105,7 +105,11 @@ button {
   }
 
   &.expanded i {
-    color: var(--palette-accent);
     transform: rotateY(180deg);
+  }
+
+  &:hover i,
+  &.expanded i {
+    color: var(--palette-accent);
   }
 }

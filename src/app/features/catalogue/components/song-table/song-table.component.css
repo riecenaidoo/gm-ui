@@ -10,7 +10,6 @@
 
 th {
   background-color: var(--palette-bg-panel);
-  border-bottom: 0.25rem solid var(--palette-accent);
   padding-bottom: 1rem;
   padding-top: 1rem;
   position: sticky;

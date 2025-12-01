@@ -38,6 +38,13 @@ button {
   i {
     padding-right: 0.5rem;
   }
+
+  &.highlight {
+    i,
+    span {
+      color: var(--palette-accent);
+    }
+  }
 }
 
 div {
