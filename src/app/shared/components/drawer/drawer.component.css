@@ -25,7 +25,7 @@ i {
 }
 
 aside {
-  background: var(--palette-bg-darker);
+  background: var(--palette-bg-panel);
   overflow: hidden;
   z-index: var(--z-index-panel);
 
@@ -96,6 +96,12 @@ button {
 
   &.left i {
     rotate: 180deg;
+  }
+
+  i {
+    color: var(
+      --palette-text
+    ); /* Font-awesome sets a font color but we want to use our theme color*/
   }
 
   &.expanded i {

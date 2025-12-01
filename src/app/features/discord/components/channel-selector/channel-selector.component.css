@@ -10,7 +10,7 @@ li {
   margin-top: 0.5rem;
 
   &:hover {
-    background: var(--palette-bg);
+    background: var(--palette-bg-page);
   }
 
   :hover {

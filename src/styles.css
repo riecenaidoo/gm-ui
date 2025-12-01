@@ -1,17 +1,18 @@
 :root {
-  /* Minimalist and Modern Palette Color Palette: https://www.color-hex.com/color-palette/1055648 */
-  --palette-accent: #e6e6fa;
-  --palette-bg: #e0e0e0;
-  --palette-bg-darker: #a8a8a8;
-  --palette-content: #ffffff;
-  --palette-text: #333333;
+  --palette-accent: #636fff; /* Discord + Deezer = Blurple accent*/
+
+  /* Deezer-inspired Light Mode/Default */
+  --palette-text: #2c2c2c;
+  --palette-bg-page: #f5f5f5;
+  --palette-bg-panel: #ebebeb;
+  --palette-bg-content: #ffffff; /* Content, dialogs, messages, cards, etc */
 
   @media (prefers-color-scheme: dark) {
-    --palette-accent: #c9dae2;
-    --palette-bg: #1b1b1b;
-    --palette-bg-darker: #000000;
-    --palette-content: #403f3f;
-    --palette-text: #e6e6e6;
+    /* Discord-inspired Dark Mode */
+    --palette-text: #dcddde;
+    --palette-bg-page: #2f3136;
+    --palette-bg-panel: #202225;
+    --palette-bg-content: #36393f;
   }
 
   --z-index-page: 0;
@@ -25,7 +26,7 @@
 }
 
 body {
-  background: var(--palette-bg);
+  background: var(--palette-bg-page);
   color: var(--palette-text);
   margin: 0;
   height: 100vh;
@@ -90,7 +91,7 @@ height. If we do not do this the app itself will scroll because it will be of 10
 }
 
 .modal {
-  background: var(--palette-content);
+  background: var(--palette-bg-content);
   border-radius: 0.5rem;
   left: 50%;
   padding: 3rem;
@@ -102,7 +103,7 @@ height. If we do not do this the app itself will scroll because it will be of 10
 }
 
 .control-bar {
-  background: var(--palette-bg-darker);
+  background: var(--palette-bg-panel);
   display: flex;
   flex-shrink: 0; /* <1> */
   grid-column: span 4;

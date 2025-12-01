@@ -1,5 +1,5 @@
 :host {
-  background-color: var(--palette-bg-darker);
+  background-color: var(--palette-bg-panel);
   display: flex;
 }
 

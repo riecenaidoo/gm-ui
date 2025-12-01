@@ -1,5 +1,5 @@
 select {
-  background-color: var(--palette-bg-darker);
+  background-color: var(--palette-bg-panel);
   border-left: 0;
   border-right: 0;
   border-top: 0;
@@ -11,8 +11,8 @@ select {
 
   &:hover,
   &:focus-within {
-    background: var(--palette-bg);
-    border-bottom-color: var(--palette-content);
+    background: var(--palette-bg-page);
+    border-bottom-color: var(--palette-bg-content);
     cursor: pointer;
     outline: none;
   }
