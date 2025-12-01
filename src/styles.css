@@ -140,12 +140,13 @@ article.tile {
   }
 
   p {
+    align-content: center;
     grid-column: 1/4;
     grid-row: 4;
+    margin: 0;
     overflow: auto; /*<1>*/
-    align-content: center;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    padding: 0.5rem;
+    text-wrap: wrap;
   }
 
   button {
