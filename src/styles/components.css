@@ -69,11 +69,13 @@ div.control-bar {
   background: var(--palette-bg-panel);
   display: flex;
   flex-shrink: 0; /* <1> */
-  grid-column: span 4;
-  grid-row: 1;
   height: 3rem;
 
   input {
+    background-color: var(--palette-bg-content);
+    border: none;
+    border-radius: 0;
+    color: var(--palette-text);
     margin-left: auto;
     padding-left: 1.5rem;
     width: 30%;
@@ -81,9 +83,24 @@ div.control-bar {
 
   button {
     aspect-ratio: 1/1;
-    border: none;
+    background-color: var(--palette-bg-content);
+    border: 0.5rem solid var(--palette-bg-panel);
     border-radius: 0;
-    margin: 0.5rem 0 0.5rem 0.5rem;
+    box-sizing: border-box;
+    color: var(--palette-text);
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &.highlight {
+      border-bottom-color: var(--palette-accent);
+    }
+
+    &:hover,
+    &.highlight {
+      color: var(--palette-accent);
+    }
   }
 }
 

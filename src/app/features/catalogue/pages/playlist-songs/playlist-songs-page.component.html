@@ -5,6 +5,7 @@
       (click)="addSongDialog.showDialog()"
       title="Add a Song"
       aria-label="Add a Song"
+      [class.highlight]="addSongDialog.open()"
     >
       <i class="fa fa-plus" aria-hidden="true"></i>
     </button>
@@ -12,6 +13,7 @@
       (click)="renamePlaylistDialog.showDialog()"
       title="Rename a Playlist"
       aria-label="Rename a Playlist"
+      [class.highlight]="renamePlaylistDialog.open()"
     >
       <i class="fa fa-pencil" aria-hidden="true"></i>
     </button>

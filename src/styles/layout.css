@@ -1,8 +1,8 @@
 :root {
-  --z-index-dialog: 15;
-  --z-index-overlay: 10;
   --z-index-page: 0;
   --z-index-panel: 5;
+  --z-index-overlay: 10;
+  --z-index-dialog: 15;
 }
 
 .header-bar {
