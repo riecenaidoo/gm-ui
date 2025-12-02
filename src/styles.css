@@ -92,14 +92,58 @@ height. If we do not do this the app itself will scroll because it will be of 10
 
 .modal {
   background: var(--palette-bg-content);
-  border-radius: 0.5rem;
+  border-radius: 0;
+  box-shadow: 0 1rem 2rem 0 var(--palette-accent);
+  box-sizing: border-box;
   left: 50%;
   padding: 3rem;
   position: absolute;
   top: 50%;
   /* Moves it 50% to the left and 50% up, so that it is now centered at its point */
   transform: translate(-50%, -50%);
+  width: 50%;
   z-index: var(--z-index-dialog);
+
+  @media screen and (orientation: portrait) {
+    width: 80%;
+  }
+}
+
+form.modal {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  h2 {
+    border-bottom: var(--palette-text);
+    border-bottom-style: solid;
+    margin-top: 0;
+  }
+
+  input {
+    border-radius: 0;
+    border: none;
+    height: 2rem;
+    background: var(--palette-bg-page);
+    color: var(--palette-text);
+  }
+
+  button {
+    border-radius: 0;
+    border: 0;
+    padding: 1rem;
+    margin-top: 2rem;
+    color: var(--palette-text);
+    background: var(--palette-bg-page);
+  }
+
+  @media screen and (orientation: portrait) {
+    top: 25%; /*<1>*/
+    /* <1>
+                When on mobile, any selection for inputs will open the keyboard. As this takes up the bottom portion of the
+                screen we shift the modal up higher so it can still be in view.
+                */
+  }
 }
 
 .control-bar {
