@@ -5,6 +5,7 @@
   name="selectedServer"
   title="Server Selector"
   class="header-bar"
+  [class.highlight]="selectedServer() === undefined"
 >
   @for (server of servers(); track server.id) {
     <option [ngValue]="server">

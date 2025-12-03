@@ -10,7 +10,7 @@ li {
   margin-top: 0.5rem;
 
   &:hover {
-    background: var(--palette-bg);
+    background: var(--palette-bg-page);
   }
 
   :hover {
@@ -37,6 +37,13 @@ button {
 
   i {
     padding-right: 0.5rem;
+  }
+
+  &.highlight {
+    i,
+    span {
+      color: var(--palette-accent);
+    }
   }
 }
 

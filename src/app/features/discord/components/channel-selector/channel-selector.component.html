@@ -1,11 +1,12 @@
 <ol>
   @for (channel of channels(); track channel.id) {
+    @let isConnectedChannel = connectedChannel()?.id === channel.id;
     <li>
-      <button (click)="select(channel)">
+      <button (click)="select(channel)" [class.highlight]="isConnectedChannel">
         <i class="fa fa-volume-up" aria-hidden="true"></i>
         <span>{{ channel.name }}</span>
       </button>
-      @if (connectedChannel()?.id === channel.id) {
+      @if (isConnectedChannel) {
         <div>
           @let url = audioService()?.icon_url;
           @if (url !== undefined) {

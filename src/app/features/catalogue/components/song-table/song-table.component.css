@@ -4,13 +4,12 @@
   width: 100%;
 
   & tr:nth-child(odd) {
-    background-color: var(--palette-content);
+    background-color: var(--palette-bg-content);
   }
 }
 
 th {
-  background-color: var(--palette-bg-darker);
-  border-bottom: 0.25rem solid var(--palette-accent);
+  background-color: var(--palette-bg-panel);
   padding-bottom: 1rem;
   padding-top: 1rem;
   position: sticky;

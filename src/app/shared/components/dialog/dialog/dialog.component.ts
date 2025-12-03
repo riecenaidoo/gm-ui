@@ -34,6 +34,10 @@ export class DialogComponent implements Dialog {
 
   // ------ API ------
 
+  public open(): boolean {
+    return this.#display;
+  }
+
   public showDialog(): void {
     this.display = true;
     this.opened.next();

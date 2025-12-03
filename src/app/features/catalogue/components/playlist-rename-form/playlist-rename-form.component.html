@@ -1,4 +1,8 @@
+<h2>Rename Playlist</h2>
+
 <label for="title">Playlist Name</label>
 <input type="text" id="title" name="title" [(ngModel)]="title" #autofocus />
 
-<button type="submit" [disabled]="titleUnchanged()">Rename Playlist</button>
+<button type="submit" [disabled]="!isValid()" [class.valid]="isValid()">
+  Rename Playlist
+</button>

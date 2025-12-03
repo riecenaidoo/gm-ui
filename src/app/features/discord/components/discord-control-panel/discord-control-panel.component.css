@@ -1,5 +1,5 @@
 :host {
-  background: var(--palette-bg-darker);
+  background: var(--palette-bg-panel);
   display: flex;
   flex-direction: column;
   height: 100%;

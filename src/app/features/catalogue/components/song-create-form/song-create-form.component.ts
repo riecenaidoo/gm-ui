@@ -27,7 +27,9 @@ export class SongCreateFormComponent implements Form {
   @ViewChild("autofocus")
   private autoFocusTarget!: ElementRef<HTMLInputElement>;
 
-  // ------ API ------
+  // ==========================================================================
+  // API
+  // ==========================================================================
 
   public focus(): void {
     window.requestAnimationFrame(() =>
@@ -36,17 +38,26 @@ export class SongCreateFormComponent implements Form {
   }
 
   public submit(): void {
+    if (!this.isValid()) {
+      return;
+    }
+
     const song: PlaylistSongsCreateRequest = { url: this.url };
     this.addedSong.emit(song);
   }
 
-  public clearInputs(): void {
+  public reset(): void {
     this.url = "";
   }
 
-  // ------ Internal ------
+  // ==========================================================================
+  // Implementation Details
+  // ==========================================================================
 
-  protected noInput(): boolean {
-    return this.url.trim().length === 0;
+  /**
+   * Must have input.
+   */
+  public isValid(): boolean {
+    return this.url.trim().length !== 0;
   }
 }

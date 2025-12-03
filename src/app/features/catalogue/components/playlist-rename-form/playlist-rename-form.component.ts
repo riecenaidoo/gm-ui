@@ -31,7 +31,9 @@ export class PlaylistRenameFormComponent implements Form {
   @ViewChild("autofocus")
   private autoFocusTarget!: ElementRef<HTMLInputElement>;
 
-  // ------ API ------
+  // ==========================================================================
+  // API
+  // ==========================================================================
 
   /**
    * The details of the `Playlist` will be used to initialise the form field(s).
@@ -49,19 +51,28 @@ export class PlaylistRenameFormComponent implements Form {
   }
 
   public submit(): void {
+    if (!this.isValid()) {
+      return;
+    }
+
     const patchRequest: PlaylistsPatchRequest = {
       title: this.title,
     };
     this.renamedPlaylist.emit(patchRequest);
   }
 
-  public clearInputs(): void {
+  public reset(): void {
     this.title = this.#playlist.title;
   }
 
-  // ------ Internal ------
+  // ==========================================================================
+  // Implementation Details
+  // ==========================================================================
 
-  protected titleUnchanged(): boolean {
-    return this.#playlist.title === this.title;
+  /**
+   * Title must have changed.
+   */
+  public isValid(): boolean {
+    return this.#playlist.title !== this.title;
   }
 }

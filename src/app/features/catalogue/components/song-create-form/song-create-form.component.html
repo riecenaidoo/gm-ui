@@ -1,4 +1,8 @@
+<h2>Add Song</h2>
+
 <label for="url">Song Url</label>
 <input type="text" id="url" name="url" [(ngModel)]="url" #autofocus />
 
-<button type="submit" [disabled]="noInput()">Add Song</button>
+<button type="submit" [disabled]="!isValid()" [class.valid]="isValid()">
+  Add Song
+</button>

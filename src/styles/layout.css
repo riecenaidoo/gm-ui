@@ -1,0 +1,89 @@
+:root {
+  --z-index-page: 0;
+  --z-index-panel: 5;
+  --z-index-overlay: 10;
+  --z-index-dialog: 15;
+}
+
+.header-bar {
+  border-bottom-color: var(--palette-text);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-style: solid;
+  border-bottom-width: 0.25rem;
+  box-sizing: border-box; /* <1> */
+  flex-shrink: 0; /* <2> */
+  height: 4rem;
+
+  /* <1>
+         Include the border in the height calculation. This is usually the default, but for some elements like the `<header>`
+         tag, the default is different (`context-box`) which will cause the header-bar 'height' to appear inconsistent.
+         */
+
+  /* <2>
+         The header-bar should remain fixed and never shrink.
+         This is only applicable in a layout where the header-bar is a flex child.
+        */
+}
+
+.modal {
+  background: var(--palette-bg-content);
+  border-radius: 0;
+  box-shadow: 0 1rem 2rem 0 var(--palette-accent);
+  box-sizing: border-box;
+  left: 50%;
+  padding: 3rem;
+  position: absolute;
+  top: 50%;
+  /* Moves it 50% to the left and 50% up, so that it is now centered at its point */
+  transform: translate(-50%, -50%);
+  width: 50%;
+  z-index: var(--z-index-dialog);
+
+  @media screen and (orientation: portrait) {
+    width: 80%;
+  }
+}
+
+body {
+  background: var(--palette-bg-page);
+  color: var(--palette-text);
+  height: 100vh;
+  margin: 0;
+}
+
+main {
+  /* The main content should consume the remaining space, and if it is not enough it should scroll so that the
+   remainder of the layout stays in view. */
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+main.page {
+  box-sizing: border-box; /* <1> */
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  height: 100%; /* <1> */
+  padding: 3rem 3rem 0;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem 1.5rem 0;
+  }
+
+  .page-scrolling {
+    flex-grow: 1;
+    overflow-y: auto; /* <1> */
+    padding-bottom: 1rem;
+  }
+
+  /* <1> Page Scrolling Layout
+
+  The app itself should not scroll. The Header, Controls, etc. should always be in a fixed position.
+  To accomplish this we want the component to consume 100% of its parent's height,
+  and then within the page we allow a particular element to scroll if there is too little space to render all content.
+
+  We need to use border-box sizing so the padding and border sizes for the elements are included in the calculation for its
+  height. If we do not do this the app itself will scroll because it will be of 100vh + margin/padding in height.
+    */
+}
