@@ -43,7 +43,9 @@ export class PlaylistCreateFormComponent implements Form {
     effect(() => (this.title = this.initialTitle() ?? ""));
   }
 
-  // ------ API ------
+  // ==========================================================================
+  // API
+  // ==========================================================================
 
   public focus(): void {
     window.requestAnimationFrame(() =>
@@ -52,20 +54,28 @@ export class PlaylistCreateFormComponent implements Form {
   }
 
   public submit(): void {
+    if (!this.isValid()) {
+      return;
+    }
+
     const playlist: PlaylistsCreateRequest = {
       title: this.title,
     };
     this.createdPlaylist.emit(playlist);
   }
 
-  public clearInputs(): void {
-    // TODO mv clearInputs resetInputs
+  public reset(): void {
     this.title = this.initialTitle() ?? "";
   }
 
-  // ------ Internal ------
+  // ==========================================================================
+  // Implementation Details
+  // ==========================================================================
 
-  protected noInput(): boolean {
-    return this.title.trim().length === 0;
+  /**
+   * Must have input.
+   */
+  public isValid(): boolean {
+    return this.title.trim().length !== 0;
   }
 }

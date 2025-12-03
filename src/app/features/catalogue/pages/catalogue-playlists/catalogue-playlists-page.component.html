@@ -37,7 +37,7 @@
 <app-dialog
   #createPlaylistDialog
   (opened)="createPlaylistForm.focus()"
-  (closed)="createPlaylistForm.clearInputs()"
+  (closed)="createPlaylistForm.reset()"
 >
   <form
     class="modal"

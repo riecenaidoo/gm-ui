@@ -130,6 +130,11 @@ form.modal {
     color: var(--palette-text);
     margin-top: 2rem;
     padding: 1rem;
+
+    &.valid {
+      background: var(--palette-accent);
+      cursor: pointer;
+    }
   }
 
   @media screen and (orientation: portrait) {
