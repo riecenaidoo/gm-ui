@@ -1,12 +1,10 @@
 import {
   Component,
   effect,
-  ElementRef,
   input,
   InputSignal,
   output,
   OutputEmitterRef,
-  ViewChild,
 } from "@angular/core";
 import { Form } from "../../../../shared/models/form";
 import { PlaylistsCreateRequest } from "../../models/requests/playlists-create-request";
@@ -27,11 +25,6 @@ export class PlaylistCreateFormComponent implements Form {
 
   // Components
 
-  @ViewChild("autofocus", { static: true })
-  private autoFocusTarget!: ElementRef<HTMLInputElement>;
-
-  // I/O
-
   public initialTitle: InputSignal<string | undefined> = input<string>();
 
   public createdPlaylist: OutputEmitterRef<PlaylistsCreateRequest> =
@@ -46,12 +39,6 @@ export class PlaylistCreateFormComponent implements Form {
   // ==========================================================================
   // API
   // ==========================================================================
-
-  public focus(): void {
-    window.requestAnimationFrame(() =>
-      this.autoFocusTarget.nativeElement.focus(),
-    );
-  }
 
   public submit(): void {
     if (!this.isValid()) {

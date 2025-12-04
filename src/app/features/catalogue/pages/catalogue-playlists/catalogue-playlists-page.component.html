@@ -38,6 +38,7 @@
   <form
     app-playlist-create-form
     #createPlaylistForm
+    method="dialog"
     (ngSubmit)="createPlaylistForm.submit()"
     (createdPlaylist)="createPlaylist($event)"
     [initialTitle]="defaultPlaylistTitle()"

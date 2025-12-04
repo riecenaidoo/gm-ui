@@ -1,10 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Output,
-  ViewChild,
-} from "@angular/core";
+import { Component, EventEmitter, Output } from "@angular/core";
 import { Form } from "../../../../shared/models/form";
 import { PlaylistSongsCreateRequest } from "../../models/requests/playlist-songs-create-request";
 import { FormsModule } from "@angular/forms";
@@ -24,18 +18,9 @@ export class SongCreateFormComponent implements Form {
   private addedSong: EventEmitter<PlaylistSongsCreateRequest> =
     new EventEmitter<PlaylistSongsCreateRequest>();
 
-  @ViewChild("autofocus")
-  private autoFocusTarget!: ElementRef<HTMLInputElement>;
-
   // ==========================================================================
   // API
   // ==========================================================================
-
-  public focus(): void {
-    window.requestAnimationFrame(() =>
-      this.autoFocusTarget.nativeElement.focus(),
-    );
-  }
 
   public submit(): void {
     if (!this.isValid()) {

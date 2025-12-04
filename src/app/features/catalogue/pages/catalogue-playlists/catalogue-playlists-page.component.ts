@@ -145,7 +145,6 @@ export class CataloguePlaylistsPage extends PageComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyed))
       .subscribe((_) => {
         this.refresh();
-        this.createPlaylistDialog.nativeElement.close();
       });
   }
 

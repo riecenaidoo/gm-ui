@@ -92,7 +92,6 @@ export class PlaylistSongsPage extends PageComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyed))
       .subscribe(() => {
         this.fetchSongs();
-        this.addSongDialog.nativeElement.close();
       });
   }
 
@@ -124,7 +123,6 @@ export class PlaylistSongsPage extends PageComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyed))
       .subscribe((playlist: Playlist) => {
         this.playlist = playlist;
-        this.renamePlaylistDialog.nativeElement.close();
       });
   }
 
