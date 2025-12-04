@@ -1,8 +1,7 @@
 :root {
   --z-index-page: 0;
   --z-index-panel: 5;
-  --z-index-overlay: 10;
-  --z-index-dialog: 15;
+  --z-index-dialog: 10;
 }
 
 .header-bar {
@@ -31,17 +30,19 @@
   border-radius: 0;
   box-shadow: 0 1rem 2rem 0 var(--palette-accent);
   box-sizing: border-box;
-  left: 50%;
   padding: 3rem;
-  position: absolute;
-  top: 50%;
-  /* Moves it 50% to the left and 50% up, so that it is now centered at its point */
-  transform: translate(-50%, -50%);
   width: 50%;
-  z-index: var(--z-index-dialog);
 
   @media screen and (orientation: portrait) {
     width: 80%;
+
+    &:has(form) {
+      transform: translateY(-75%); /*<1>*/
+      /* <1>
+                          When on mobile, any selection for inputs will open the keyboard. As this takes up the bottom portion of the
+                          screen we shift the modal up higher so it can still be in view.
+                          */
+    }
   }
 }
 
@@ -50,6 +51,10 @@ body {
   color: var(--palette-text);
   height: 100vh;
   margin: 0;
+}
+
+dialog {
+  z-index: var(--z-index-dialog);
 }
 
 main {

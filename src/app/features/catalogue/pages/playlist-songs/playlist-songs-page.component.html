@@ -2,18 +2,18 @@
 @if (playlist | async; as playlist) {
   <div class="control-bar" role="toolbar" aria-label="'Catalogue Controls'">
     <button
-      (click)="addSongDialog.showDialog()"
+      (click)="addSongDialog.showModal()"
       title="Add a Song"
       aria-label="Add a Song"
-      [class.highlight]="addSongDialog.open()"
+      [class.highlight]="addSongDialog.open"
     >
       <i class="fa fa-plus" aria-hidden="true"></i>
     </button>
     <button
-      (click)="renamePlaylistDialog.showDialog()"
+      (click)="renamePlaylistDialog.showModal()"
       title="Rename a Playlist"
       aria-label="Rename a Playlist"
-      [class.highlight]="renamePlaylistDialog.open()"
+      [class.highlight]="renamePlaylistDialog.open"
     >
       <i class="fa fa-pencil" aria-hidden="true"></i>
     </button>
@@ -38,33 +38,23 @@
     }
   </section>
 
-  <app-dialog
-    #addSongDialog
-    (opened)="addSongForm.focus()"
-    (closed)="addSongForm.reset()"
-  >
+  <dialog #addSongDialog class="modal">
     <form
-      class="modal"
       app-song-create-form
       #addSongForm
       (ngSubmit)="addSongForm.submit()"
       (addedSong)="addSong($event)"
     ></form>
-  </app-dialog>
+  </dialog>
 
-  <app-dialog
-    #renamePlaylistDialog
-    (opened)="renamePlaylistForm.focus()"
-    (closed)="renamePlaylistForm.reset()"
-  >
+  <dialog #renamePlaylistDialog class="modal">
     <form
-      class="modal"
       app-playlist-rename-form
       #renamePlaylistForm
       (ngSubmit)="renamePlaylistForm.submit()"
       (renamedPlaylist)="updatePlaylist($event)"
       [playlist]="playlist"
     ></form>
-  </app-dialog>
+  </dialog>
 }
 <!--TODO Need to consider what our placeholder content will be. See @empty-->
