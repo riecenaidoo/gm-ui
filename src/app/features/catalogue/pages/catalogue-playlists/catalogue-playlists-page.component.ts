@@ -22,6 +22,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { PageComponent } from "../page.component";
 import { FormsModule } from "@angular/forms";
 import { CatalogueStateService } from "../../services/catalogue-state.service";
+import { ModalDirective } from "../../../../shared/directives/modal.directive";
 
 @Component({
   // Intentional `main` attribute-selector.
@@ -35,6 +36,7 @@ import { CatalogueStateService } from "../../services/catalogue-state.service";
     PlaylistTileComponent,
     PlaylistCreateFormComponent,
     FormsModule,
+    ModalDirective,
   ],
 })
 export class CataloguePlaylistsPage extends PageComponent implements OnInit {

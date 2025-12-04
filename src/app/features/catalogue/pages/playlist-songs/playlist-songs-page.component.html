@@ -38,7 +38,7 @@
     }
   </section>
 
-  <dialog #addSongDialog class="modal">
+  <dialog #addSongDialog appModal (close)="addSongForm.reset()" class="modal">
     <form
       app-song-create-form
       #addSongForm
@@ -48,7 +48,12 @@
     ></form>
   </dialog>
 
-  <dialog #renamePlaylistDialog class="modal">
+  <dialog
+    #renamePlaylistDialog
+    appModal
+    (close)="renamePlaylistForm.reset()"
+    class="modal"
+  >
     <form
       app-playlist-rename-form
       #renamePlaylistForm

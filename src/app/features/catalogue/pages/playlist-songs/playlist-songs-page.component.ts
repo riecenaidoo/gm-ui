@@ -21,6 +21,7 @@ import { SongCreateFormComponent } from "../../components/song-create-form/song-
 import { PlaylistRenameFormComponent } from "../../components/playlist-rename-form/playlist-rename-form.component";
 import { FormsModule } from "@angular/forms";
 import { PlaylistsPatchRequest } from "../../models/requests/playlists-patch-request";
+import { ModalDirective } from "../../../../shared/directives/modal.directive";
 
 @Component({
   // Intentional `main` attribute-selector.
@@ -34,6 +35,7 @@ import { PlaylistsPatchRequest } from "../../models/requests/playlists-patch-req
     SongCreateFormComponent,
     PlaylistRenameFormComponent,
     FormsModule,
+    ModalDirective,
   ],
 })
 export class PlaylistSongsPage extends PageComponent implements OnInit {

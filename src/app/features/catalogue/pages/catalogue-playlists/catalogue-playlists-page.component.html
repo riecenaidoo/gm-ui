@@ -34,7 +34,12 @@
   }
 </section>
 
-<dialog #createPlaylistDialog class="modal">
+<dialog
+  #createPlaylistDialog
+  appModal
+  (close)="createPlaylistForm.reset()"
+  class="modal"
+>
   <form
     app-playlist-create-form
     #createPlaylistForm
