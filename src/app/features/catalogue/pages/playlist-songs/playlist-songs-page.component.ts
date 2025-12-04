@@ -1,9 +1,10 @@
 import {
   Component,
+  ElementRef,
   HostListener,
+  inject,
   OnInit,
   ViewChild,
-  inject,
 } from "@angular/core";
 import { PlaylistsApiService } from "../../services/playlists-api.service";
 import { Observable, Subject } from "rxjs";
@@ -16,11 +17,11 @@ import { AsyncPipe } from "@angular/common";
 import { SongTableComponent } from "../../components/song-table/song-table.component";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { PageComponent } from "../page.component";
-import { DialogComponent } from "../../../../shared/components/dialog/dialog/dialog.component";
 import { SongCreateFormComponent } from "../../components/song-create-form/song-create-form.component";
 import { PlaylistRenameFormComponent } from "../../components/playlist-rename-form/playlist-rename-form.component";
 import { FormsModule } from "@angular/forms";
 import { PlaylistsPatchRequest } from "../../models/requests/playlists-patch-request";
+import { ModalDirective } from "../../../../shared/directives/modal.directive";
 
 @Component({
   // Intentional `main` attribute-selector.
@@ -31,10 +32,10 @@ import { PlaylistsPatchRequest } from "../../models/requests/playlists-patch-req
   imports: [
     SongTableComponent,
     AsyncPipe,
-    DialogComponent,
     SongCreateFormComponent,
     PlaylistRenameFormComponent,
     FormsModule,
+    ModalDirective,
   ],
 })
 export class PlaylistSongsPage extends PageComponent implements OnInit {
@@ -47,10 +48,10 @@ export class PlaylistSongsPage extends PageComponent implements OnInit {
   readonly #songs: Subject<PlaylistSong[]> = new Subject<PlaylistSong[]>();
 
   @ViewChild("addSongDialog")
-  private addSongDialog!: DialogComponent;
+  private addSongDialog!: ElementRef<HTMLDialogElement>;
 
   @ViewChild("renamePlaylistDialog")
-  protected renamePlaylistDialog!: DialogComponent;
+  protected renamePlaylistDialog!: ElementRef<HTMLDialogElement>;
 
   private playlistsService: PlaylistsApiService = inject(PlaylistsApiService);
 
@@ -77,12 +78,12 @@ export class PlaylistSongsPage extends PageComponent implements OnInit {
 
   @HostListener("window:keydown.alt.1")
   protected showAddSongDialog(): void {
-    this.addSongDialog.showDialog();
+    this.addSongDialog.nativeElement.showModal();
   }
 
   @HostListener("window:keydown.alt.2")
   protected showRenamePlaylistDialog(): void {
-    this.renamePlaylistDialog.showDialog();
+    this.renamePlaylistDialog.nativeElement.showModal();
   }
 
   // ------ Event Handling ------
@@ -93,7 +94,6 @@ export class PlaylistSongsPage extends PageComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyed))
       .subscribe(() => {
         this.fetchSongs();
-        this.addSongDialog.hideDialog();
       });
   }
 
@@ -125,7 +125,6 @@ export class PlaylistSongsPage extends PageComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyed))
       .subscribe((playlist: Playlist) => {
         this.playlist = playlist;
-        this.renamePlaylistDialog.hideDialog();
       });
   }
 

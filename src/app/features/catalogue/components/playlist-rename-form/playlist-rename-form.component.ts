@@ -1,11 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  Output,
-  ViewChild,
-} from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { Playlist } from "../../models/playlist";
 import { Form } from "../../../../shared/models/form";
 import { FormsModule } from "@angular/forms";
@@ -28,9 +21,6 @@ export class PlaylistRenameFormComponent implements Form {
   private renamedPlaylist: EventEmitter<PlaylistsPatchRequest> =
     new EventEmitter<PlaylistsPatchRequest>();
 
-  @ViewChild("autofocus")
-  private autoFocusTarget!: ElementRef<HTMLInputElement>;
-
   // ==========================================================================
   // API
   // ==========================================================================
@@ -42,12 +32,6 @@ export class PlaylistRenameFormComponent implements Form {
   public set playlist(playlist: Playlist) {
     this.#playlist = playlist;
     this.title = playlist.title;
-  }
-
-  public focus(): void {
-    window.requestAnimationFrame(() =>
-      this.autoFocusTarget.nativeElement.focus(),
-    );
   }
 
   public submit(): void {

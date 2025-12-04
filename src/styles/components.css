@@ -104,7 +104,8 @@ div.control-bar {
   }
 }
 
-form.modal {
+.modal > form {
+  color: var(--palette-text);
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -135,14 +136,6 @@ form.modal {
       background: var(--palette-accent);
       cursor: pointer;
     }
-  }
-
-  @media screen and (orientation: portrait) {
-    top: 25%; /*<1>*/
-    /* <1>
-                    When on mobile, any selection for inputs will open the keyboard. As this takes up the bottom portion of the
-                    screen we shift the modal up higher so it can still be in view.
-                    */
   }
 }
 

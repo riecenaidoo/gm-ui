@@ -5,14 +5,6 @@
  * @see https://angular.dev/tutorials/learn-angular/16-form-control-values
  */
 export interface Form {
-  /**
-   * Set focus on the form (usually the first input field).
-   *
-   * @remarks This allows the user to start typing immediately.
-   * Once focused, they can move through the form using Tab, and submit with Enter — no mouse required.
-   */
-  focus(): void;
-
   isValid(): boolean;
 
   /**

@@ -20,9 +20,9 @@ import { PlaylistCreateTileComponent } from "../../components/playlist-create-ti
 import { PlaylistTileComponent } from "../../components/playlist-tile/playlist-tile.component";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { PageComponent } from "../page.component";
-import { DialogComponent } from "../../../../shared/components/dialog/dialog/dialog.component";
 import { FormsModule } from "@angular/forms";
 import { CatalogueStateService } from "../../services/catalogue-state.service";
+import { ModalDirective } from "../../../../shared/directives/modal.directive";
 
 @Component({
   // Intentional `main` attribute-selector.
@@ -35,8 +35,8 @@ import { CatalogueStateService } from "../../services/catalogue-state.service";
     PlaylistCreateTileComponent,
     PlaylistTileComponent,
     PlaylistCreateFormComponent,
-    DialogComponent,
     FormsModule,
+    ModalDirective,
   ],
 })
 export class CataloguePlaylistsPage extends PageComponent implements OnInit {
@@ -57,7 +57,7 @@ export class CataloguePlaylistsPage extends PageComponent implements OnInit {
   // Components
 
   @ViewChild("createPlaylistDialog", { static: true })
-  private createPlaylistDialog!: DialogComponent;
+  private createPlaylistDialog!: ElementRef<HTMLDialogElement>;
 
   /**
    * Input field for searching (filtering) `Playlists` within the `Catalogue`.
@@ -126,7 +126,7 @@ export class CataloguePlaylistsPage extends PageComponent implements OnInit {
 
   @HostListener("window:keydown.alt.1")
   protected showCreatePlaylistDialog(): void {
-    this.createPlaylistDialog.showDialog();
+    this.createPlaylistDialog.nativeElement.showModal();
   }
 
   @HostListener("window:keydown.alt.`")
@@ -147,7 +147,6 @@ export class CataloguePlaylistsPage extends PageComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyed))
       .subscribe((_) => {
         this.refresh();
-        this.createPlaylistDialog.hideDialog();
       });
   }
 
