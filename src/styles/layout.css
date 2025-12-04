@@ -28,6 +28,7 @@
 .modal {
   background: var(--palette-bg-content);
   border-radius: 0;
+  border-width: 0;
   box-shadow: 0 1rem 2rem 0 var(--palette-accent);
   box-sizing: border-box;
   padding: 3rem;
@@ -37,7 +38,7 @@
     width: 80%;
 
     &:has(form) {
-      transform: translateY(-75%); /*<1>*/
+      transform: translateY(-50%); /*<1>*/
       /* <1>
                           When on mobile, any selection for inputs will open the keyboard. As this takes up the bottom portion of the
                           screen we shift the modal up higher so it can still be in view.
