@@ -1,16 +1,19 @@
-<button (click)="toggle()"
-        [class.expanded]="expanded()"
-        [class.top]="top()"
-        [class.bottom]="bottom()"
-        [class.left]="left()"
-        [class.right]="right()"
+<button
+  (click)="toggle()"
+  [class.expanded]="expanded()"
+  [class.top]="top()"
+  [class.bottom]="bottom()"
+  [class.left]="left()"
+  [class.right]="right()"
 >
-    <i class="fa fa-chevron-right"></i>
+  <i class="fa fa-chevron-right"></i>
 </button>
-<aside [class.expanded]="expanded()"
-       [class.top]="top()"
-       [class.bottom]="bottom()"
-       [class.left]="left()"
-       [class.right]="right()">
-    <ng-content/>
+<aside
+  [class.expanded]="expanded()"
+  [class.top]="top()"
+  [class.bottom]="bottom()"
+  [class.left]="left()"
+  [class.right]="right()"
+>
+  <ng-content />
 </aside>

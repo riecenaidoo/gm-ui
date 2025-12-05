@@ -24,8 +24,6 @@ import { PlaylistsPatchRequest } from "../../models/requests/playlists-patch-req
 import { ModalDirective } from "../../../../shared/directives/modal.directive";
 
 @Component({
-  // Intentional `main` attribute-selector.
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: "main[app-playlist-page]",
   templateUrl: "./playlist-page.component.html",
   styleUrl: "./playlist-page.component.css",

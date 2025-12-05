@@ -1,8 +1,6 @@
 import { Component, EventEmitter, Output } from "@angular/core";
 import { Tile } from "../../../../shared/models/tile";
 
-// Attaching to native element intentionally
-/* eslint-disable @angular-eslint/component-selector */
 @Component({
   selector: "article[app-playlist-create-tile]",
   templateUrl: "./playlist-create-tile.component.html",

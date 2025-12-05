@@ -3,8 +3,6 @@ import { PlaylistSong } from "../../models/playlist-song";
 import { NgOptimizedImage } from "@angular/common";
 
 @Component({
-  // Intentional `table` attribute-selector.
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: "table[app-song-table]",
   templateUrl: "./song-table.component.html",
   styleUrl: "./song-table.component.css",

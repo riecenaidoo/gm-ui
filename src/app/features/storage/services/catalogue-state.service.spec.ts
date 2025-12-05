@@ -1,6 +1,6 @@
-import {TestBed} from "@angular/core/testing";
-import {CatalogueStateService} from "./catalogue-state.service";
-import {effect, Injector, runInInjectionContext} from '@angular/core';
+import { TestBed } from "@angular/core/testing";
+import { CatalogueStateService } from "./catalogue-state.service";
+import { effect, Injector, runInInjectionContext } from "@angular/core";
 
 /**
  * @see CatalogueStateService
@@ -44,7 +44,7 @@ describe("CatalogueStateService", () => {
           service.playlistTitleFilter();
           numSignals++;
         });
-      })
+      });
 
       service.playlistTitleFilter = "foo";
       service.playlistTitleFilter = "foo";

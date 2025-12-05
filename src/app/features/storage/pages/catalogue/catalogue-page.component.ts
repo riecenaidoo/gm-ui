@@ -25,8 +25,6 @@ import { CatalogueStateService } from "../../services/catalogue-state.service";
 import { ModalDirective } from "../../../../shared/directives/modal.directive";
 
 @Component({
-  // Intentional `main` attribute-selector.
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: "main[app-catalogue-page]",
   templateUrl: "./catalogue-page.component.html",
   styleUrl: "./catalogue-page.component.css",

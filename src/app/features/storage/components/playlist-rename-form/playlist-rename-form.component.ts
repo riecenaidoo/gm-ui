@@ -5,8 +5,6 @@ import { FormsModule } from "@angular/forms";
 import { PlaylistsPatchRequest } from "../../models/requests/playlists-patch-request";
 
 @Component({
-  // Intentional `form` attribute-selector.
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: "form[app-playlist-rename-form]",
   templateUrl: "./playlist-rename-form.component.html",
   styleUrl: "./playlist-rename-form.component.css",

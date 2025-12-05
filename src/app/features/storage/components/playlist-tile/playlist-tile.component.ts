@@ -4,8 +4,6 @@ import { SelectorComponent } from "../../../../shared/components/selector-compon
 import { Tile } from "../../../../shared/models/tile";
 import { NgOptimizedImage } from "@angular/common";
 
-// Attaching to native element intentionally
-/* eslint-disable @angular-eslint/component-selector */
 @Component({
   selector: "article[app-playlist-tile]",
   templateUrl: "./playlist-tile.component.html",

@@ -1,11 +1,19 @@
-import {Component, computed, input, InputSignal, Signal, signal, WritableSignal} from '@angular/core';
+import {
+  Component,
+  computed,
+  input,
+  InputSignal,
+  Signal,
+  signal,
+  WritableSignal,
+} from "@angular/core";
 
 /**
  * An edge of the screen.
  *
  * @see https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/position position | CSS Property | MDN
  */
-type Position = "top" | "bottom" | "left" | "right"
+type Position = "top" | "bottom" | "left" | "right";
 
 /**
  * A container for tangential content that can be left off-screen until the user wants to interact with it.
@@ -18,13 +26,12 @@ type Position = "top" | "bottom" | "left" | "right"
  * @see #expanded
  */
 @Component({
-  selector: 'app-drawer',
+  selector: "app-drawer",
   imports: [],
-  templateUrl: './drawer.component.html',
-  styleUrl: './drawer.component.css'
+  templateUrl: "./drawer.component.html",
+  styleUrl: "./drawer.component.css",
 })
 export class DrawerComponent {
-
   // ==========================================================================
   // API
   // ==========================================================================
@@ -61,11 +68,15 @@ export class DrawerComponent {
 
   protected top: Signal<boolean> = computed(() => this.position() === "top");
 
-  protected bottom: Signal<boolean> = computed(() => this.position() === "bottom");
+  protected bottom: Signal<boolean> = computed(
+    () => this.position() === "bottom",
+  );
 
   protected left: Signal<boolean> = computed(() => this.position() === "left");
 
-  protected right: Signal<boolean> = computed(() => this.position() === "right");
+  protected right: Signal<boolean> = computed(
+    () => this.position() === "right",
+  );
 
   // ==========================================================================
   // Event Handling
@@ -74,7 +85,7 @@ export class DrawerComponent {
   /**
    * @remarks For fluidity between user interaction and animation, we do not debouncing the user's interaction here.
    */
-  protected toggle(): void{
+  protected toggle(): void {
     this.expanded.set(!this.expanded());
   }
 

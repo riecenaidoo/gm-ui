@@ -1,5 +1,5 @@
 # =============================================================================
-# configs:/makefiles/v1.3.2;/angular/v2.0.1
+# configs:/makefiles/v1.3.2;/angular/v2.0.2
 # =============================================================================
 # ANSI Color Escape Codes
 # =============================================================================
@@ -120,8 +120,6 @@ rm-angular: stop	##> remove all Angular artifacts produced by this script
 test:	./node_modules
 	npx ng test --browsers=ChromeHeadless --watch=false
 
-ANGULAR_FILTER := grep -zE '\.(ts|css|html|json)$$'
-
 .PHONY: angular rm-angular
 # =============================================================================
 # Docker
@@ -147,8 +145,9 @@ rm-docker:	##> remove all Docker artifacts produced by this script
 # =============================================================================
 # Linting
 # =============================================================================
-LINT := $(ANGULAR_FILTER) | $(XARGS) $(NPX) eslint --fix
-LINT_CHECK := $(ANGULAR_FILTER) | $(XARGS) $(NPX) eslint
+LINT_FILTER := grep -zE '\.(ts|html)$$'
+LINT := $(LINT_FILTER) | $(XARGS) $(NPX) eslint --fix
+LINT_CHECK := $(LINT_FILTER) | $(XARGS) $(NPX) eslint
 
 lint: lint-diff lint-untracked	## alias to run linting (lint-diff) (lint-untracked) rules
 	git status -s
@@ -163,14 +162,15 @@ lint-untracked: ./node_modules	##> run linting on untracked files
 	$(UNTRACKED_FILES) | $(LINT)
 
 lint-all: ./node_modules	##> run linting on all files
-	find src/ -type f (-name '*.ts' -o -name '*.html' -o -name '*.css' -o -name '*.json') -print0 | $(LINT)
+	$(NPX) eslint --fix
 
 .PHONY: lint lint-diff lint-untracked lint-all
 # =============================================================================
 # Formatting
 # =============================================================================
-FORMAT := $(ANGULAR_FILTER) | $(XARGS) $(NPX) prettier --write
-FORMAT_CHECK := $(ANGULAR_FILTER) | $(XARGS) $(NPX) prettier --check
+FORMAT_FILTER := grep -zE '\.(ts|css|html|json|js)$$'
+FORMAT := $(FORMAT_FILTER) | $(XARGS) $(NPX) prettier --write
+FORMAT_CHECK := $(FORMAT_FILTER) | $(XARGS) $(NPX) prettier --check
 
 TRIM_CHECK := $(PLAINTEXT_FILTER) | $(XARGS) grep -lZ '[[:blank:]]$$'
 TRIM := $(TRIM_CHECK) | $(XARGS) sed -i 's/[ \t]*$$//'
@@ -198,7 +198,7 @@ format-untracked: ./node_modules	##> run formatting on untracked files
 format-all: ./node_modules	##> run formatting on all files
 	find . -maxdepth 1 -type f -print0 | $(TRIM)
 	find .scripts/ src/ -type f -print0 | $(TRIM)
-	find src/ -type f (-name '*.ts' -o -name '*.html' -o -name '*.css' -o -name '*.json') -print0 | $(FORMAT)
+	$(NPX) prettier --write .
 
 .PHONY: format format-diff format-untracked format-all
 # =============================================================================

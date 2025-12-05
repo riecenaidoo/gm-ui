@@ -56,7 +56,7 @@ export class CatalogueStateService {
       titleFilter = titleFilter.trim();
       titleFilter = titleFilter.length === 0 ? undefined : titleFilter;
     }
-    if(titleFilter !== this.#playlistTitleFilter()){
+    if (titleFilter !== this.#playlistTitleFilter()) {
       this.#playlistTitleFilter.set(titleFilter);
     }
   }

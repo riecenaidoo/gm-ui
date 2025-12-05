@@ -31,7 +31,7 @@ module.exports = tseslint.config(
       "@angular-eslint/component-selector": [
         "error",
         {
-          type: "element",
+          type: "element,attribute", // <1>
           prefix: "app",
           style: "kebab-case",
         },
@@ -39,9 +39,7 @@ module.exports = tseslint.config(
       "@typescript-eslint/no-unused-vars": [
         "error",
         {
-          // Intentionally unused parameters. Usually for anonymous functions that must accept a specific no. of params
-          //  e.g. Event Handlers, etc.
-          argsIgnorePattern: "^_",
+          argsIgnorePattern: "^_", // <2>
         },
       ],
     },
@@ -55,3 +53,11 @@ module.exports = tseslint.config(
     rules: {},
   },
 );
+
+/*
+ <1> Allow attribute selectors to make simpler custom components that leverage native HTML elements.
+
+ <2> Allow "_" variable names to be used to intentionally allow unused variables to be declared. This is sometimes
+ needed for anonymous functions that must accept a specific no. of params, or for establishing a dependency on a signal
+ in a computed or effect function body.
+*/

@@ -4,8 +4,6 @@ import { PlaylistSongsCreateRequest } from "../../models/requests/playlist-songs
 import { FormsModule } from "@angular/forms";
 
 @Component({
-  // Intentional `form` attribute-selector.
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: "form[app-song-create-form]",
   templateUrl: "./song-create-form.component.html",
   styleUrl: "./song-create-form.component.css",
