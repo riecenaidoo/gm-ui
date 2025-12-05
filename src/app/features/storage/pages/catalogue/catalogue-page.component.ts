@@ -27,9 +27,9 @@ import { ModalDirective } from "../../../../shared/directives/modal.directive";
 @Component({
   // Intentional `main` attribute-selector.
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: "main[app-catalogue-playlists-page]",
-  templateUrl: "./catalogue-playlists-page.component.html",
-  styleUrl: "./catalogue-playlists-page.component.css",
+  selector: "main[app-catalogue-page]",
+  templateUrl: "./catalogue-page.component.html",
+  styleUrl: "./catalogue-page.component.css",
   imports: [
     InputSearchDebounceDirective,
     PlaylistCreateTileComponent,
@@ -39,7 +39,7 @@ import { ModalDirective } from "../../../../shared/directives/modal.directive";
     ModalDirective,
   ],
 })
-export class CataloguePlaylistsPage extends PageComponent implements OnInit {
+export class CataloguePageComponent extends PageComponent implements OnInit {
   // State
 
   readonly #playlists: WritableSignal<Playlist[]> = signal<Playlist[]>([]);

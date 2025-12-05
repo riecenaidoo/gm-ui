@@ -26,9 +26,9 @@ import { ModalDirective } from "../../../../shared/directives/modal.directive";
 @Component({
   // Intentional `main` attribute-selector.
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: "main[app-playlist-songs-page]",
-  templateUrl: "./playlist-songs-page.component.html",
-  styleUrl: "./playlist-songs-page.component.css",
+  selector: "main[app-playlist-page]",
+  templateUrl: "./playlist-page.component.html",
+  styleUrl: "./playlist-page.component.css",
   imports: [
     SongTableComponent,
     AsyncPipe,
@@ -38,7 +38,7 @@ import { ModalDirective } from "../../../../shared/directives/modal.directive";
     ModalDirective,
   ],
 })
-export class PlaylistSongsPage extends PageComponent implements OnInit {
+export class PlaylistPageComponent extends PageComponent implements OnInit {
   readonly #id: number = Number(
     inject(ActivatedRoute).snapshot.paramMap.get("id"),
   );

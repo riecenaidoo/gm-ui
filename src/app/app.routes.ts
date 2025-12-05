@@ -1,14 +1,14 @@
 import { Routes } from "@angular/router";
-import { CataloguePlaylistsPage } from "./features/catalogue/pages/catalogue-playlists/catalogue-playlists-page.component";
-import { PlaylistSongsPage } from "./features/catalogue/pages/playlist-songs/playlist-songs-page.component";
+import { CataloguePageComponent } from "./features/storage/pages/catalogue/catalogue-page.component";
+import { PlaylistPageComponent } from "./features/storage/pages/playlist/playlist-page.component";
 
 export const routes: Routes = [
   {
     path: "",
-    component: CataloguePlaylistsPage,
+    component: CataloguePageComponent,
   },
   {
     path: "playlists/:id",
-    component: PlaylistSongsPage,
+    component: PlaylistPageComponent,
   },
 ];

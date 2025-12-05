@@ -4,7 +4,7 @@ import { DiscordControlPanelComponent } from "./features/discord/components/disc
 import { RouterOutlet } from "@angular/router";
 import { HeaderComponent } from "./shared/components/header/header.component";
 import { DiscordStatusComponent } from "./features/discord/components/discord-status/discord-status.component";
-import { PageService } from "./features/catalogue/services/page.service";
+import { PageService } from "./features/storage/services/page.service";
 import { DrawerComponent } from "./shared/components/drawer/drawer.component";
 import {
   AudioBot,
