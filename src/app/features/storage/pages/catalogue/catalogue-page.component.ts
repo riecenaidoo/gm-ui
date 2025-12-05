@@ -1,13 +1,10 @@
 import {
   Component,
   computed,
-  ElementRef,
-  HostListener,
   inject,
   OnInit,
   signal,
   Signal,
-  ViewChild,
   WritableSignal,
 } from "@angular/core";
 import { combineLatest, startWith, switchMap } from "rxjs";
@@ -22,6 +19,7 @@ import { PageComponent } from "../page.component";
 import { FormsModule } from "@angular/forms";
 import { PlaylistStateService } from "../../services/playlist-state.service";
 import { ModalDirective } from "../../../../shared/directives/modal.directive";
+import { HotkeyDirective } from "../../../../shared/directives/hotkey.directive";
 
 @Component({
   selector: "main[app-catalogue-page]",
@@ -34,6 +32,7 @@ import { ModalDirective } from "../../../../shared/directives/modal.directive";
     PlaylistCreateFormComponent,
     FormsModule,
     ModalDirective,
+    HotkeyDirective,
   ],
 })
 export class CataloguePageComponent extends PageComponent implements OnInit {
@@ -50,17 +49,6 @@ export class CataloguePageComponent extends PageComponent implements OnInit {
       const filter = this.playlistStateService.playlistTitleFilter();
       return filter && this.#playlists().length === 0 ? filter : undefined;
     });
-
-  // Components
-
-  @ViewChild("createPlaylistDialog", { static: true })
-  private createPlaylistDialog!: ElementRef<HTMLDialogElement>;
-
-  /**
-   * Input field for searching (filtering) `Playlists` within the `Catalogue`.
-   */
-  @ViewChild("playlistSearchInput", { static: true })
-  private playlistSearchInput!: ElementRef<HTMLInputElement>;
 
   // Services
 
@@ -114,20 +102,6 @@ export class CataloguePageComponent extends PageComponent implements OnInit {
 
   protected get playlistTitleFilter(): Signal<string | undefined> {
     return this.playlistStateService.playlistTitleFilter;
-  }
-
-  // ------ Hotkey Bindings ------
-
-  @HostListener("window:keydown.alt.1")
-  protected showCreatePlaylistDialog(): void {
-    this.createPlaylistDialog.nativeElement.showModal();
-  }
-
-  @HostListener("window:keydown.alt.`")
-  protected focusPlaylistSearch(): void {
-    window.requestAnimationFrame(() =>
-      this.playlistSearchInput.nativeElement.focus(),
-    );
   }
 
   // ------ Event Handling ------

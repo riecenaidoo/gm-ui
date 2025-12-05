@@ -1,5 +1,11 @@
 @if (service() !== undefined) {
-  <app-drawer position="left">
+  <app-drawer
+    #controlPanel
+    appHotkey
+    hotkey="a"
+    (pressed)="controlPanel.toggle()"
+    position="left"
+  >
     <app-discord-control-panel />
   </app-drawer>
 }

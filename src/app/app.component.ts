@@ -10,6 +10,7 @@ import {
   AudioBot,
   AudioStateService,
 } from "./features/discord/services/audio-state.service";
+import { HotkeyDirective } from "./shared/directives/hotkey.directive";
 
 @Component({
   selector: "app-root",
@@ -21,6 +22,7 @@ import {
     HeaderComponent,
     DiscordStatusComponent,
     DrawerComponent,
+    HotkeyDirective,
   ],
 })
 export class AppComponent {

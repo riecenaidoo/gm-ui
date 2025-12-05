@@ -62,6 +62,13 @@ export class DrawerComponent {
    */
   public expanded: WritableSignal<boolean> = signal<boolean>(false);
 
+  /**
+   * @remarks For fluidity between user interaction and animation, we do not debouncing the user's interaction here.
+   */
+  public toggle(): void {
+    this.expanded.set(!this.expanded());
+  }
+
   // ==========================================================================
   // Derived State
   // ==========================================================================
@@ -77,17 +84,6 @@ export class DrawerComponent {
   protected right: Signal<boolean> = computed(
     () => this.position() === "right",
   );
-
-  // ==========================================================================
-  // Event Handling
-  // ==========================================================================
-
-  /**
-   * @remarks For fluidity between user interaction and animation, we do not debouncing the user's interaction here.
-   */
-  protected toggle(): void {
-    this.expanded.set(!this.expanded());
-  }
 
   // ==========================================================================
 }

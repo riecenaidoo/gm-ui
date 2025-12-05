@@ -1,11 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  HostListener,
-  inject,
-  OnInit,
-  ViewChild,
-} from "@angular/core";
+import { Component, inject, OnInit } from "@angular/core";
 import { PlaylistApiService } from "../../services/playlist-api.service";
 import { Observable, Subject } from "rxjs";
 import { Playlist } from "../../models/playlist";
@@ -19,6 +12,7 @@ import { SongCreateFormComponent } from "../../components/song-create-form/song-
 import { PlaylistRenameFormComponent } from "../../components/playlist-rename-form/playlist-rename-form.component";
 import { FormsModule } from "@angular/forms";
 import { ModalDirective } from "../../../../shared/directives/modal.directive";
+import { HotkeyDirective } from "../../../../shared/directives/hotkey.directive";
 
 @Component({
   selector: "main[app-playlist-page]",
@@ -31,6 +25,7 @@ import { ModalDirective } from "../../../../shared/directives/modal.directive";
     PlaylistRenameFormComponent,
     FormsModule,
     ModalDirective,
+    HotkeyDirective,
   ],
 })
 export class PlaylistPageComponent extends PageComponent implements OnInit {
@@ -41,12 +36,6 @@ export class PlaylistPageComponent extends PageComponent implements OnInit {
   readonly #playlist: Subject<Playlist> = new Subject<Playlist>();
 
   readonly #songs: Subject<PlaylistSong[]> = new Subject<PlaylistSong[]>();
-
-  @ViewChild("addSongDialog")
-  private addSongDialog!: ElementRef<HTMLDialogElement>;
-
-  @ViewChild("renamePlaylistDialog")
-  protected renamePlaylistDialog!: ElementRef<HTMLDialogElement>;
 
   private playlistService: PlaylistApiService = inject(PlaylistApiService);
 
@@ -63,18 +52,6 @@ export class PlaylistPageComponent extends PageComponent implements OnInit {
 
   protected get songs(): Observable<PlaylistSong[]> {
     return this.#songs;
-  }
-
-  // ------ Hotkeys ------
-
-  @HostListener("window:keydown.alt.1")
-  protected showAddSongDialog(): void {
-    this.addSongDialog.nativeElement.showModal();
-  }
-
-  @HostListener("window:keydown.alt.2")
-  protected showRenamePlaylistDialog(): void {
-    this.renamePlaylistDialog.nativeElement.showModal();
   }
 
   // ------ Event Handling ------

@@ -1,5 +1,8 @@
 <div class="control-bar" role="toolbar" aria-label="'Catalogue Controls'">
   <button
+    appHotkey
+    hotkey="1"
+    (pressed)="createPlaylistDialog.showModal()"
     (click)="createPlaylistDialog.showModal()"
     title="Create a Playlist"
     aria-label="Create a Playlist"
@@ -10,10 +13,13 @@
   <input
     #playlistSearchInput
     appTextSearchInput
-    placeholder="Search within Catalogue"
+    appHotkey
+    hotkey="q"
+    (pressed)="playlistSearchInput.focus()"
     (searchedText)="filterPlaylists($event)"
     (searchCleared)="clearFilter()"
     [value]="playlistTitleFilter() ?? ''"
+    placeholder="Search within Catalogue"
   />
 </div>
 <section title="Catalogue Playlists" class="page-scrolling">
