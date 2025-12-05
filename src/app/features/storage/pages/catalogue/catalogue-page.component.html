@@ -41,11 +41,10 @@
   class="modal"
 >
   <form
-    app-playlist-create-form
     #createPlaylistForm
+    app-playlist-create-form
     method="dialog"
-    (ngSubmit)="createPlaylistForm.submit()"
-    (createdPlaylist)="createPlaylist($event)"
+    (createdPlaylist)="refresh()"
     [initialTitle]="defaultPlaylistTitle()"
   ></form>
 </dialog>

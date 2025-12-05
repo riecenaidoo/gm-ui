@@ -14,7 +14,6 @@ import { combineLatest, startWith, switchMap } from "rxjs";
 import { Playlist } from "../../models/playlist";
 import { PlaylistApiService } from "../../services/playlist-api.service";
 import { PlaylistCreateFormComponent } from "../../components/playlist-create-form/playlist-create-form.component";
-import { PlaylistsCreateRequest } from "../../models/requests/playlists-create-request";
 import { InputSearchDebounceDirective } from "../../../../shared/directives/input-search-debounce.directive";
 import { PlaylistCreateTileComponent } from "../../components/playlist-create-tile/playlist-create-tile.component";
 import { PlaylistTileComponent } from "../../components/playlist-tile/playlist-tile.component";
@@ -132,18 +131,6 @@ export class CataloguePageComponent extends PageComponent implements OnInit {
   }
 
   // ------ Event Handling ------
-
-  /**
-   * The User has created a `Playlist`. We must coordinate with the service to submit their request.
-   */
-  protected createPlaylist(playlist: PlaylistsCreateRequest): void {
-    this.playlistService
-      .createPlaylist(playlist)
-      .pipe(takeUntilDestroyed(this.destroyed))
-      .subscribe((_) => {
-        this.refresh();
-      });
-  }
 
   /**
    * The User has selected a `Playlist` to view. We must navigate to it.
