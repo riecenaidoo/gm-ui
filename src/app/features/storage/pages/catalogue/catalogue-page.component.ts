@@ -12,7 +12,7 @@ import {
 } from "@angular/core";
 import { combineLatest, startWith, switchMap } from "rxjs";
 import { Playlist } from "../../models/playlist";
-import { PlaylistsApiService } from "../../services/playlists-api.service";
+import { PlaylistApiService } from "../../services/playlist-api.service";
 import { PlaylistCreateFormComponent } from "../../components/playlist-create-form/playlist-create-form.component";
 import { PlaylistsCreateRequest } from "../../models/requests/playlists-create-request";
 import { InputSearchDebounceDirective } from "../../../../shared/directives/input-search-debounce.directive";
@@ -21,7 +21,7 @@ import { PlaylistTileComponent } from "../../components/playlist-tile/playlist-t
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { PageComponent } from "../page.component";
 import { FormsModule } from "@angular/forms";
-import { CatalogueStateService } from "../../services/catalogue-state.service";
+import { PlaylistStateService } from "../../services/playlist-state.service";
 import { ModalDirective } from "../../../../shared/directives/modal.directive";
 
 @Component({
@@ -48,7 +48,7 @@ export class CataloguePageComponent extends PageComponent implements OnInit {
    */
   protected readonly defaultPlaylistTitle: Signal<string | undefined> =
     computed<string | undefined>(() => {
-      const filter = this.catalogueStateService.playlistTitleFilter();
+      const filter = this.playlistStateService.playlistTitleFilter();
       return filter && this.#playlists().length === 0 ? filter : undefined;
     });
 
@@ -65,12 +65,11 @@ export class CataloguePageComponent extends PageComponent implements OnInit {
 
   // Services
 
-  private readonly playlistsService: PlaylistsApiService =
-    inject(PlaylistsApiService);
+  private readonly playlistService: PlaylistApiService =
+    inject(PlaylistApiService);
 
-  private readonly catalogueStateService: CatalogueStateService = inject(
-    CatalogueStateService,
-  );
+  private readonly playlistStateService: PlaylistStateService =
+    inject(PlaylistStateService);
 
   // Initialisation
 
@@ -86,7 +85,7 @@ export class CataloguePageComponent extends PageComponent implements OnInit {
    *
    * - Data is loaded initially.
    * - Data is reloaded on {@link PageComponent#refreshed}.
-   * - Data is re-fetched whenever {@link CatalogueStateService#playlistTitleFilter} changes.
+   * - Data is re-fetched whenever {@link PlaylistStateService#playlistTitleFilter} changes.
    *
    * @implNote {@link combineLatest} will wait for all observables to emit at least once.
    * We use {@link startWith} to trigger a first emission in order to jump start the pipeline and load the content for
@@ -95,15 +94,13 @@ export class CataloguePageComponent extends PageComponent implements OnInit {
   private setupPlaylistsDataSource(): void {
     combineLatest([
       this.refreshed.pipe(startWith(undefined)),
-      this.catalogueStateService.playlistTitleFilter$.pipe(
-        startWith(undefined),
-      ),
+      this.playlistStateService.playlistTitleFilter$.pipe(startWith(undefined)),
     ])
       .pipe(
         switchMap(([_, titleFilter]: [void, string | undefined]) =>
           titleFilter
-            ? this.playlistsService.findByTitle(titleFilter)
-            : this.playlistsService.findAll(),
+            ? this.playlistService.getPlaylistsByTitle(titleFilter)
+            : this.playlistService.getPlaylists(),
         ),
         takeUntilDestroyed(this.destroyed),
       )
@@ -117,7 +114,7 @@ export class CataloguePageComponent extends PageComponent implements OnInit {
   }
 
   protected get playlistTitleFilter(): Signal<string | undefined> {
-    return this.catalogueStateService.playlistTitleFilter;
+    return this.playlistStateService.playlistTitleFilter;
   }
 
   // ------ Hotkey Bindings ------
@@ -140,7 +137,7 @@ export class CataloguePageComponent extends PageComponent implements OnInit {
    * The User has created a `Playlist`. We must coordinate with the service to submit their request.
    */
   protected createPlaylist(playlist: PlaylistsCreateRequest): void {
-    this.playlistsService
+    this.playlistService
       .createPlaylist(playlist)
       .pipe(takeUntilDestroyed(this.destroyed))
       .subscribe((_) => {
@@ -165,13 +162,13 @@ export class CataloguePageComponent extends PageComponent implements OnInit {
    * The User has filtered the `Playlists` in the `Catalogue`.
    */
   protected filterPlaylists($event: string) {
-    this.catalogueStateService.playlistTitleFilter = $event;
+    this.playlistStateService.playlistTitleFilter = $event;
   }
 
   /**
    * The User has cleared their filter on the `Playlists` in the `Catalogue`.
    */
   protected clearFilter() {
-    this.catalogueStateService.playlistTitleFilter = undefined;
+    this.playlistStateService.playlistTitleFilter = undefined;
   }
 }

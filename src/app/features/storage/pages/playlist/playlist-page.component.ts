@@ -6,12 +6,11 @@ import {
   OnInit,
   ViewChild,
 } from "@angular/core";
-import { PlaylistsApiService } from "../../services/playlists-api.service";
+import { PlaylistApiService } from "../../services/playlist-api.service";
 import { Observable, Subject } from "rxjs";
 import { Playlist } from "../../models/playlist";
 import { ActivatedRoute } from "@angular/router";
 import { PlaylistSong } from "../../models/playlist-song";
-import { PlaylistSongsApiService } from "../../services/playlist-songs-api.service";
 import { PlaylistSongsCreateRequest } from "../../models/requests/playlist-songs-create-request";
 import { AsyncPipe } from "@angular/common";
 import { SongTableComponent } from "../../components/song-table/song-table.component";
@@ -51,11 +50,7 @@ export class PlaylistPageComponent extends PageComponent implements OnInit {
   @ViewChild("renamePlaylistDialog")
   protected renamePlaylistDialog!: ElementRef<HTMLDialogElement>;
 
-  private playlistsService: PlaylistsApiService = inject(PlaylistsApiService);
-
-  private playlistSongsService: PlaylistSongsApiService = inject(
-    PlaylistSongsApiService,
-  );
+  private playlistService: PlaylistApiService = inject(PlaylistApiService);
 
   public ngOnInit(): void {
     this.fetchPlaylist();
@@ -87,7 +82,7 @@ export class PlaylistPageComponent extends PageComponent implements OnInit {
   // ------ Event Handling ------
 
   protected addSong(song: PlaylistSongsCreateRequest): void {
-    this.playlistSongsService
+    this.playlistService
       .createPlaylistSong(this.#id, song)
       .pipe(takeUntilDestroyed(this.destroyed))
       .subscribe(() => {
@@ -111,14 +106,14 @@ export class PlaylistPageComponent extends PageComponent implements OnInit {
   }
 
   protected removeSong(song: PlaylistSong): void {
-    this.playlistSongsService
+    this.playlistService
       .deletePlaylistSong(this.#id, song)
       .pipe(takeUntilDestroyed(this.destroyed))
       .subscribe(() => this.fetchSongs());
   }
 
   protected updatePlaylist(patch: PlaylistsPatchRequest): void {
-    this.playlistsService
+    this.playlistService
       .updatePlaylist(this.#id, patch)
       .pipe(takeUntilDestroyed(this.destroyed))
       .subscribe((playlist: Playlist) => {
@@ -127,7 +122,7 @@ export class PlaylistPageComponent extends PageComponent implements OnInit {
   }
 
   protected deletePlaylist(): void {
-    this.playlistsService
+    this.playlistService
       .deletePlaylist(this.#id)
       .pipe(takeUntilDestroyed(this.destroyed))
       .subscribe(() => {
@@ -153,14 +148,14 @@ export class PlaylistPageComponent extends PageComponent implements OnInit {
   }
 
   private fetchPlaylist(): void {
-    this.playlistsService
-      .findById(this.#id)
+    this.playlistService
+      .getPlaylist(this.#id)
       .pipe(takeUntilDestroyed(this.destroyed))
       .subscribe((playlist: Playlist) => (this.playlist = playlist));
   }
 
   private fetchSongs(): void {
-    this.playlistSongsService
+    this.playlistService
       .getPlaylistSongs(this.#id)
       .pipe(takeUntilDestroyed(this.destroyed))
       .subscribe((songs: PlaylistSong[]) => this.#songs.next(songs));

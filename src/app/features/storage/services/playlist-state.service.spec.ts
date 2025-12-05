@@ -1,22 +1,22 @@
 import { TestBed } from "@angular/core/testing";
-import { CatalogueStateService } from "./catalogue-state.service";
+import { PlaylistStateService } from "./playlist-state.service";
 import { effect, Injector, runInInjectionContext } from "@angular/core";
 
 /**
- * @see CatalogueStateService
+ * @see PlaylistStateService
  */
-describe("CatalogueStateService", () => {
-  let service: CatalogueStateService;
+describe("PlaylistStateService", () => {
+  let service: PlaylistStateService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [CatalogueStateService],
+      providers: [PlaylistStateService],
     });
-    service = TestBed.inject(CatalogueStateService);
+    service = TestBed.inject(PlaylistStateService);
   });
 
   /**
-   * @see CatalogueStateService#playlistTitleFilter
+   * @see PlaylistStateService#playlistTitleFilter
    */
   describe("playlistTitleFilter", () => {
     it("should trim whitespace", () => {
@@ -55,7 +55,7 @@ describe("CatalogueStateService", () => {
   });
 
   /**
-   * @see CatalogueStateService#playlistTitleFilter$
+   * @see PlaylistStateService#playlistTitleFilter$
    */
   it("should provide an Observable for interop with Rxjs", (done: DoneFn) => {
     service.playlistTitleFilter$.subscribe((value: string | undefined) => {

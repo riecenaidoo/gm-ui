@@ -15,7 +15,7 @@ import { Observable } from "rxjs";
 @Injectable({
   providedIn: "root",
 })
-export class CatalogueStateService {
+export class PlaylistStateService {
   /**
    * Cache of the current `Playlist` filter input from the User.
    *
@@ -42,7 +42,7 @@ export class CatalogueStateService {
    * It is case-insensitive, and optional.
    * If a filter is defined, it is guaranteed to be non-blank.
    *
-   * @see PlaylistsApiService#findByTitle
+   * @see PlaylistApiService#getPlaylistsByTitle
    */
   public get playlistTitleFilter(): Signal<string | undefined> {
     return this.#playlistTitleFilter;
