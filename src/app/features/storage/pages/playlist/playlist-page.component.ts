@@ -19,7 +19,6 @@ import { PageComponent } from "../page.component";
 import { SongCreateFormComponent } from "../../components/song-create-form/song-create-form.component";
 import { PlaylistRenameFormComponent } from "../../components/playlist-rename-form/playlist-rename-form.component";
 import { FormsModule } from "@angular/forms";
-import { PlaylistsPatchRequest } from "../../models/requests/playlists-patch-request";
 import { ModalDirective } from "../../../../shared/directives/modal.directive";
 
 @Component({
@@ -112,13 +111,8 @@ export class PlaylistPageComponent extends PageComponent implements OnInit {
       .subscribe(() => this.fetchSongs());
   }
 
-  protected updatePlaylist(patch: PlaylistsPatchRequest): void {
-    this.playlistService
-      .updatePlaylist(this.#id, patch)
-      .pipe(takeUntilDestroyed(this.destroyed))
-      .subscribe((playlist: Playlist) => {
-        this.playlist = playlist;
-      });
+  protected updatePlaylist(playlist: Playlist): void {
+    this.playlist = playlist;
   }
 
   protected deletePlaylist(): void {

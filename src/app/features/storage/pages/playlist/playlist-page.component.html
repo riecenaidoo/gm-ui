@@ -55,12 +55,11 @@
     class="modal"
   >
     <form
-      app-playlist-rename-form
       #renamePlaylistForm
+      app-playlist-rename-form
       method="dialog"
-      (ngSubmit)="renamePlaylistForm.submit()"
-      (renamedPlaylist)="updatePlaylist($event)"
       [playlist]="playlist"
+      (renamedPlaylist)="updatePlaylist($event)"
     ></form>
   </dialog>
 }

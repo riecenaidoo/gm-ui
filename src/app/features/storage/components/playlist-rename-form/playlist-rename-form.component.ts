@@ -1,8 +1,19 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import {
+  Component,
+  DestroyRef,
+  effect,
+  inject,
+  input,
+  InputSignal,
+  output,
+  OutputEmitterRef,
+} from "@angular/core";
 import { Playlist } from "../../models/playlist";
 import { Form } from "../../../../shared/models/form";
 import { FormsModule } from "@angular/forms";
 import { PlaylistsPatchRequest } from "../../models/requests/playlists-patch-request";
+import { PlaylistApiService } from "../../services/playlist-api.service";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
   selector: "form[app-playlist-rename-form]",
@@ -11,25 +22,41 @@ import { PlaylistsPatchRequest } from "../../models/requests/playlists-patch-req
   imports: [FormsModule],
 })
 export class PlaylistRenameFormComponent implements Form {
-  #playlist!: Playlist;
+  // ==========================================================================
+  // Dependencies
+  // ==========================================================================
 
-  public title!: string;
+  readonly #api: PlaylistApiService = inject(PlaylistApiService);
 
-  @Output()
-  private renamedPlaylist: EventEmitter<PlaylistsPatchRequest> =
-    new EventEmitter<PlaylistsPatchRequest>();
+  readonly #destroyed: DestroyRef = inject(DestroyRef);
+
+  // ==========================================================================
+  // State
+  // ==========================================================================
+
+  public readonly playlist: InputSignal<Playlist> = input.required<Playlist>();
+
+  protected title = "";
+
+  // ==========================================================================
+  // Initialisation
+  // ==========================================================================
+
+  public constructor() {
+    effect(() => (this.title = this.playlist().title));
+  }
 
   // ==========================================================================
   // API
   // ==========================================================================
 
+  public renamedPlaylist: OutputEmitterRef<Playlist> = output<Playlist>();
+
   /**
-   * The details of the `Playlist` will be used to initialise the form field(s).
+   * Title must have changed.
    */
-  @Input({ required: true })
-  public set playlist(playlist: Playlist) {
-    this.#playlist = playlist;
-    this.title = playlist.title;
+  public isValid(): boolean {
+    return this.playlist().title !== this.title;
   }
 
   public submit(): void {
@@ -37,24 +64,20 @@ export class PlaylistRenameFormComponent implements Form {
       return;
     }
 
-    const patchRequest: PlaylistsPatchRequest = {
+    const patch: PlaylistsPatchRequest = {
       title: this.title,
     };
-    this.renamedPlaylist.emit(patchRequest);
+
+    this.#api
+      .updatePlaylist(this.playlist().id, patch)
+      .pipe(takeUntilDestroyed(this.#destroyed))
+      .subscribe((playlist: Playlist) => {
+        this.renamedPlaylist.emit(playlist);
+        this.reset();
+      });
   }
 
   public reset(): void {
-    this.title = this.#playlist.title;
-  }
-
-  // ==========================================================================
-  // Implementation Details
-  // ==========================================================================
-
-  /**
-   * Title must have changed.
-   */
-  public isValid(): boolean {
-    return this.#playlist.title !== this.title;
+    this.title = this.playlist().title;
   }
 }
