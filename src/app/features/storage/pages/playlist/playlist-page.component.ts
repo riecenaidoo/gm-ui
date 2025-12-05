@@ -11,7 +11,6 @@ import { Observable, Subject } from "rxjs";
 import { Playlist } from "../../models/playlist";
 import { ActivatedRoute } from "@angular/router";
 import { PlaylistSong } from "../../models/playlist-song";
-import { PlaylistSongsCreateRequest } from "../../models/requests/playlist-songs-create-request";
 import { AsyncPipe } from "@angular/common";
 import { SongTableComponent } from "../../components/song-table/song-table.component";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
@@ -19,7 +18,6 @@ import { PageComponent } from "../page.component";
 import { SongCreateFormComponent } from "../../components/song-create-form/song-create-form.component";
 import { PlaylistRenameFormComponent } from "../../components/playlist-rename-form/playlist-rename-form.component";
 import { FormsModule } from "@angular/forms";
-import { PlaylistsPatchRequest } from "../../models/requests/playlists-patch-request";
 import { ModalDirective } from "../../../../shared/directives/modal.directive";
 
 @Component({
@@ -81,15 +79,6 @@ export class PlaylistPageComponent extends PageComponent implements OnInit {
 
   // ------ Event Handling ------
 
-  protected addSong(song: PlaylistSongsCreateRequest): void {
-    this.playlistService
-      .createPlaylistSong(this.#id, song)
-      .pipe(takeUntilDestroyed(this.destroyed))
-      .subscribe(() => {
-        this.fetchSongs();
-      });
-  }
-
   /**
    * Copying to clipboard might be a global utility, but for now it is localised to this page.
    * TODO When we introduce toasts, these logs should be replaced with toast messages instead.
@@ -112,13 +101,8 @@ export class PlaylistPageComponent extends PageComponent implements OnInit {
       .subscribe(() => this.fetchSongs());
   }
 
-  protected updatePlaylist(patch: PlaylistsPatchRequest): void {
-    this.playlistService
-      .updatePlaylist(this.#id, patch)
-      .pipe(takeUntilDestroyed(this.destroyed))
-      .subscribe((playlist: Playlist) => {
-        this.playlist = playlist;
-      });
+  protected updatePlaylist(playlist: Playlist): void {
+    this.playlist = playlist;
   }
 
   protected deletePlaylist(): void {
@@ -154,7 +138,7 @@ export class PlaylistPageComponent extends PageComponent implements OnInit {
       .subscribe((playlist: Playlist) => (this.playlist = playlist));
   }
 
-  private fetchSongs(): void {
+  protected fetchSongs(): void {
     this.playlistService
       .getPlaylistSongs(this.#id)
       .pipe(takeUntilDestroyed(this.destroyed))
