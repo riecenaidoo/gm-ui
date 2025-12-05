@@ -11,7 +11,6 @@ import { Observable, Subject } from "rxjs";
 import { Playlist } from "../../models/playlist";
 import { ActivatedRoute } from "@angular/router";
 import { PlaylistSong } from "../../models/playlist-song";
-import { PlaylistSongsCreateRequest } from "../../models/requests/playlist-songs-create-request";
 import { AsyncPipe } from "@angular/common";
 import { SongTableComponent } from "../../components/song-table/song-table.component";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
@@ -80,15 +79,6 @@ export class PlaylistPageComponent extends PageComponent implements OnInit {
 
   // ------ Event Handling ------
 
-  protected addSong(song: PlaylistSongsCreateRequest): void {
-    this.playlistService
-      .createPlaylistSong(this.#id, song)
-      .pipe(takeUntilDestroyed(this.destroyed))
-      .subscribe(() => {
-        this.fetchSongs();
-      });
-  }
-
   /**
    * Copying to clipboard might be a global utility, but for now it is localised to this page.
    * TODO When we introduce toasts, these logs should be replaced with toast messages instead.
@@ -148,7 +138,7 @@ export class PlaylistPageComponent extends PageComponent implements OnInit {
       .subscribe((playlist: Playlist) => (this.playlist = playlist));
   }
 
-  private fetchSongs(): void {
+  protected fetchSongs(): void {
     this.playlistService
       .getPlaylistSongs(this.#id)
       .pipe(takeUntilDestroyed(this.destroyed))

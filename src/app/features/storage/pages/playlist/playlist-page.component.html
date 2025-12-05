@@ -40,11 +40,11 @@
 
   <dialog #addSongDialog appModal (close)="addSongForm.reset()" class="modal">
     <form
-      app-song-create-form
       #addSongForm
+      app-song-create-form
       method="dialog"
-      (ngSubmit)="addSongForm.submit()"
-      (addedSong)="addSong($event)"
+      [playlist]="playlist"
+      (submitted)="fetchSongs()"
     ></form>
   </dialog>
 
@@ -59,7 +59,7 @@
       app-playlist-rename-form
       method="dialog"
       [playlist]="playlist"
-      (renamedPlaylist)="updatePlaylist($event)"
+      (submitted)="updatePlaylist($event)"
     ></form>
   </dialog>
 }

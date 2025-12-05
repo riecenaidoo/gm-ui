@@ -21,7 +21,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
   styleUrl: "./playlist-rename-form.component.css",
   imports: [FormsModule],
 })
-export class PlaylistRenameFormComponent implements Form {
+export class PlaylistRenameFormComponent implements Form<Playlist> {
   // ==========================================================================
   // Dependencies
   // ==========================================================================
@@ -50,8 +50,6 @@ export class PlaylistRenameFormComponent implements Form {
   // API
   // ==========================================================================
 
-  public renamedPlaylist: OutputEmitterRef<Playlist> = output<Playlist>();
-
   /**
    * Title must have changed.
    */
@@ -72,10 +70,12 @@ export class PlaylistRenameFormComponent implements Form {
       .updatePlaylist(this.playlist().id, patch)
       .pipe(takeUntilDestroyed(this.#destroyed))
       .subscribe((playlist: Playlist) => {
-        this.renamedPlaylist.emit(playlist);
+        this.submitted.emit(playlist);
         this.reset();
       });
   }
+
+  public submitted: OutputEmitterRef<Playlist> = output<Playlist>();
 
   public reset(): void {
     this.title = this.playlist().title;

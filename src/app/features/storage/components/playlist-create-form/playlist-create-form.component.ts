@@ -22,7 +22,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
   styleUrl: "./playlist-create-form.component.css",
   imports: [FormsModule],
 })
-export class PlaylistCreateFormComponent implements Form {
+export class PlaylistCreateFormComponent implements Form<Playlist> {
   // ==========================================================================
   // Dependencies
   // ==========================================================================
@@ -51,8 +51,6 @@ export class PlaylistCreateFormComponent implements Form {
 
   public initialTitle: InputSignal<string | undefined> = input<string>();
 
-  public createdPlaylist: OutputEmitterRef<Playlist> = output<Playlist>();
-
   /**
    * Must have input.
    */
@@ -74,10 +72,12 @@ export class PlaylistCreateFormComponent implements Form {
       .createPlaylist(playlist)
       .pipe(takeUntilDestroyed(this.#destroyed))
       .subscribe((playlist: Playlist) => {
-        this.createdPlaylist.emit(playlist);
+        this.submitted.emit(playlist);
         this.reset();
       });
   }
+
+  public submitted: OutputEmitterRef<Playlist> = output<Playlist>();
 
   public reset(): void {
     this.title = this.initialTitle() ?? "";
