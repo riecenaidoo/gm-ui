@@ -22,9 +22,12 @@ export interface Form<T> {
   /**
    * Submit the form, if it is {@link isValid}.
    *
-   * Bind this method with the form submission event listener, e.g.
+   * Bind this method to an `ngSubmit` event listener, e.g. Using `host` property:
    * ```ts
-   * @HostListener("ngSubmit", ["$event"])
+   * @Component({
+   *  ...,
+   *  host: { "(ngSubmit)": "submit()" }
+   * })
    * ```
    *
    * @remarks Each field may validate on its own, but some cases require cross-field checks before submission.

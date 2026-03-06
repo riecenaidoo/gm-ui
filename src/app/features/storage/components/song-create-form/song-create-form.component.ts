@@ -1,7 +1,6 @@
 import {
   Component,
   DestroyRef,
-  HostListener,
   inject,
   input,
   InputSignal,
@@ -21,6 +20,7 @@ import { PlaylistSong } from "../../models/playlist-song";
   templateUrl: "./song-create-form.component.html",
   styleUrl: "./song-create-form.component.css",
   imports: [FormsModule],
+  host: { "(ngSubmit)": "submit()" },
 })
 export class SongCreateFormComponent implements Form<PlaylistSong> {
   // ==========================================================================
@@ -50,7 +50,6 @@ export class SongCreateFormComponent implements Form<PlaylistSong> {
     return this.url.trim().length !== 0;
   }
 
-  @HostListener("ngSubmit", ["$event"])
   public submit(): void {
     if (!this.isValid()) {
       return;

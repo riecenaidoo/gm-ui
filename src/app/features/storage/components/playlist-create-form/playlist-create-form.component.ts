@@ -2,7 +2,6 @@ import {
   Component,
   DestroyRef,
   effect,
-  HostListener,
   inject,
   input,
   InputSignal,
@@ -21,6 +20,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
   templateUrl: "./playlist-create-form.component.html",
   styleUrl: "./playlist-create-form.component.css",
   imports: [FormsModule],
+  host: { "(ngSubmit)": "submit()" },
 })
 export class PlaylistCreateFormComponent implements Form<Playlist> {
   // ==========================================================================
@@ -58,7 +58,6 @@ export class PlaylistCreateFormComponent implements Form<Playlist> {
     return this.title.trim().length !== 0;
   }
 
-  @HostListener("ngSubmit", ["$event"])
   public submit(): void {
     if (!this.isValid()) {
       return;

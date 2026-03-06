@@ -2,7 +2,6 @@ import {
   Directive,
   ElementRef,
   EventEmitter,
-  HostListener,
   inject,
   OnInit,
   Output,
@@ -15,6 +14,7 @@ import { DebounceDirective } from "./debounce.directive";
  */
 @Directive({
   selector: "input[appTextSearchInput]",
+  host: { "(input)": "debounceUserInput($event)" },
 })
 export class InputSearchDebounceDirective
   extends DebounceDirective
@@ -55,8 +55,12 @@ export class InputSearchDebounceDirective
    * - a `searchedText` event if the User has inputted non-blank input, different from what was last searched, or,
    * - a `searchCleared` event if they have cleared their search (inputted only blank input).
    */
-  @HostListener("input", ["$event.target.value"])
-  protected debounceUserInput(searchText: string): void {
+  protected debounceUserInput(event: Event): void {
+    const input = event.target as HTMLInputElement | null;
+    if (input == undefined) {
+      return;
+    }
+    const searchText: string = input.value;
     this.debounce(() => {
       const text = searchText.trim();
       if (text.length > 0) {
