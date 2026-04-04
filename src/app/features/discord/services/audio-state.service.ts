@@ -4,8 +4,8 @@ import { Server } from "../models/server";
 import { AudioApiService } from "./audio-api.service";
 import { AudioService } from "../models/audio-service";
 import {
-  combineLatest,
   map,
+  merge,
   Observable,
   of,
   share,
@@ -144,7 +144,7 @@ export class AudioStateService implements AudioBot {
       share(),
     );
 
-  readonly #connected: Observable<void> = this.#connect.pipe(
+  readonly #connected: Observable<ServerAudio | undefined> = this.#connect.pipe(
     map((channel: Channel | undefined): [Server, Channel | undefined] => {
       const server: Server | undefined = this.selectedServer();
       if (server == undefined) {
@@ -158,31 +158,24 @@ export class AudioStateService implements AudioBot {
       const server = connectAction[0];
       const channel = connectAction[1];
       return channel == undefined
-        ? this.#api.deleteServerAudio(server)
+        ? this.#api.deleteServerAudio(server).pipe(map((_channel) => undefined))
         : this.#api.createServerAudio(server, channel);
     }),
     share(),
   );
 
   /**
-   * @remarks TODO gm-discord. The underlying endpoint should be returning the latest ServerAudio instance, but it does
-   *            not work as expected currently. When it does do this, we would simplify {@link combineLatest} to say:
-   *             - take that latest ServerAudio instance we joined
-   *             - or if the {@link #selectServer} changed, grab audio for that {@link Server}.
+   * The {@link ServerAudio} reacts to two sources, a {@link Channel} being connected to, or the {@link Server} being
+   * changed.
    */
-  readonly #serverAudio: Observable<ServerAudio | undefined> = combineLatest([
-    this.#selectServer,
-    this.#connected.pipe(startWith<void>(undefined)),
-  ]).pipe(
-    map(
-      ([server, _connected]: [Server | undefined, void]): Server | undefined =>
-        server,
+  readonly #serverAudio: Observable<ServerAudio | undefined> = merge(
+    this.#connected,
+    this.#selectServer.pipe(
+      switchMap((server) =>
+        server ? this.#api.getServerAudio(server) : of(undefined),
+      ),
     ),
-    switchMap((server: Server | undefined) =>
-      server == undefined ? of(undefined) : this.#api.getServerAudio(server),
-    ),
-    share(),
-  );
+  ).pipe(share());
 
   // ==========================================================================
   // Derived State

@@ -41,11 +41,14 @@ export class AudioApiService {
     );
   }
 
-  public createServerAudio(server: Server, channel: Channel): Observable<void> {
+  public createServerAudio(
+    server: Server,
+    channel: Channel,
+  ): Observable<ServerAudio> {
     const request: ServerAudioCreateRequest = {
       channel_id: channel.id,
     };
-    return this.#http.post<void>(
+    return this.#http.post<ServerAudio>(
       `${this.#audioEndpoint}/servers/${server.id}/audio`,
       request,
     );
