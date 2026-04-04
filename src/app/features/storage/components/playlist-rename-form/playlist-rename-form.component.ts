@@ -2,6 +2,7 @@ import {
   Component,
   DestroyRef,
   effect,
+  HostListener,
   inject,
   input,
   InputSignal,
@@ -57,6 +58,7 @@ export class PlaylistRenameFormComponent implements Form<Playlist> {
     return this.playlist().title !== this.title;
   }
 
+  @HostListener("ngSubmit", ["$event"])
   public submit(): void {
     if (!this.isValid()) {
       return;
