@@ -47,7 +47,7 @@ button {
   }
 }
 
-div {
+div.server-audio {
   align-items: center;
   display: flex;
   gap: 0.25rem;
@@ -62,4 +62,8 @@ div {
     height: 1.25rem;
     width: auto;
   }
+}
+
+div.loader {
+  height: 1.25rem;
 }

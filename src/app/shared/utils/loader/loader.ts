@@ -13,6 +13,16 @@ import { defer, finalize, Observable, OperatorFunction } from "rxjs"; // Observa
  *       .subscribe(...);
  * ```
  *
+ * e.g. When using `switchMap`, make sure to bind to the correct source {@link Observable}
+ *
+ * ```ts
+ *    this.someOtherObservable()
+ *       .pipe(
+ *          map(...),
+ *          switchMap(() => this.someHttpCall().pipe(this.loader.track()))
+ *          ).subscribe(...);
+ * ```
+ *
  * Render loading state in a component
  *
  * ```html

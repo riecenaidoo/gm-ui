@@ -1,4 +1,11 @@
-import { Component, inject, Signal } from "@angular/core";
+import {
+  Component,
+  effect,
+  inject,
+  signal,
+  Signal,
+  WritableSignal,
+} from "@angular/core";
 import {
   AudioBot,
   AudioStateService,
@@ -28,7 +35,14 @@ export class ChannelSelectorComponent {
   readonly #bot: AudioBot = inject(AudioStateService);
 
   // ==========================================================================
-  // State
+  // Internal State
+  // ==========================================================================
+
+  protected readonly connectingTo: WritableSignal<Channel | undefined> =
+    signal(undefined);
+
+  // ==========================================================================
+  // External State
   // ==========================================================================
 
   protected readonly audioService: Signal<AudioService | undefined> =
@@ -41,10 +55,25 @@ export class ChannelSelectorComponent {
     this.#bot.connectedChannel;
 
   // ==========================================================================
+  // Initialisation
+  // ==========================================================================
+
+  public constructor() {
+    effect(() => {
+      const isConnecting = this.#bot.isConnecting();
+      if (isConnecting) {
+        return;
+      }
+      this.connectingTo.set(undefined);
+    });
+  }
+
+  // ==========================================================================
   // Event Handling
   // ==========================================================================
 
   protected select(channel: Channel | undefined): void {
+    this.connectingTo.set(channel);
     this.#bot.connect(channel);
   }
 }

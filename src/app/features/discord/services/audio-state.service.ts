@@ -15,6 +15,7 @@ import {
 } from "rxjs";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { ServerAudio } from "../models/server-audio";
+import { Loader } from "../../../shared/utils/loader/loader";
 
 /**
  * The capabilities for the Discord Audio Bot.
@@ -74,6 +75,13 @@ export interface AudioBot {
   connect(channel: Channel | undefined): void;
 
   /**
+   * If the {@link AudioBot} is in the process of connecting to a {@link Channel}.
+   *
+   * @see connect
+   */
+  isConnecting: Signal<boolean>;
+
+  /**
    * The {@link ServerAudio} of the {@link selectedServer}, if present.
    *
    * @see connect
@@ -118,6 +126,8 @@ export class AudioStateService implements AudioBot {
     Channel | undefined
   >();
 
+  readonly #connecting: Loader = new Loader();
+
   // ==========================================================================
   // External State
   // ==========================================================================
@@ -159,7 +169,9 @@ export class AudioStateService implements AudioBot {
       const channel = connectAction[1];
       return channel == undefined
         ? this.#api.deleteServerAudio(server).pipe(map((_channel) => undefined))
-        : this.#api.createServerAudio(server, channel);
+        : this.#api
+            .createServerAudio(server, channel)
+            .pipe(this.#connecting.track());
     }),
     share(),
   );
@@ -210,6 +222,8 @@ export class AudioStateService implements AudioBot {
   public readonly channels: Signal<Channel[] | undefined> = toSignal(
     this.#channels,
   );
+
+  public isConnecting: Signal<boolean> = this.#connecting.isLoading;
 
   public readonly connectedChannel: Signal<Channel | undefined> = computed(
     () => this.serverAudio()?.channel ?? undefined,

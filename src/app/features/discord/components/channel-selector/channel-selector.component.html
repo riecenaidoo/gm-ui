@@ -7,11 +7,16 @@
         <span>{{ channel.name }}</span>
       </button>
       @if (isConnectedChannel) {
-        <div>
+        <div class="server-audio">
           @let url = audioService()?.icon_url;
           @if (url !== undefined) {
             <img ngSrc="{{ url }}" alt="Icon" width="48" height="48" />
           }
+          <span>{{ audioService()?.name }}</span>
+        </div>
+      } @else if (connectingTo()?.id === channel.id) {
+        <div class="server-audio">
+          <div class="loader"></div>
           <span>{{ audioService()?.name }}</span>
         </div>
       }
