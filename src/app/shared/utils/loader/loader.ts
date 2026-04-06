@@ -1,6 +1,15 @@
-import { computed, Signal, signal, WritableSignal } from "@angular/core";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { defer, finalize, Observable, OperatorFunction } from "rxjs"; // Observable for documentation linking
+import { Signal, signal, WritableSignal } from "@angular/core";
+
+import {
+  debounceTime,
+  defer,
+  distinctUntilChanged,
+  finalize,
+  map,
+  Observable,
+  OperatorFunction,
+} from "rxjs";
+import { toObservable, toSignal } from "@angular/core/rxjs-interop"; // Observable for documentation linking
 
 /**
  * Utility to track the active state of one or more source {@link Observable observables} in a pipeline.
@@ -36,19 +45,40 @@ import { defer, finalize, Observable, OperatorFunction } from "rxjs"; // Observa
  * @see isLoading
  */
 export class Loader {
+  // ==========================================================================
+  // Internal State
+  // ==========================================================================
+
   /**
    * The number of tracked {@link Observable observables} that are currently active (subscribed, not yet finalised).
    */
   readonly #loading: WritableSignal<number> = signal<number>(0);
+
+  // ==========================================================================
+  // API
+  // ==========================================================================
 
   /**
    * `true` while one or more tracked {@link Observable observables} are still active (subscribed, not yet finalised).
    *
    * @see #track
    */
-  public readonly isLoading: Signal<boolean> = computed(
-    () => this.#loading() > 0,
+  public readonly isLoading$: Observable<boolean> = toObservable(
+    this.#loading,
+  ).pipe(
+    debounceTime(50),
+    map((loading) => loading > 0),
+    distinctUntilChanged(),
   );
+
+  /**
+   * `true` while one or more tracked {@link Observable observables} are still active (subscribed, not yet finalised).
+   *
+   * @see #track
+   */
+  public readonly isLoading: Signal<boolean> = toSignal(this.isLoading$, {
+    initialValue: false,
+  });
 
   /**
    * Track the subscription to the source {@link Observable}.

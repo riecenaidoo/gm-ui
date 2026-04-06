@@ -7,7 +7,7 @@ import {
   Signal,
   WritableSignal,
 } from "@angular/core";
-import { combineLatest, startWith, switchMap } from "rxjs";
+import { combineLatest, Observable, startWith, switchMap } from "rxjs";
 import { Playlist } from "../../models/playlist";
 import { PlaylistApiService } from "../../services/playlist-api.service";
 import { PlaylistCreateFormComponent } from "../../components/playlist-create-form/playlist-create-form.component";
@@ -20,6 +20,7 @@ import { FormsModule } from "@angular/forms";
 import { PlaylistStateService } from "../../services/playlist-state.service";
 import { ModalDirective } from "../../../../shared/directives/modal.directive";
 import { HotkeyDirective } from "../../../../shared/directives/hotkey.directive";
+import { Loader } from "../../../../shared/utils/loader/loader";
 
 @Component({
   selector: "main[app-catalogue-page]",
@@ -36,9 +37,23 @@ import { HotkeyDirective } from "../../../../shared/directives/hotkey.directive"
   ],
 })
 export class CataloguePageComponent extends PageComponent implements OnInit {
+  // ==========================================================================
+  // Dependencies
+  // ==========================================================================
+
+  private readonly playlistService: PlaylistApiService =
+    inject(PlaylistApiService);
+
+  private readonly playlistStateService: PlaylistStateService =
+    inject(PlaylistStateService);
+
+  // ==========================================================================
   // State
+  // ==========================================================================
 
   readonly #playlists: WritableSignal<Playlist[]> = signal<Playlist[]>([]);
+
+  readonly loader: Loader = new Loader();
 
   /**
    * When the User is filtering Playlists, and there is no match, set the default title for Playlist creation to the
@@ -50,15 +65,9 @@ export class CataloguePageComponent extends PageComponent implements OnInit {
       return filter && this.#playlists().length === 0 ? filter : undefined;
     });
 
-  // Services
-
-  private readonly playlistService: PlaylistApiService =
-    inject(PlaylistApiService);
-
-  private readonly playlistStateService: PlaylistStateService =
-    inject(PlaylistStateService);
-
+  // ==========================================================================
   // Initialisation
+  // ==========================================================================
 
   public ngOnInit(): void {
     this.pageService.currentPage = {
@@ -84,18 +93,20 @@ export class CataloguePageComponent extends PageComponent implements OnInit {
       this.playlistStateService.playlistTitleFilter$.pipe(startWith(undefined)),
     ])
       .pipe(
-        switchMap(([_, titleFilter]: [void, string | undefined]) =>
-          titleFilter
+        switchMap(([_, titleFilter]: [void, string | undefined]) => {
+          const datasource: Observable<Playlist[]> = titleFilter
             ? this.playlistService.getPlaylistsByTitle(titleFilter)
-            : this.playlistService.getPlaylists(),
-        ),
+            : this.playlistService.getPlaylists();
+          return datasource.pipe(this.loader.track());
+        }),
         takeUntilDestroyed(this.destroyed),
       )
       .subscribe((playlists: Playlist[]) => this.#playlists.set(playlists));
   }
 
-  // ------ Component Data ------
-
+  // ==========================================================================
+  // Component Data
+  // ==========================================================================
   protected get playlists(): Signal<Playlist[]> {
     return this.#playlists;
   }
@@ -104,7 +115,9 @@ export class CataloguePageComponent extends PageComponent implements OnInit {
     return this.playlistStateService.playlistTitleFilter;
   }
 
-  // ------ Event Handling ------
+  // ==========================================================================
+  // Event Handling
+  // ==========================================================================
 
   /**
    * The User has selected a `Playlist` to view. We must navigate to it.
