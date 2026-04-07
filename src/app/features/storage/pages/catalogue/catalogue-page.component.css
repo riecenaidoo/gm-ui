@@ -9,30 +9,15 @@ section {
   }
 }
 
-.input-box {
-  background-color: var(--palette-bg-content);
-  margin-left: auto;
-  width: 30%;
+div.control-bar {
   position: relative;
+}
 
-  input {
-    background-color: var(--palette-bg-content);
-    border: none;
-    border-radius: 0;
-    box-sizing: border-box;
-    color: var(--palette-text);
-    height: 100%;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-    width: 100%;
-  }
-
-  div.loader {
-    height: 50%;
-    right: 1rem;
-    position: absolute;
-    top: 25%;
-  }
+div.loader {
+  height: 50%;
+  right: 1rem;
+  position: absolute;
+  top: 25%;
 }
 
 /* <1> Reactive Grids

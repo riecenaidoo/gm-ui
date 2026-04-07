@@ -10,22 +10,20 @@
   >
     <i class="fa fa-plus" aria-hidden="true"></i>
   </button>
-  <div class="input-box">
-    <input
-      #playlistSearchInput
-      appTextSearchInput
-      appHotkey
-      hotkey="q"
-      (pressed)="playlistSearchInput.focus()"
-      (searchedText)="filterPlaylists($event)"
-      (searchCleared)="clearFilter()"
-      [value]="playlistTitleFilter() ?? ''"
-      placeholder="Search within Catalogue"
-    />
-    @if (loader.isLoading()) {
-      <div class="loader"></div>
-    }
-  </div>
+  <input
+    #playlistSearchInput
+    appTextSearchInput
+    appHotkey
+    hotkey="q"
+    (pressed)="playlistSearchInput.focus()"
+    (searchedText)="filterPlaylists($event)"
+    (searchCleared)="clearFilter()"
+    [value]="playlistTitleFilter() ?? ''"
+    placeholder="Search within Catalogue"
+  />
+  @if (loader.isLoading()) {
+    <div class="loader"></div>
+  }
 </div>
 <section title="Catalogue Playlists" class="page-scrolling">
   @for (playlist of playlists(); track playlist.id) {

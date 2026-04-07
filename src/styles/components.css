@@ -71,6 +71,16 @@ div.control-bar {
   flex-shrink: 0; /* <1> */
   height: 3rem;
 
+  input {
+    background-color: var(--palette-bg-content);
+    border: none;
+    border-radius: 0;
+    color: var(--palette-text);
+    margin-left: auto;
+    padding-left: 1.5rem;
+    width: 30%;
+  }
+
   button {
     aspect-ratio: 1/1;
     background-color: var(--palette-bg-content);

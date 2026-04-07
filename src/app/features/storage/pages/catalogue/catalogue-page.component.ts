@@ -21,7 +21,6 @@ import { PlaylistStateService } from "../../services/playlist-state.service";
 import { ModalDirective } from "../../../../shared/directives/modal.directive";
 import { HotkeyDirective } from "../../../../shared/directives/hotkey.directive";
 import { Loader } from "../../../../shared/utils/loader/loader";
-import { Debounce } from "../../../../shared/utils/debounce/debounce";
 
 @Component({
   selector: "main[app-catalogue-page]",
@@ -54,7 +53,7 @@ export class CataloguePageComponent extends PageComponent implements OnInit {
 
   readonly #playlists: WritableSignal<Playlist[]> = signal<Playlist[]>([]);
 
-  readonly loader: Loader = new Loader(new Debounce(50));
+  readonly loader: Loader = new Loader();
 
   /**
    * When the User is filtering Playlists, and there is no match, set the default title for Playlist creation to the
