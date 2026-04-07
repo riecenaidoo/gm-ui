@@ -13,6 +13,7 @@ import {
 import { Channel } from "../../models/channel";
 import { AudioService } from "../../models/audio-service";
 import { NgOptimizedImage } from "@angular/common";
+import { Debounce } from "../../../../shared/utils/debounce/debounce";
 
 /**
  * @remarks
@@ -38,8 +39,20 @@ export class ChannelSelectorComponent {
   // Internal State
   // ==========================================================================
 
+  /**
+   * Track the {@link Channel} being connected to.
+   *
+   * @see setupConnectingToChannelLoader
+   */
   protected readonly connectingTo: WritableSignal<Channel | undefined> =
     signal(undefined);
+
+  /**
+   * Debounce {@link connectingTo} updates.
+   *
+   * @see setupConnectingToChannelLoader
+   */
+  protected readonly connectingToDebouncer: Debounce = new Debounce(100);
 
   // ==========================================================================
   // External State
@@ -59,11 +72,20 @@ export class ChannelSelectorComponent {
   // ==========================================================================
 
   public constructor() {
+    this.setupConnectingToChannelLoader();
+  }
+
+  /**
+   * Display a loader during connection to a {@link Channel}, if the connecting takes longer than the
+   * {@link connectingToDebouncer} period.
+   */
+  private setupConnectingToChannelLoader() {
     effect(() => {
       const isConnecting = this.#bot.isConnecting();
       if (isConnecting) {
         return;
       }
+      this.connectingToDebouncer.clearDebouncedAction();
       this.connectingTo.set(undefined);
     });
   }
@@ -73,7 +95,7 @@ export class ChannelSelectorComponent {
   // ==========================================================================
 
   protected select(channel: Channel | undefined): void {
-    this.connectingTo.set(channel);
+    this.connectingToDebouncer.debounce(() => this.connectingTo.set(channel));
     this.#bot.connect(channel);
   }
 }

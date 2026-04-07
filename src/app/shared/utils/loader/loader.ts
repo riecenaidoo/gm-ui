@@ -1,15 +1,9 @@
-import { Signal, signal, WritableSignal } from "@angular/core";
+import { computed, Signal, signal, WritableSignal } from "@angular/core";
 
-import {
-  debounceTime,
-  defer,
-  distinctUntilChanged,
-  finalize,
-  map,
-  Observable,
-  OperatorFunction,
-} from "rxjs";
-import { toObservable, toSignal } from "@angular/core/rxjs-interop"; // Observable for documentation linking
+import { defer, finalize, OperatorFunction } from "rxjs";
+import { Debounce } from "../debounce/debounce";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { Observable } from "rxjs"; // Observable for documentation linking
 
 /**
  * Utility to track the active state of one or more source {@link Observable observables} in a pipeline.
@@ -54,6 +48,23 @@ export class Loader {
    */
   readonly #loading: WritableSignal<number> = signal<number>(0);
 
+  /**
+   * An optional {@link Debounce} on the change in loading state.
+   */
+  readonly #debounce?: Debounce;
+
+  // ==========================================================================
+  // Initialisation
+  // ==========================================================================
+
+  /**
+   * @param debounce optionally {@link Debounce} the change in {@link isLoading loading} state. This can be used to
+   * prevent rendering "loading" components for fast actions.
+   */
+  public constructor(debounce?: Debounce) {
+    this.#debounce = debounce;
+  }
+
   // ==========================================================================
   // API
   // ==========================================================================
@@ -63,22 +74,9 @@ export class Loader {
    *
    * @see #track
    */
-  public readonly isLoading$: Observable<boolean> = toObservable(
-    this.#loading,
-  ).pipe(
-    debounceTime(50),
-    map((loading) => loading > 0),
-    distinctUntilChanged(),
+  public readonly isLoading: Signal<boolean> = computed(
+    () => this.#loading() > 0,
   );
-
-  /**
-   * `true` while one or more tracked {@link Observable observables} are still active (subscribed, not yet finalised).
-   *
-   * @see #track
-   */
-  public readonly isLoading: Signal<boolean> = toSignal(this.isLoading$, {
-    initialValue: false,
-  });
 
   /**
    * Track the subscription to the source {@link Observable}.
@@ -86,11 +84,21 @@ export class Loader {
   public track = <T>(): OperatorFunction<T, T> => {
     return (source) =>
       defer(() => {
-        this.#loading.update((v) => v + 1);
+        if (this.#debounce != undefined) {
+          this.#debounce.debounce(() => this.#loading.update((v) => v + 1));
+        } else {
+          this.#loading.update((v) => v + 1);
+        }
 
         return source.pipe(
           finalize(() => {
-            this.#loading.update((v) => Math.max(0, v - 1));
+            if (this.#debounce != undefined) {
+              this.#debounce.debounce(() =>
+                this.#loading.update((v) => Math.max(0, v - 1)),
+              );
+            } else {
+              this.#loading.update((v) => Math.max(0, v - 1));
+            }
           }),
         );
       });
