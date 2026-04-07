@@ -5,11 +5,6 @@
  */
 export class Debounce {
   /**
-   * Delay, in milliseconds, before the debounced action should be executed.
-   */
-  protected debounceDelayMs: number;
-
-  /**
    * Handle to the timeout scheduled to execute, if any, when the {@link debounceDelayMs} period ends.
    */
   protected debounceTimeout?: ReturnType<typeof setTimeout>;
@@ -28,6 +23,11 @@ export class Debounce {
   // ==========================================================================
   // API
   // ==========================================================================
+
+  /**
+   * Delay, in milliseconds, before the debounced action should be executed.
+   */
+  public readonly debounceDelayMs: number;
 
   /**
    * Debounce an action.

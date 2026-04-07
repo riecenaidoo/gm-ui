@@ -1,9 +1,16 @@
-import { computed, Signal, signal, WritableSignal } from "@angular/core";
+import { Signal, signal, WritableSignal } from "@angular/core";
 
-import { defer, finalize, OperatorFunction } from "rxjs";
-import { Debounce } from "../debounce/debounce";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Observable } from "rxjs"; // Observable for documentation linking
+import {
+  debounceTime,
+  defer,
+  distinctUntilChanged,
+  finalize,
+  map,
+  Observable,
+  OperatorFunction,
+} from "rxjs";
+import { toObservable, toSignal } from "@angular/core/rxjs-interop";
+import { Debounce } from "../debounce/debounce"; // Observable for documentation linking
 
 /**
  * Utility to track the active state of one or more source {@link Observable observables} in a pipeline.
@@ -48,10 +55,39 @@ export class Loader {
    */
   readonly #loading: WritableSignal<number> = signal<number>(0);
 
+  // ==========================================================================
+  // API
+  // ==========================================================================
+
   /**
-   * An optional {@link Debounce} on the change in loading state.
+   * `true` while one or more tracked {@link Observable observables} are still active (subscribed, not yet finalised).
+   *
+   * @see #track
    */
-  readonly #debounce?: Debounce;
+  public readonly isLoading$: Observable<boolean>;
+
+  /**
+   * `true` while one or more tracked {@link Observable observables} are still active (subscribed, not yet finalised).
+   *
+   * @see #track
+   */
+  public readonly isLoading: Signal<boolean>;
+
+  /**
+   * Track the subscription to the source {@link Observable}.
+   */
+  public track = <T>(): OperatorFunction<T, T> => {
+    return (source) =>
+      defer(() => {
+        this.#loading.update((v) => v + 1);
+
+        return source.pipe(
+          finalize(() => {
+            this.#loading.update((v) => Math.max(0, v - 1));
+          }),
+        );
+      });
+  };
 
   // ==========================================================================
   // Initialisation
@@ -62,45 +98,16 @@ export class Loader {
    * prevent rendering "loading" components for fast actions.
    */
   public constructor(debounce?: Debounce) {
-    this.#debounce = debounce;
+    let isLoading$ = toObservable(this.#loading).pipe(
+      map((loading) => loading > 0),
+      distinctUntilChanged(),
+    );
+    if (debounce != undefined) {
+      isLoading$ = isLoading$.pipe(debounceTime(debounce.debounceDelayMs));
+    }
+    this.isLoading$ = isLoading$;
+    this.isLoading = toSignal(this.isLoading$, {
+      initialValue: false,
+    });
   }
-
-  // ==========================================================================
-  // API
-  // ==========================================================================
-
-  /**
-   * `true` while one or more tracked {@link Observable observables} are still active (subscribed, not yet finalised).
-   *
-   * @see #track
-   */
-  public readonly isLoading: Signal<boolean> = computed(
-    () => this.#loading() > 0,
-  );
-
-  /**
-   * Track the subscription to the source {@link Observable}.
-   */
-  public track = <T>(): OperatorFunction<T, T> => {
-    return (source) =>
-      defer(() => {
-        if (this.#debounce != undefined) {
-          this.#debounce.debounce(() => this.#loading.update((v) => v + 1));
-        } else {
-          this.#loading.update((v) => v + 1);
-        }
-
-        return source.pipe(
-          finalize(() => {
-            if (this.#debounce != undefined) {
-              this.#debounce.debounce(() =>
-                this.#loading.update((v) => Math.max(0, v - 1)),
-              );
-            } else {
-              this.#loading.update((v) => Math.max(0, v - 1));
-            }
-          }),
-        );
-      });
-  };
 }
