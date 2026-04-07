@@ -13,7 +13,7 @@ div.control-bar {
   position: relative;
 }
 
-div.loader {
+app-loading-spinner {
   height: 50%;
   right: 1rem;
   position: absolute;

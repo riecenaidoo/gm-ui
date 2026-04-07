@@ -13,7 +13,7 @@ import {
 import { Channel } from "../../models/channel";
 import { AudioService } from "../../models/audio-service";
 import { NgOptimizedImage } from "@angular/common";
-import { Debounce } from "../../../../shared/utils/debounce/debounce";
+import { LoadingSpinnerComponent } from "../../../../shared/components/loading-spinner/loading-spinner.component";
 
 /**
  * @remarks
@@ -26,7 +26,7 @@ import { Debounce } from "../../../../shared/utils/debounce/debounce";
   selector: "app-channel-selector",
   templateUrl: "./channel-selector.component.html",
   styleUrl: "./channel-selector.component.css",
-  imports: [NgOptimizedImage],
+  imports: [NgOptimizedImage, LoadingSpinnerComponent],
 })
 export class ChannelSelectorComponent {
   // ==========================================================================
@@ -42,17 +42,10 @@ export class ChannelSelectorComponent {
   /**
    * Track the {@link Channel} being connected to.
    *
-   * @see setupConnectingToChannelLoader
+   * @see setupConnectingTo
    */
   protected readonly connectingTo: WritableSignal<Channel | undefined> =
     signal(undefined);
-
-  /**
-   * Debounce {@link connectingTo} updates.
-   *
-   * @see setupConnectingToChannelLoader
-   */
-  protected readonly connectingToDebouncer: Debounce = new Debounce(100);
 
   // ==========================================================================
   // External State
@@ -64,6 +57,8 @@ export class ChannelSelectorComponent {
   protected readonly channels: Signal<Channel[] | undefined> =
     this.#bot.channels;
 
+  protected readonly isConnecting: Signal<boolean> = this.#bot.isConnecting;
+
   protected readonly connectedChannel: Signal<Channel | undefined> =
     this.#bot.connectedChannel;
 
@@ -72,20 +67,17 @@ export class ChannelSelectorComponent {
   // ==========================================================================
 
   public constructor() {
-    this.setupConnectingToChannelLoader();
+    this.setupConnectingTo();
   }
 
   /**
-   * Display a loader during connection to a {@link Channel}, if the connecting takes longer than the
-   * {@link connectingToDebouncer} period.
+   * Clear {@link connectingTo} once a connection has been made.
    */
-  private setupConnectingToChannelLoader() {
+  private setupConnectingTo() {
     effect(() => {
-      const isConnecting = this.#bot.isConnecting();
-      if (isConnecting) {
+      if (this.isConnecting()) {
         return;
       }
-      this.connectingToDebouncer.clearDebouncedAction();
       this.connectingTo.set(undefined);
     });
   }
@@ -95,7 +87,7 @@ export class ChannelSelectorComponent {
   // ==========================================================================
 
   protected select(channel: Channel | undefined): void {
-    this.connectingToDebouncer.debounce(() => this.connectingTo.set(channel));
+    this.connectingTo.set(channel);
     this.#bot.connect(channel);
   }
 }

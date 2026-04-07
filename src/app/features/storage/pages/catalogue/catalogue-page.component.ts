@@ -21,6 +21,7 @@ import { PlaylistStateService } from "../../services/playlist-state.service";
 import { ModalDirective } from "../../../../shared/directives/modal.directive";
 import { HotkeyDirective } from "../../../../shared/directives/hotkey.directive";
 import { Loader } from "../../../../shared/utils/loader/loader";
+import { LoadingSpinnerComponent } from "../../../../shared/components/loading-spinner/loading-spinner.component";
 
 @Component({
   selector: "main[app-catalogue-page]",
@@ -34,6 +35,7 @@ import { Loader } from "../../../../shared/utils/loader/loader";
     FormsModule,
     ModalDirective,
     HotkeyDirective,
+    LoadingSpinnerComponent,
   ],
 })
 export class CataloguePageComponent extends PageComponent implements OnInit {

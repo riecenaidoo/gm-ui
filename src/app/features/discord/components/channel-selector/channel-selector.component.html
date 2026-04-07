@@ -16,7 +16,7 @@
         </div>
       } @else if (connectingTo()?.id === channel.id) {
         <div class="server-audio">
-          <div class="loader"></div>
+          <app-loading-spinner [loading]="isConnecting()" />
           <span>{{ audioService()?.name }}</span>
         </div>
       }

@@ -64,6 +64,6 @@ div.server-audio {
   }
 }
 
-div.loader {
+app-loading-spinner {
   height: 1.25rem;
 }
