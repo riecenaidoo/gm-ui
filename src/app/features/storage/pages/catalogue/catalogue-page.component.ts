@@ -55,7 +55,7 @@ export class CataloguePageComponent extends PageComponent implements OnInit {
 
   readonly #playlists: WritableSignal<Playlist[]> = signal<Playlist[]>([]);
 
-  readonly loader: Loader = new Loader();
+  readonly playlistsLoader: Loader = new Loader();
 
   /**
    * When the User is filtering Playlists, and there is no match, set the default title for Playlist creation to the
@@ -99,7 +99,7 @@ export class CataloguePageComponent extends PageComponent implements OnInit {
           const datasource: Observable<Playlist[]> = titleFilter
             ? this.playlistService.getPlaylistsByTitle(titleFilter)
             : this.playlistService.getPlaylists();
-          return datasource.pipe(this.loader.track());
+          return datasource.pipe(this.playlistsLoader.track());
         }),
         takeUntilDestroyed(this.destroyed),
       )
