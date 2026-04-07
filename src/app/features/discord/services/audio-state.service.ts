@@ -167,11 +167,13 @@ export class AudioStateService implements AudioBot {
     switchMap((connectAction: [Server, Channel | undefined]) => {
       const server = connectAction[0];
       const channel = connectAction[1];
-      return channel == undefined
-        ? this.#api.deleteServerAudio(server).pipe(map((_channel) => undefined))
-        : this.#api
-            .createServerAudio(server, channel)
-            .pipe(this.#connecting.track());
+      const datasource: Observable<ServerAudio | undefined> =
+        channel == undefined
+          ? this.#api
+              .deleteServerAudio(server)
+              .pipe(map((_channel) => undefined))
+          : this.#api.createServerAudio(server, channel);
+      return datasource.pipe(this.#connecting.track());
     }),
     share(),
   );

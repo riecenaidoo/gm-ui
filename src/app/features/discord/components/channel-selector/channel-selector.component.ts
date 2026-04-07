@@ -11,22 +11,13 @@ import {
   AudioStateService,
 } from "../../services/audio-state.service";
 import { Channel } from "../../models/channel";
-import { AudioService } from "../../models/audio-service";
-import { NgOptimizedImage } from "@angular/common";
-import { LoadingSpinnerComponent } from "../../../../shared/components/loading-spinner/loading-spinner.component";
+import { ChannelAudioComponent } from "../channel-audio/channel-audio.component";
 
-/**
- * @remarks
- * - TODO [design] may be worth creating a `ChannelComponent` that is interactable, rather than having this selector.
- *    With the reason being in future when we have NPC chat, we may also be selecting channels and doing other things.
- * - TODO [design] we may still want to consider passing some things as input here, specifically the required channels,
- *    and audio service?
- */
 @Component({
   selector: "app-channel-selector",
   templateUrl: "./channel-selector.component.html",
   styleUrl: "./channel-selector.component.css",
-  imports: [NgOptimizedImage, LoadingSpinnerComponent],
+  imports: [ChannelAudioComponent],
 })
 export class ChannelSelectorComponent {
   // ==========================================================================
@@ -50,9 +41,6 @@ export class ChannelSelectorComponent {
   // ==========================================================================
   // External State
   // ==========================================================================
-
-  protected readonly audioService: Signal<AudioService | undefined> =
-    this.#bot.audioBot;
 
   protected readonly channels: Signal<Channel[] | undefined> =
     this.#bot.channels;

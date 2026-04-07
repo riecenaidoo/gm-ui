@@ -1,0 +1,14 @@
+@let service = audioService();
+@if (service) {
+  @let connecting = isConnecting();
+  @if (connecting) {
+    <app-loading-spinner [loading]="connecting" />
+  } @else {
+    <!-- <1> -->
+    <img [ngSrc]="service.icon_url" alt="Icon" width="48" height="48" />
+  }
+  <span>{{ service.name }}</span>
+}
+<!--
+<1> Ignore width & height values. They are only set to suppress linting and are overridden in stylesheet.
+-->

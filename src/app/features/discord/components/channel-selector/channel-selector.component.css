@@ -47,23 +47,10 @@ button {
   }
 }
 
-div.server-audio {
-  align-items: center;
-  display: flex;
-  gap: 0.25rem;
-  /* btn pad left + icon font size (1 rem) + btn pad right (default 0.25rem) */
-  /* TODO maybe use a grid layout to get the alignment right tbh */
-  margin-left: 1.75rem;
-  padding-bottom: 0.5rem;
-  padding-top: 0.5rem;
-
-  img {
-    border-radius: 100%;
-    height: 1.25rem;
-    width: auto;
-  }
+app-channel-audio {
+  margin-left: 1.75rem; /* <1> */
 }
 
-app-loading-spinner {
-  height: 1.25rem;
-}
+/*
+<1> btn pad left + icon font size (1 rem) + btn pad right (default 0.25rem)
+ */
