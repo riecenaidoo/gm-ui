@@ -4,11 +4,13 @@ import {
   AudioBot,
   AudioStateService,
 } from "../../services/audio-state.service";
+import { LoadingSpinnerComponent } from "../../../../shared/components/loading-spinner/loading-spinner.component";
 
 @Component({
   selector: "app-audio-status",
   templateUrl: "./audio-status.component.html",
   styleUrl: "./audio-status.component.css",
+  imports: [LoadingSpinnerComponent],
 })
 export class AudioStatusComponent {
   // ==========================================================================
@@ -23,6 +25,8 @@ export class AudioStatusComponent {
 
   protected readonly serverAudio: Signal<ServerAudio | undefined> =
     this.#bot.serverAudio;
+
+  protected readonly isConnecting: Signal<boolean> = this.#bot.isConnecting;
 
   // ==========================================================================
   // Event Handling
