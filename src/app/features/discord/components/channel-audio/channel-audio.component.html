@@ -1,12 +1,9 @@
 @let service = audioService();
 @if (service) {
-  @let connecting = isConnecting();
-  @if (connecting) {
-    <app-loading-spinner [loading]="connecting" />
-  } @else {
+  <app-loading-spinner [loading]="isConnecting()">
     <!-- <1> -->
     <img [ngSrc]="service.icon_url" alt="Icon" width="48" height="48" />
-  }
+  </app-loading-spinner>
   <span>{{ service.name }}</span>
 }
 <!--

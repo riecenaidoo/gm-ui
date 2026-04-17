@@ -12,6 +12,7 @@ import {
 } from "../../services/audio-state.service";
 import { Channel } from "../../models/channel";
 import { ChannelAudioComponent } from "../channel-audio/channel-audio.component";
+import { debounced } from "../../../../shared/utils/debounced/debounced";
 
 @Component({
   selector: "app-channel-selector",
@@ -45,7 +46,9 @@ export class ChannelSelectorComponent {
   protected readonly channels: Signal<Channel[] | undefined> =
     this.#bot.channels;
 
-  protected readonly isConnecting: Signal<boolean> = this.#bot.isConnecting;
+  protected readonly isConnecting: Signal<boolean> = debounced(
+    this.#bot.isConnecting,
+  );
 
   protected readonly connectedChannel: Signal<Channel | undefined> =
     this.#bot.connectedChannel;

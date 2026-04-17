@@ -21,7 +21,7 @@
     [value]="playlistTitleFilter() ?? ''"
     placeholder="Search within Catalogue"
   />
-  <app-loading-spinner [loading]="playlistsLoader.isLoading()" />
+  <app-loading-spinner [loading]="playlistsLoading()" />
 </div>
 <section title="Catalogue Playlists" class="page-scrolling">
   @for (playlist of playlists(); track playlist.id) {

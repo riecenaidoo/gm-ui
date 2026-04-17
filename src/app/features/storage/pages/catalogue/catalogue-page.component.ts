@@ -22,6 +22,7 @@ import { ModalDirective } from "../../../../shared/directives/modal.directive";
 import { HotkeyDirective } from "../../../../shared/directives/hotkey.directive";
 import { Loader } from "../../../../shared/utils/loader/loader";
 import { LoadingSpinnerComponent } from "../../../../shared/components/loading-spinner/loading-spinner.component";
+import { debounced } from "../../../../shared/utils/debounced/debounced";
 
 @Component({
   selector: "main[app-catalogue-page]",
@@ -55,7 +56,7 @@ export class CataloguePageComponent extends PageComponent implements OnInit {
 
   readonly #playlists: WritableSignal<Playlist[]> = signal<Playlist[]>([]);
 
-  readonly playlistsLoader: Loader = new Loader();
+  readonly #playlistsLoader: Loader = new Loader();
 
   /**
    * When the User is filtering Playlists, and there is no match, set the default title for Playlist creation to the
@@ -99,7 +100,7 @@ export class CataloguePageComponent extends PageComponent implements OnInit {
           const datasource: Observable<Playlist[]> = titleFilter
             ? this.playlistService.getPlaylistsByTitle(titleFilter)
             : this.playlistService.getPlaylists();
-          return datasource.pipe(this.playlistsLoader.track());
+          return datasource.pipe(this.#playlistsLoader.track());
         }),
         takeUntilDestroyed(this.destroyed),
       )
@@ -109,6 +110,11 @@ export class CataloguePageComponent extends PageComponent implements OnInit {
   // ==========================================================================
   // Component Data
   // ==========================================================================
+
+  protected readonly playlistsLoading: Signal<boolean> = debounced(
+    this.#playlistsLoader.isLoading,
+  );
+
   protected get playlists(): Signal<Playlist[]> {
     return this.#playlists;
   }

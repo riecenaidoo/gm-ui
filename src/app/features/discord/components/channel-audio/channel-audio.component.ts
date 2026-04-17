@@ -6,6 +6,7 @@ import {
 import { AudioService } from "../../models/audio-service";
 import { LoadingSpinnerComponent } from "../../../../shared/components/loading-spinner/loading-spinner.component";
 import { NgOptimizedImage } from "@angular/common";
+import { debounced } from "../../../../shared/utils/debounced/debounced";
 
 @Component({
   selector: "app-channel-audio",
@@ -27,5 +28,7 @@ export class ChannelAudioComponent {
   protected readonly audioService: Signal<AudioService | undefined> =
     this.#bot.audioBot;
 
-  protected readonly isConnecting: Signal<boolean> = this.#bot.isConnecting;
+  protected readonly isConnecting: Signal<boolean> = debounced(
+    this.#bot.isConnecting,
+  );
 }

@@ -1,5 +1,10 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { DebugElement, signal } from "@angular/core";
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from "@angular/core/testing";
+import { DebugElement, WritableSignal, signal } from "@angular/core";
 import { ChannelAudioComponent } from "./channel-audio.component";
 import { By } from "@angular/platform-browser";
 import { AudioStateService } from "../../services/audio-state.service";
@@ -10,8 +15,10 @@ describe("ChannelAudioComponent", () => {
   // Mocks
   // ==========================================================================
 
-  const mockAudioService = signal<AudioService | undefined>(undefined);
-  const mockIsConnecting = signal<boolean>(false);
+  const mockAudioService: WritableSignal<AudioService | undefined> = signal<
+    AudioService | undefined
+  >(undefined);
+  const mockIsConnecting: WritableSignal<boolean> = signal<boolean>(false);
   const mockAudioServiceData: AudioService = {
     name: "Music Bot",
     icon_url: "assets/gm-logo.svg",
@@ -63,32 +70,29 @@ describe("ChannelAudioComponent", () => {
     expect(span).toBeNull();
   });
 
-  it("should render the LoadingSpinner, but show the Name, when AudioService is Connecting", () => {
+  it("should render Name but not Icon when AudioService is Connecting", fakeAsync(() => {
     mockAudioService.set(mockAudioServiceData);
     mockIsConnecting.set(true);
     fixture.detectChanges();
+    tick(100);
+    fixture.detectChanges();
 
-    const spinner: DebugElement = fixture.debugElement.query(
-      By.css("app-loading-spinner"),
-    );
     const img: DebugElement = fixture.debugElement.query(By.css("img"));
     const span: HTMLSpanElement = fixture.debugElement.query(
       By.css("span"),
     ).nativeElement;
 
-    expect(spinner).toBeTruthy();
     expect(img).toBeNull();
     expect(span.textContent).toContain(mockAudioServiceData.name);
-  });
+  }));
 
-  it("should render AudioService Icon and Name when AudioService is Connected", () => {
+  it("should render Name and Icon when AudioService is Connected", fakeAsync(() => {
     mockAudioService.set(mockAudioServiceData);
     mockIsConnecting.set(false);
     fixture.detectChanges();
+    tick(100);
+    fixture.detectChanges();
 
-    const spinner: DebugElement = fixture.debugElement.query(
-      By.css("app-loading-spinner"),
-    );
     const img: HTMLImageElement = fixture.debugElement.query(
       By.css("img"),
     ).nativeElement;
@@ -96,8 +100,7 @@ describe("ChannelAudioComponent", () => {
       By.css("span"),
     ).nativeElement;
 
-    expect(spinner).toBeNull();
     expect(img.src).toContain(mockAudioServiceData.icon_url);
     expect(span.textContent).toContain(mockAudioServiceData.name);
-  });
+  }));
 });

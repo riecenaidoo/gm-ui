@@ -5,6 +5,7 @@ import {
   AudioStateService,
 } from "../../services/audio-state.service";
 import { LoadingSpinnerComponent } from "../../../../shared/components/loading-spinner/loading-spinner.component";
+import { debounced } from "../../../../shared/utils/debounced/debounced";
 
 @Component({
   selector: "app-audio-status",
@@ -26,7 +27,9 @@ export class AudioStatusComponent {
   protected readonly serverAudio: Signal<ServerAudio | undefined> =
     this.#bot.serverAudio;
 
-  protected readonly isConnecting: Signal<boolean> = this.#bot.isConnecting;
+  protected readonly isConnecting: Signal<boolean> = debounced(
+    this.#bot.isConnecting,
+  );
 
   // ==========================================================================
   // Event Handling

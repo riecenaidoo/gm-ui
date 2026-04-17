@@ -6,6 +6,7 @@ import {
 } from "../../services/audio-state.service";
 import { NgOptimizedImage } from "@angular/common";
 import { LoadingSpinnerComponent } from "../../../../shared/components/loading-spinner/loading-spinner.component";
+import { debounced } from "../../../../shared/utils/debounced/debounced";
 
 @Component({
   selector: "app-bot-status",
@@ -26,5 +27,7 @@ export class BotStatusComponent {
 
   protected bot: Signal<AudioService | undefined> = this.#bot.audioBot;
 
-  protected loading: Signal<boolean> = computed(() => this.bot() === undefined);
+  protected loading: Signal<boolean> = debounced(
+    computed(() => this.bot() === undefined),
+  );
 }
