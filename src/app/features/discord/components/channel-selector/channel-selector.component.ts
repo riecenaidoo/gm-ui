@@ -40,7 +40,7 @@ export class ChannelSelectorComponent {
     signal(undefined);
 
   // ==========================================================================
-  // External State
+  // Derived State
   // ==========================================================================
 
   protected readonly channels: Signal<Channel[] | undefined> =

@@ -21,7 +21,7 @@ export class AudioStatusComponent {
   readonly #bot: AudioBot = inject(AudioStateService);
 
   // ==========================================================================
-  // External State
+  // Derived State
   // ==========================================================================
 
   protected readonly serverAudio: Signal<ServerAudio | undefined> =

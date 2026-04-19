@@ -22,7 +22,7 @@ export class ChannelAudioComponent {
   readonly #bot: AudioBot = inject(AudioStateService);
 
   // ==========================================================================
-  // External State
+  // Derived State
   // ==========================================================================
 
   protected readonly audioService: Signal<AudioService | undefined> =

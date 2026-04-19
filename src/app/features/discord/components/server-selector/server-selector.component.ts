@@ -20,7 +20,7 @@ export class ServerSelectorComponent {
   readonly #bot: AudioBot = inject(AudioStateService);
 
   // ==========================================================================
-  // State
+  // Derived State
   // ==========================================================================
 
   protected readonly servers: Signal<Server[] | undefined> = this.#bot.servers;
