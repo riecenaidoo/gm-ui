@@ -1,18 +1,33 @@
-import { Component, inject, OnInit } from "@angular/core";
-import { PlaylistApiService } from "../../services/playlist-api.service";
-import { Observable, Subject } from "rxjs";
-import { Playlist } from "../../models/playlist";
-import { ActivatedRoute } from "@angular/router";
-import { PlaylistSong } from "../../models/playlist-song";
-import { AsyncPipe } from "@angular/common";
+import {
+  Component,
+  effect,
+  inject,
+  signal,
+  Signal,
+  WritableSignal,
+} from "@angular/core";
+import {
+  combineLatest,
+  distinctUntilChanged,
+  map,
+  Observable,
+  shareReplay,
+  startWith,
+  Subject,
+  switchMap,
+} from "rxjs";
 import { SongTableComponent } from "../../components/song-table/song-table.component";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { PageComponent } from "../page.component";
 import { SongCreateFormComponent } from "../../components/song-create-form/song-create-form.component";
 import { PlaylistRenameFormComponent } from "../../components/playlist-rename-form/playlist-rename-form.component";
 import { FormsModule } from "@angular/forms";
 import { ModalDirective } from "../../../../shared/directives/modal.directive";
 import { HotkeyDirective } from "../../../../shared/directives/hotkey.directive";
+import { ActivatedRoute, Params } from "@angular/router";
+import { PlaylistSong } from "../../models/playlist-song";
+import { Playlist } from "../../models/playlist";
+import { PlaylistApiService } from "../../services/playlist-api.service";
+import { takeUntilDestroyed, toSignal } from "@angular/core/rxjs-interop";
 
 @Component({
   selector: "main[app-playlist-page]",
@@ -20,7 +35,6 @@ import { HotkeyDirective } from "../../../../shared/directives/hotkey.directive"
   styleUrl: "./playlist-page.component.css",
   imports: [
     SongTableComponent,
-    AsyncPipe,
     SongCreateFormComponent,
     PlaylistRenameFormComponent,
     FormsModule,
@@ -28,64 +42,82 @@ import { HotkeyDirective } from "../../../../shared/directives/hotkey.directive"
     HotkeyDirective,
   ],
 })
-export class PlaylistPageComponent extends PageComponent implements OnInit {
-  readonly #id: number = Number(
-    inject(ActivatedRoute).snapshot.paramMap.get("id"),
+export class PlaylistPageComponent extends PageComponent {
+  // ==========================================================================
+  // Dependencies
+  // ==========================================================================
+
+  readonly #playlistService: PlaylistApiService = inject(PlaylistApiService);
+
+  readonly #activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+
+  // ==========================================================================
+  // Internal State
+  // ==========================================================================
+
+  readonly #refreshSongs: Subject<void> = new Subject<void>();
+
+  // ==========================================================================
+  // State
+  // ==========================================================================
+
+  readonly #id: Observable<number> = this.#activatedRoute.params.pipe(
+    map((params: Params) => {
+      const id: string = params["playlist-id"];
+      if (id === undefined || id === null) {
+        throw Error("Required route parameter 'playlist-id' not found.");
+      }
+      return Number(id);
+    }),
+    distinctUntilChanged(),
+    shareReplay(1),
   );
 
-  readonly #playlist: Subject<Playlist> = new Subject<Playlist>();
+  readonly #playlist: WritableSignal<Playlist | undefined> = signal<
+    Playlist | undefined
+  >(undefined);
 
-  readonly #songs: Subject<PlaylistSong[]> = new Subject<PlaylistSong[]>();
+  readonly #songs: Observable<PlaylistSong[]> = combineLatest([
+    this.refreshed.pipe(startWith(undefined)),
+    this.#refreshSongs.pipe(startWith(undefined)),
+    this.#id,
+  ]).pipe(
+    map(([_, __, id]: [void, void, number]) => id),
+    switchMap((id: number) => this.#playlistService.getPlaylistSongs(id)),
+  );
 
-  private playlistService: PlaylistApiService = inject(PlaylistApiService);
+  // ==========================================================================
+  // Component
+  // ==========================================================================
 
-  public ngOnInit(): void {
-    this.fetchPlaylist();
-    this.fetchSongs();
+  protected playlist: Signal<Playlist | undefined> =
+    this.#playlist.asReadonly();
+
+  protected songs: Signal<PlaylistSong[] | undefined> = toSignal(this.#songs);
+
+  // ==========================================================================
+  // Initialisation
+  // ==========================================================================
+
+  public constructor() {
+    super();
+    this.setupPlaylistDatasource();
   }
 
-  // ------ Component ------
-
-  protected get playlist(): Observable<Playlist> {
-    return this.#playlist;
-  }
-
-  protected get songs(): Observable<PlaylistSong[]> {
-    return this.#songs;
-  }
-
-  // ------ Event Handling ------
-
-  /**
-   * Copying to clipboard might be a global utility, but for now it is localised to this page.
-   * TODO When we introduce toasts, these logs should be replaced with toast messages instead.
-   */
-  public copySongToClipboard($event: PlaylistSong) {
-    navigator.clipboard
-      .writeText($event.url)
-      .then(() => console.info(`Copied ${$event.url} to clipboard.`))
-      .catch((err) =>
-        console.error(
-          `Failed to copy ${$event.url} to clipboard. Cause: ${err}`,
-        ),
-      );
-  }
-
-  protected removeSong(song: PlaylistSong): void {
-    this.playlistService
-      .deletePlaylistSong(this.#id, song)
-      .pipe(takeUntilDestroyed(this.destroyed))
-      .subscribe(() => this.fetchSongs());
-  }
+  // ==========================================================================
+  // Event Handling
+  // ==========================================================================
 
   protected updatePlaylist(playlist: Playlist): void {
-    this.playlist = playlist;
+    this.#playlist.set(playlist);
   }
 
   protected deletePlaylist(): void {
-    this.playlistService
-      .deletePlaylist(this.#id)
-      .pipe(takeUntilDestroyed(this.destroyed))
+    this.#id
+      .pipe(
+        switchMap((id: number) => this.#playlistService.deletePlaylist(id)),
+        takeUntilDestroyed(this.destroyed),
+      )
       .subscribe(() => {
         this.router.navigate([""]).then((routed: boolean) => {
           if (!routed) {
@@ -97,28 +129,55 @@ export class PlaylistPageComponent extends PageComponent implements OnInit {
       });
   }
 
-  // ------ Internal ------
-
-  // Intentional. Internal mutation utility.
-  // eslint-disable-next-line @typescript-eslint/adjacent-overload-signatures
-  private set playlist(playlist: Playlist) {
-    this.#playlist.next(playlist);
-    this.pageService.currentPage = {
-      title: playlist.title,
-    };
+  protected refreshSongs(): void {
+    this.#refreshSongs.next();
   }
 
-  private fetchPlaylist(): void {
-    this.playlistService
-      .getPlaylist(this.#id)
-      .pipe(takeUntilDestroyed(this.destroyed))
-      .subscribe((playlist: Playlist) => (this.playlist = playlist));
+  protected removeSong(song: PlaylistSong): void {
+    this.#id
+      .pipe(
+        switchMap((id: number) =>
+          this.#playlistService.deletePlaylistSong(id, song),
+        ),
+        takeUntilDestroyed(this.destroyed),
+      )
+      .subscribe(() => this.refreshSongs());
   }
 
-  protected fetchSongs(): void {
-    this.playlistService
-      .getPlaylistSongs(this.#id)
-      .pipe(takeUntilDestroyed(this.destroyed))
-      .subscribe((songs: PlaylistSong[]) => this.#songs.next(songs));
+  /**
+   * @remarks Copying to clipboard might be a global utility, but for now it is localised to this page.
+   * TODO When we introduce toasts, these logs should be replaced with toast messages instead.
+   */
+  protected copySongToClipboard(song: PlaylistSong): void {
+    navigator.clipboard
+      .writeText(song.url)
+      .then(() => console.info(`Copied ${song.url} to clipboard.`))
+      .catch((err) =>
+        console.error(`Failed to copy ${song.url} to clipboard. Cause: ${err}`),
+      );
+  }
+
+  // ==========================================================================
+  // Implementation Details
+  // ==========================================================================
+
+  private setupPlaylistDatasource(): void {
+    combineLatest([this.refreshed.pipe(startWith(undefined)), this.#id])
+      .pipe(
+        map(([_, id]: [void, number]) => id),
+        switchMap((id: number) => this.#playlistService.getPlaylist(id)),
+        takeUntilDestroyed(this.destroyed),
+      )
+      .subscribe(this.#playlist.set);
+
+    effect(() => {
+      const playlist = this.#playlist();
+      if (playlist == undefined) {
+        return;
+      }
+      this.pageService.currentPage = {
+        title: playlist.title,
+      };
+    });
   }
 }

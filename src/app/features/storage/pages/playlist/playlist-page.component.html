@@ -1,5 +1,6 @@
 <!--TODO Do we need some sort of 'loading' spinner?-->
-@if (playlist | async; as playlist) {
+@let playlist = this.playlist();
+@if (playlist !== undefined) {
   <div class="control-bar" role="toolbar" aria-label="'Catalogue Controls'">
     <button
       appHotkey
@@ -33,8 +34,8 @@
   </div>
 
   <section title="Playlist Songs" class="page-scrolling">
-    @if ((songs | async) ?? []; as songs) {
-      <!--    [(...)?? []](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing)-->
+    @let songs = this.songs();
+    @if (songs !== undefined) {
       <table
         app-song-table
         [songs]="songs"
@@ -50,7 +51,7 @@
       app-song-create-form
       method="dialog"
       [playlist]="playlist"
-      (submitted)="fetchSongs()"
+      (submitted)="refreshSongs()"
     ></form>
   </dialog>
 
