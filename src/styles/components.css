@@ -147,7 +147,8 @@ img.adaptive-filter {
 }
 
 p.loading,
-span.loading {
+span.loading,
+td.loading {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   background: var(--palette-text);
   border-radius: 0.5rem;

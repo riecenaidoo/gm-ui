@@ -39,8 +39,8 @@
       <table
         app-song-table
         [songs]="songs"
-        (copyingSongToClipboard)="copySongToClipboard($event)"
         (removingSong)="removeSong($event)"
+        [loading]="loadingSongs()"
       ></table>
     }
   </section>

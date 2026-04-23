@@ -5,40 +5,56 @@
   <th></th>
 </thead>
 <tbody>
-  @for (song of songs; track song.id) {
-    <tr>
-      <td>
-        <a href="{{ song.url }}" target="_blank">
-          @if (song.thumbnail_url) {
-            <img src="{{ song.thumbnail_url }}" alt="thumbnail" />
-          } @else {
+  @if (loading()) {
+    <ng-container [ngTemplateOutlet]="skeleton"></ng-container>
+  } @else {
+    @for (song of songs(); track song.id) {
+      <tr>
+        <td>
+          <a href="{{ song.url }}" target="_blank">
             <img
-              class="adaptive-filter"
-              ngSrc="assets/vinyl.png"
+              [ngSrc]="song.thumbnail_url ?? 'assets/vinyl.png'"
+              [class.adaptive-filter]="song.thumbnail_url === undefined"
               alt="thumbnail"
               height="512"
               width="512"
             />
-          }
-        </a>
-      </td>
-      <td>
-        {{ song.title ? song.title : song.url }}
-      </td>
-      <td>
-        {{ song.artist ? song.artist : "" }}
-      </td>
-      <td>
-        <button
-          title="Copy to Clipboard"
-          (click)="copyingSongToClipboardEvent(song)"
-        >
-          <i class="fa fa-clone" aria-hidden="true"></i>
-        </button>
-        <button title="Remove Song" (click)="removingSongEvent(song)">
-          <i class="fa fa-minus"></i>
-        </button>
-      </td>
-    </tr>
+          </a>
+        </td>
+        <td>
+          {{ song.title ? song.title : song.url }}
+        </td>
+        <td>
+          {{ song.artist ? song.artist : "" }}
+        </td>
+        <td>
+          <button title="Copy to Clipboard" (click)="copySongToClipboard(song)">
+            <i class="fa fa-clone" aria-hidden="true"></i>
+          </button>
+          <button title="Remove Song" (click)="removeSong(song)">
+            <i class="fa fa-minus"></i>
+          </button>
+        </td>
+      </tr>
+    }
   }
 </tbody>
+
+<ng-template #skeleton>
+  <tr>
+    <td [class.loading]="loading()">
+      <img
+        ngSrc="assets/vinyl.png"
+        class="adaptive-filter"
+        alt="thumbnail"
+        height="512"
+        width="512"
+      />
+    </td>
+    <td [class.loading]="loading()"></td>
+    <td [class.loading]="loading()"></td>
+    <td [class.loading]="loading()">
+      <app-loading-spinner></app-loading-spinner>
+    </td>
+  </tr>
+</ng-template>

@@ -11,5 +11,5 @@ export class LoadingSpinnerComponent {
   // API
   // ==========================================================================
 
-  public readonly loading: InputSignal<boolean> = input(false);
+  public readonly loading: InputSignal<boolean> = input(true);
 }

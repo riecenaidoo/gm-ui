@@ -44,10 +44,22 @@ tr > td:first-child {
   }
 }
 
+app-loading-spinner {
+  display: inline-block;
+}
+
+app-loading-spinner,
+button {
+  margin: 0.5rem 0 0.5rem 0.5rem;
+  width: 2rem;
+}
+
 button {
   aspect-ratio: 1/1;
   border-radius: 0;
   border: none;
-  margin: 0.5rem 0 0.5rem 0.5rem;
-  width: 2rem;
+}
+
+td.loading {
+  border-radius: 0;
 }

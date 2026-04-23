@@ -28,6 +28,7 @@ import { PlaylistSong } from "../../models/playlist-song";
 import { Playlist } from "../../models/playlist";
 import { PlaylistApiService } from "../../services/playlist-api.service";
 import { takeUntilDestroyed, toSignal } from "@angular/core/rxjs-interop";
+import { Loader } from "../../../../shared/utils/loader/loader";
 
 @Component({
   selector: "main[app-playlist-page]",
@@ -57,6 +58,8 @@ export class PlaylistPageComponent extends PageComponent {
 
   readonly #refreshSongs: Subject<void> = new Subject<void>();
 
+  readonly #songLoader: Loader = new Loader();
+
   // ==========================================================================
   // State
   // ==========================================================================
@@ -83,7 +86,9 @@ export class PlaylistPageComponent extends PageComponent {
     this.#id,
   ]).pipe(
     map(([_, __, id]: [void, void, number]) => id),
-    switchMap((id: number) => this.#playlistService.getPlaylistSongs(id)),
+    switchMap((id: number) =>
+      this.#playlistService.getPlaylistSongs(id).pipe(this.#songLoader.track()),
+    ),
   );
 
   // ==========================================================================
@@ -94,6 +99,8 @@ export class PlaylistPageComponent extends PageComponent {
     this.#playlist.asReadonly();
 
   protected songs: Signal<PlaylistSong[] | undefined> = toSignal(this.#songs);
+
+  protected readonly loadingSongs: Signal<boolean> = this.#songLoader.isLoading;
 
   // ==========================================================================
   // Initialisation
@@ -142,19 +149,6 @@ export class PlaylistPageComponent extends PageComponent {
         takeUntilDestroyed(this.destroyed),
       )
       .subscribe(() => this.refreshSongs());
-  }
-
-  /**
-   * @remarks Copying to clipboard might be a global utility, but for now it is localised to this page.
-   * TODO When we introduce toasts, these logs should be replaced with toast messages instead.
-   */
-  protected copySongToClipboard(song: PlaylistSong): void {
-    navigator.clipboard
-      .writeText(song.url)
-      .then(() => console.info(`Copied ${song.url} to clipboard.`))
-      .catch((err) =>
-        console.error(`Failed to copy ${song.url} to clipboard. Cause: ${err}`),
-      );
   }
 
   // ==========================================================================
