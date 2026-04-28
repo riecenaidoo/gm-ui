@@ -30,6 +30,8 @@ import { PlaylistApiService } from "../../services/playlist-api.service";
 import { takeUntilDestroyed, toSignal } from "@angular/core/rxjs-interop";
 import { Loader } from "../../../../shared/utils/loader/loader";
 
+type Loading = "playlist" | "songs";
+
 @Component({
   selector: "main[app-playlist-page]",
   templateUrl: "./playlist-page.component.html",
@@ -58,7 +60,7 @@ export class PlaylistPageComponent extends PageComponent {
 
   readonly #refreshSongs: Subject<void> = new Subject<void>();
 
-  readonly #songLoader: Loader = new Loader();
+  readonly #loader: Loader<Loading> = new Loader<Loading>(["songs"]);
 
   // ==========================================================================
   // State
@@ -87,7 +89,9 @@ export class PlaylistPageComponent extends PageComponent {
   ]).pipe(
     map(([_, __, id]: [void, void, number]) => id),
     switchMap((id: number) =>
-      this.#playlistService.getPlaylistSongs(id).pipe(this.#songLoader.track()),
+      this.#playlistService
+        .getPlaylistSongs(id)
+        .pipe(this.#loader.track("songs")),
     ),
   );
 
@@ -100,7 +104,8 @@ export class PlaylistPageComponent extends PageComponent {
 
   protected songs: Signal<PlaylistSong[] | undefined> = toSignal(this.#songs);
 
-  protected readonly loadingSongs: Signal<boolean> = this.#songLoader.isLoading;
+  protected readonly loadingSongs: Signal<boolean> =
+    this.#loader.isLoading("songs");
 
   // ==========================================================================
   // Initialisation

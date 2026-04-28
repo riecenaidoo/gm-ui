@@ -24,6 +24,8 @@ import { Loader } from "../../../../shared/utils/loader/loader";
 import { LoadingSpinnerComponent } from "../../../../shared/components/loading-spinner/loading-spinner.component";
 import { debounced } from "../../../../shared/utils/debounced/debounced";
 
+type Loading = "playlists";
+
 @Component({
   selector: "main[app-catalogue-page]",
   templateUrl: "./catalogue-page.component.html",
@@ -56,7 +58,7 @@ export class CataloguePageComponent extends PageComponent implements OnInit {
 
   readonly #playlists: WritableSignal<Playlist[]> = signal<Playlist[]>([]);
 
-  readonly #playlistsLoader: Loader = new Loader();
+  readonly #loader: Loader<Loading> = new Loader<Loading>(["playlists"]);
 
   /**
    * When the User is filtering Playlists, and there is no match, set the default title for Playlist creation to the
@@ -100,7 +102,7 @@ export class CataloguePageComponent extends PageComponent implements OnInit {
           const datasource: Observable<Playlist[]> = titleFilter
             ? this.playlistService.getPlaylistsByTitle(titleFilter)
             : this.playlistService.getPlaylists();
-          return datasource.pipe(this.#playlistsLoader.track());
+          return datasource.pipe(this.#loader.track("playlists"));
         }),
         takeUntilDestroyed(this.destroyed),
       )
@@ -112,7 +114,7 @@ export class CataloguePageComponent extends PageComponent implements OnInit {
   // ==========================================================================
 
   protected readonly playlistsLoading: Signal<boolean> = debounced(
-    this.#playlistsLoader.isLoading,
+    this.#loader.isLoading("playlists"),
   );
 
   protected get playlists(): Signal<Playlist[]> {
