@@ -43,7 +43,7 @@ export class Loader {
   /**
    * Track the subscription to the source {@link Observable}.
    */
-  public track = <T>(): OperatorFunction<T, T> => {
+  public track<T>(): OperatorFunction<T, T> {
     return (source) =>
       defer(() => {
         this.#loading.update((v) => v + 1);
@@ -54,5 +54,5 @@ export class Loader {
           }),
         );
       });
-  };
+  }
 }
