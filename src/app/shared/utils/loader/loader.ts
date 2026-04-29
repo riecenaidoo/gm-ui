@@ -86,7 +86,7 @@ export class Loader<K extends PropertyKey> {
    * @param key the loading state to track against.
    *
    */
-  public track = <T>(key: K): OperatorFunction<T, T> => {
+  public track<T>(key: K): OperatorFunction<T, T> {
     const loader: WritableSignal<number> = this.getLoader(key);
     return (source) =>
       defer(() => {
@@ -98,7 +98,7 @@ export class Loader<K extends PropertyKey> {
           }),
         );
       });
-  };
+  }
 
   /**
    * `true` while one or more tracked {@link Observable observables} are still active
@@ -140,5 +140,19 @@ export class Loader<K extends PropertyKey> {
       throw Error(`Key ${String(key)} does not exist in Loader.`);
     }
     return loader;
+  }
+}
+
+export class SingleLoader extends Loader<"default"> {
+  public constructor() {
+    super(["default"]);
+  }
+
+  override isLoading(): Signal<boolean> {
+    return super.isLoading("default");
+  }
+
+  override track<T>(): OperatorFunction<T, T> {
+    return super.track("default");
   }
 }

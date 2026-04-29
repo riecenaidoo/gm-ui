@@ -30,7 +30,7 @@ import { PlaylistApiService } from "../../services/playlist-api.service";
 import { takeUntilDestroyed, toSignal } from "@angular/core/rxjs-interop";
 import { Loader } from "../../../../shared/utils/loader/loader";
 
-type Loading = "playlist" | "songs";
+type Loading = "playlist" | "songs" | "deleting";
 
 @Component({
   selector: "main[app-playlist-page]",

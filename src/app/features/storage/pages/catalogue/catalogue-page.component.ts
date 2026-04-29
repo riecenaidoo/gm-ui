@@ -20,11 +20,9 @@ import { FormsModule } from "@angular/forms";
 import { PlaylistStateService } from "../../services/playlist-state.service";
 import { ModalDirective } from "../../../../shared/directives/modal.directive";
 import { HotkeyDirective } from "../../../../shared/directives/hotkey.directive";
-import { Loader } from "../../../../shared/utils/loader/loader";
+import { SingleLoader } from "../../../../shared/utils/loader/loader";
 import { LoadingSpinnerComponent } from "../../../../shared/components/loading-spinner/loading-spinner.component";
 import { debounced } from "../../../../shared/utils/debounced/debounced";
-
-type Loading = "playlists";
 
 @Component({
   selector: "main[app-catalogue-page]",
@@ -58,7 +56,7 @@ export class CataloguePageComponent extends PageComponent implements OnInit {
 
   readonly #playlists: WritableSignal<Playlist[]> = signal<Playlist[]>([]);
 
-  readonly #loader: Loader<Loading> = new Loader<Loading>(["playlists"]);
+  readonly #loader: SingleLoader = new SingleLoader();
 
   /**
    * When the User is filtering Playlists, and there is no match, set the default title for Playlist creation to the
@@ -102,7 +100,7 @@ export class CataloguePageComponent extends PageComponent implements OnInit {
           const datasource: Observable<Playlist[]> = titleFilter
             ? this.playlistService.getPlaylistsByTitle(titleFilter)
             : this.playlistService.getPlaylists();
-          return datasource.pipe(this.#loader.track("playlists"));
+          return datasource.pipe(this.#loader.track());
         }),
         takeUntilDestroyed(this.destroyed),
       )
@@ -114,7 +112,7 @@ export class CataloguePageComponent extends PageComponent implements OnInit {
   // ==========================================================================
 
   protected readonly playlistsLoading: Signal<boolean> = debounced(
-    this.#loader.isLoading("playlists"),
+    this.#loader.isLoading(),
   );
 
   protected get playlists(): Signal<Playlist[]> {
