@@ -17,7 +17,7 @@ import { toSignal } from "@angular/core/rxjs-interop";
 import { ServerAudio } from "../models/server-audio";
 import { Loader } from "../../../shared/utils/loader/loader";
 
-export type AudioBotLoading = "channels" | "connection";
+export type AudioBotLoading = "servers" | "channels" | "connection";
 
 /**
  * The capabilities for the Discord Audio Bot.
@@ -141,7 +141,9 @@ export class AudioStateService implements AudioBot {
 
   readonly #servers: Observable<Server[] | undefined> = this.#audioBot.pipe(
     switchMap((bot: AudioService | undefined) =>
-      bot == undefined ? of(undefined) : this.#api.getServers(),
+      bot == undefined
+        ? of(undefined)
+        : this.#api.getServers().pipe(this.#loaders.servers.track()),
     ),
     share(),
   );
@@ -237,10 +239,12 @@ export class AudioStateService implements AudioBot {
 
   public constructor() {
     this.#loaders = {
+      servers: new Loader(),
       connection: new Loader(),
       channels: new Loader(),
     };
     this.isLoading = {
+      servers: this.#loaders.servers.isLoading,
       connection: this.#loaders.connection.isLoading,
       channels: this.#loaders.channels.isLoading,
     };

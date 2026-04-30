@@ -5,12 +5,14 @@ import {
   AudioBot,
   AudioStateService,
 } from "../../services/audio-state.service";
+import { LoadingSpinnerComponent } from "../../../../shared/components/loading-spinner/loading-spinner.component";
+import { debounced } from "../../../../shared/utils/debounced/debounced";
 
 @Component({
   selector: "app-server-selector",
   templateUrl: "./server-selector.component.html",
   styleUrl: "./server-selector.component.css",
-  imports: [FormsModule],
+  imports: [FormsModule, LoadingSpinnerComponent],
 })
 export class ServerSelectorComponent {
   // ==========================================================================
@@ -22,6 +24,10 @@ export class ServerSelectorComponent {
   // ==========================================================================
   // Derived State
   // ==========================================================================
+
+  protected readonly loadingServers: Signal<boolean> = debounced(
+    this.#bot.isLoading.servers,
+  );
 
   protected readonly servers: Signal<Server[] | undefined> = this.#bot.servers;
 

@@ -1,15 +1,20 @@
-<select
-  (ngModelChange)="select($event)"
-  [ngModel]="selectedServer()"
-  id="selectServer"
-  name="selectedServer"
-  title="Server Selector"
-  class="header-bar"
-  [class.highlight]="selectedServer() === undefined"
+<app-loading-spinner
+  [loading]="loadingServers()"
+  [class.loading]="loadingServers()"
 >
-  @for (server of servers(); track server.id) {
-    <option [ngValue]="server">
-      {{ server.name }}
-    </option>
-  }
-</select>
+  <select
+    (ngModelChange)="select($event)"
+    [ngModel]="selectedServer()"
+    id="selectServer"
+    name="selectedServer"
+    title="Server Selector"
+    class="header-bar"
+    [class.highlight]="selectedServer() === undefined"
+  >
+    @for (server of servers(); track server.id) {
+      <option [ngValue]="server">
+        {{ server.name }}
+      </option>
+    }
+  </select>
+</app-loading-spinner>
