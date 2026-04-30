@@ -43,11 +43,15 @@ export class ChannelSelectorComponent {
   // Derived State
   // ==========================================================================
 
+  protected readonly loadingChannels: Signal<boolean> = debounced(
+    this.#bot.isLoading.channels,
+  );
+
   protected readonly channels: Signal<Channel[] | undefined> =
     this.#bot.channels;
 
   protected readonly isConnecting: Signal<boolean> = debounced(
-    this.#bot.isConnecting,
+    this.#bot.isLoading.connection,
   );
 
   protected readonly connectedChannel: Signal<Channel | undefined> =

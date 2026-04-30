@@ -29,6 +29,6 @@ export class ChannelAudioComponent {
     this.#bot.audioBot;
 
   protected readonly isConnecting: Signal<boolean> = debounced(
-    this.#bot.isConnecting,
+    this.#bot.isLoading.connection,
   );
 }

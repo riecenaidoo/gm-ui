@@ -28,7 +28,7 @@ export class AudioStatusComponent {
     this.#bot.serverAudio;
 
   protected readonly isConnecting: Signal<boolean> = debounced(
-    this.#bot.isConnecting,
+    this.#bot.isLoading.connection,
   );
 
   // ==========================================================================

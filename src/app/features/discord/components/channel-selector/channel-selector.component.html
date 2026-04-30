@@ -5,7 +5,12 @@
     <li>
       <button (click)="select(channel)" [class.highlight]="isConnectedChannel">
         <i class="fa fa-volume-up" aria-hidden="true"></i>
-        <span>{{ channel.name }}</span>
+        <span
+          [class.loading]="
+            loadingChannels() && !(isConnectedChannel || isConnectingToChannel)
+          "
+          >{{ channel.name }}</span
+        >
       </button>
       @if (isConnectedChannel || isConnectingToChannel) {
         <app-channel-audio />

@@ -42,7 +42,9 @@ describe("ChannelAudioComponent", () => {
           provide: AudioStateService,
           useValue: {
             audioBot: mockAudioService,
-            isConnecting: mockIsConnecting,
+            isLoading: {
+              connection: mockIsConnecting,
+            },
           },
         },
       ],
