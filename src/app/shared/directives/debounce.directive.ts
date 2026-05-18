@@ -2,6 +2,8 @@ import { Directive, Input, OnDestroy } from "@angular/core";
 
 /**
  * A directive that debounces User interaction to limit processing, event publishing, API calls, etc.
+ *
+ * @deprecated See {@link Debounce}.
  */
 @Directive()
 export abstract class DebounceDirective implements OnDestroy {

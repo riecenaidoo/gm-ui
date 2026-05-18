@@ -15,11 +15,19 @@ import {
 } from "rxjs";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { ServerAudio } from "../models/server-audio";
+import { Loader } from "../../../shared/utils/loader/loader";
+
+export type AudioBotLoading = "servers" | "channels" | "connection";
 
 /**
  * The capabilities for the Discord Audio Bot.
  */
 export interface AudioBot {
+  /**
+   * Loading states of the {@link AudioBot}.
+   */
+  isLoading: Record<AudioBotLoading, Signal<boolean>>;
+
   /**
    * The {@link AudioBot}, if it is available.
    *
@@ -105,6 +113,8 @@ export class AudioStateService implements AudioBot {
   // Internal State
   // ==========================================================================
 
+  readonly #loaders: Record<AudioBotLoading, Loader>;
+
   readonly #reconnect: Subject<void> = new Subject<void>();
 
   readonly #selectServer: Subject<Server | undefined> = new Subject<
@@ -131,7 +141,9 @@ export class AudioStateService implements AudioBot {
 
   readonly #servers: Observable<Server[] | undefined> = this.#audioBot.pipe(
     switchMap((bot: AudioService | undefined) =>
-      bot == undefined ? of(undefined) : this.#api.getServers(),
+      bot == undefined
+        ? of(undefined)
+        : this.#api.getServers().pipe(this.#loaders.servers.track()),
     ),
     share(),
   );
@@ -139,7 +151,9 @@ export class AudioStateService implements AudioBot {
   readonly #channels: Observable<Channel[] | undefined> =
     this.#selectServer.pipe(
       switchMap((server: Server | undefined) =>
-        server == undefined ? of(undefined) : this.#api.getChannels(server),
+        server == undefined
+          ? of(undefined)
+          : this.#api.getChannels(server).pipe(this.#loaders.channels.track()),
       ),
       share(),
     );
@@ -157,9 +171,13 @@ export class AudioStateService implements AudioBot {
     switchMap((connectAction: [Server, Channel | undefined]) => {
       const server = connectAction[0];
       const channel = connectAction[1];
-      return channel == undefined
-        ? this.#api.deleteServerAudio(server).pipe(map((_channel) => undefined))
-        : this.#api.createServerAudio(server, channel);
+      const datasource: Observable<ServerAudio | undefined> =
+        channel == undefined
+          ? this.#api
+              .deleteServerAudio(server)
+              .pipe(map((_channel) => undefined))
+          : this.#api.createServerAudio(server, channel);
+      return datasource.pipe(this.#loaders.connection.track());
     }),
     share(),
   );
@@ -216,8 +234,27 @@ export class AudioStateService implements AudioBot {
   );
 
   // ==========================================================================
+  // Initialisation
+  // ==========================================================================
+
+  public constructor() {
+    this.#loaders = {
+      servers: new Loader(),
+      connection: new Loader(),
+      channels: new Loader(),
+    };
+    this.isLoading = {
+      servers: this.#loaders.servers.isLoading,
+      connection: this.#loaders.connection.isLoading,
+      channels: this.#loaders.channels.isLoading,
+    };
+  }
+
+  // ==========================================================================
   // API
   // ==========================================================================
+
+  public readonly isLoading: Record<AudioBotLoading, Signal<boolean>>;
 
   public reconnect(): void {
     this.#reconnect.next(undefined);

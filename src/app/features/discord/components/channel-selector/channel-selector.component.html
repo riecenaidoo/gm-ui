@@ -1,19 +1,19 @@
 <ol>
   @for (channel of channels(); track channel.id) {
     @let isConnectedChannel = connectedChannel()?.id === channel.id;
+    @let isConnectingToChannel = connectingTo()?.id === channel.id;
     <li>
       <button (click)="select(channel)" [class.highlight]="isConnectedChannel">
         <i class="fa fa-volume-up" aria-hidden="true"></i>
-        <span>{{ channel.name }}</span>
+        <span
+          [class.loading]="
+            loadingChannels() && !(isConnectedChannel || isConnectingToChannel)
+          "
+          >{{ channel.name }}</span
+        >
       </button>
-      @if (isConnectedChannel) {
-        <div>
-          @let url = audioService()?.icon_url;
-          @if (url !== undefined) {
-            <img ngSrc="{{ url }}" alt="Icon" width="48" height="48" />
-          }
-          <span>{{ audioService()?.name }}</span>
-        </div>
+      @if (isConnectedChannel || isConnectingToChannel) {
+        <app-channel-audio />
       }
     </li>
   }

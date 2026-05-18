@@ -1,16 +1,18 @@
-import { Component, inject, Signal } from "@angular/core";
+import { Component, computed, inject, Signal } from "@angular/core";
 import { AudioService } from "../../models/audio-service";
 import {
   AudioBot,
   AudioStateService,
 } from "../../services/audio-state.service";
 import { NgOptimizedImage } from "@angular/common";
+import { LoadingSpinnerComponent } from "../../../../shared/components/loading-spinner/loading-spinner.component";
+import { debounced } from "../../../../shared/utils/debounced/debounced";
 
 @Component({
   selector: "app-bot-status",
   templateUrl: "./bot-status.component.html",
   styleUrl: "./bot-status.component.css",
-  imports: [NgOptimizedImage],
+  imports: [NgOptimizedImage, LoadingSpinnerComponent],
 })
 export class BotStatusComponent {
   // ==========================================================================
@@ -20,8 +22,12 @@ export class BotStatusComponent {
   readonly #bot: AudioBot = inject(AudioStateService);
 
   // ==========================================================================
-  // State
+  // Derived State
   // ==========================================================================
 
-  public audioService: Signal<AudioService | undefined> = this.#bot.audioBot;
+  protected bot: Signal<AudioService | undefined> = this.#bot.audioBot;
+
+  protected loading: Signal<boolean> = debounced(
+    computed(() => this.bot() === undefined),
+  );
 }

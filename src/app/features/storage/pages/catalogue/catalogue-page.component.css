@@ -9,9 +9,31 @@ section {
   }
 }
 
-/* <1> Reactive Grids
+div.control-bar {
+  position: relative; /* <2> */
+}
+
+app-loading-spinner {
+  height: 50%;
+  right: 1rem;
+  position: absolute; /* <2> */
+  pointer-events: none; /* <3> */
+  top: 25%;
+}
+
+/*
+
+<1> Reactive Grids
 
 Fill up the width allowed with as many columns as appropriate,
 with the restriction that a column must be at least 15rem wide (sufficient to display most titles comfortably).
 
+
+<2> Positioning
+
+Relative positioning on the ControlBar is needed to correctly position the LoadingSpinner in relation to it which is
+otherwise removed from normal document flow.
+
+<3> Its positioned on top of the <input> for styling, and meant to look apart of it. Clicks on it should fall through to
+    the <input> beneath it.
 */
