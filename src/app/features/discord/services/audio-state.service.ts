@@ -4,6 +4,8 @@ import { Server } from "../models/server";
 import { AudioApiService } from "./audio-api.service";
 import { AudioService } from "../models/audio-service";
 import {
+  concat,
+  EMPTY,
   map,
   merge,
   Observable,
@@ -148,12 +150,21 @@ export class AudioStateService implements AudioBot {
     share(),
   );
 
+  /**
+   * Immediately discards current {@link Channel Channels} when the selected {@link Server} changes,
+   * and await fetch the new Server's Channels.
+   */
   readonly #channels: Observable<Channel[] | undefined> =
     this.#selectServer.pipe(
-      switchMap((server: Server | undefined) =>
-        server == undefined
-          ? of(undefined)
-          : this.#api.getChannels(server).pipe(this.#loaders.channels.track()),
+      switchMap((server) =>
+        concat(
+          of(undefined),
+          server == undefined
+            ? EMPTY
+            : this.#api
+                .getChannels(server)
+                .pipe(this.#loaders.channels.track()),
+        ),
       ),
       share(),
     );

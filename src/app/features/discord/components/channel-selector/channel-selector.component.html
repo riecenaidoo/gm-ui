@@ -16,5 +16,14 @@
         <app-channel-audio />
       }
     </li>
+  } @empty {
+    @if (loadingChannels()) {
+      <li>
+        <button>
+          <i class="fa fa-volume-up" aria-hidden="true"></i>
+          <span class="loading">Channel Loading</span>
+        </button>
+      </li>
+    }
   }
 </ol>
