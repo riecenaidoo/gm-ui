@@ -24,3 +24,10 @@ select {
 li {
   color: var(--palette-text);
 }
+
+app-loading-spinner.loading {
+  display: flex;
+  height: 1.5rem;
+  padding: 1rem;
+  justify-content: right;
+}

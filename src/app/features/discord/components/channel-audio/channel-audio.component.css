@@ -1,0 +1,23 @@
+:host {
+  align-items: center;
+  display: flex;
+  gap: 0.25rem;
+
+  padding-bottom: 0.5rem;
+  padding-top: 0.5rem;
+
+  img {
+    border-radius: 100%;
+    height: 1.25rem; /* <1> */
+    width: auto;
+  }
+}
+
+app-loading-spinner {
+  height: 1.25rem;
+}
+
+/*
+<1> Override NgSrc width & height attributes, which are just provided to remove linting warnings.
+    'fill' attribute does not work well without an enclosing <div>, which we are trying to avoid.
+ */

@@ -1,8 +1,14 @@
-@let service = audioService();
-@if (service !== undefined) {
-  <img [ngSrc]="service.icon_url" alt="Icon" width="48" height="48" />
-  <span
-    ><strong>{{ service.name }}</strong></span
-  >
-  <span>{{ service.online ? "Online" : "Offline" }}</span>
-}
+<app-loading-spinner [loading]="loading()">
+  <img
+    [ngSrc]="bot()?.icon_url ?? 'assets/gm-logo.svg'"
+    alt="Icon"
+    height="48"
+    width="48"
+  />
+</app-loading-spinner>
+<span [class.loading]="loading()"
+  ><strong>{{ bot()?.name ?? "Gamemaster" }}</strong></span
+>
+<span [class.loading]="loading()">{{
+  bot()?.online ? "Online" : "Offline"
+}}</span>

@@ -15,11 +15,12 @@ but does cause a little repetition in the control blocks.-->
     aria-label="Connect to Discord"
     (click)="reconnect()"
   >
-    @if (reconnecting()) {
-      <i class="fa fa-toggle-on" aria-hidden="true"></i>
-    } @else {
-      <i class="fa fa-toggle-off" aria-hidden="true"></i>
-    }
+    <i
+      class="fa"
+      [class.fa-toggle-on]="reconnecting()"
+      [class.fa-toggle-off]="!reconnecting()"
+      aria-hidden="true"
+    ></i>
   </button>
   <img
     class="adaptive-filter"

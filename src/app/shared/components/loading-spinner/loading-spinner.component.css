@@ -1,0 +1,17 @@
+div.loading-spinner {
+  animation: spin 2s linear infinite;
+  aspect-ratio: 1; /* <1> */
+  border-radius: 50%;
+  border-width: 0.2rem;
+  border-color: var(--palette-accent);
+  border-top-color: var(--palette-text);
+  border-right-color: var(--palette-text);
+  border-style: solid;
+  box-sizing: border-box;
+  height: 100%; /* <2> */
+}
+
+/* See W3Schools > Loader
+<1> If aspect-ratio isn't maintained, the spinner won't look like a circle.
+<2> Allow the parent to control the height.
+*/

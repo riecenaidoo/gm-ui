@@ -1,19 +1,20 @@
 import { Component, inject, Signal } from "@angular/core";
-import { ServerAudio } from "../../models/server-audio";
 import {
   AudioBot,
   AudioStateService,
 } from "../../services/audio-state.service";
+import { AudioService } from "../../models/audio-service";
 import { LoadingSpinnerComponent } from "../../../../shared/components/loading-spinner/loading-spinner.component";
+import { NgOptimizedImage } from "@angular/common";
 import { debounced } from "../../../../shared/utils/debounced/debounced";
 
 @Component({
-  selector: "app-audio-status",
-  templateUrl: "./audio-status.component.html",
-  styleUrl: "./audio-status.component.css",
-  imports: [LoadingSpinnerComponent],
+  selector: "app-channel-audio",
+  imports: [LoadingSpinnerComponent, NgOptimizedImage],
+  templateUrl: "./channel-audio.component.html",
+  styleUrl: "./channel-audio.component.css",
 })
-export class AudioStatusComponent {
+export class ChannelAudioComponent {
   // ==========================================================================
   // Dependencies
   // ==========================================================================
@@ -24,18 +25,10 @@ export class AudioStatusComponent {
   // Derived State
   // ==========================================================================
 
-  protected readonly serverAudio: Signal<ServerAudio | undefined> =
-    this.#bot.serverAudio;
+  protected readonly audioService: Signal<AudioService | undefined> =
+    this.#bot.audioBot;
 
   protected readonly isConnecting: Signal<boolean> = debounced(
     this.#bot.isLoading.connection,
   );
-
-  // ==========================================================================
-  // Event Handling
-  // ==========================================================================
-
-  protected disconnect(): void {
-    this.#bot.connect(undefined);
-  }
 }

@@ -1,6 +1,9 @@
 @let audio = serverAudio();
+@let connecting = isConnecting();
 @if (audio) {
-  <span><strong>Audio Connected</strong></span>
-  <span>{{ audio.channel.name }}</span>
-  <button (click)="disconnect()">Disconnect</button>
+  <span [class.loading]="connecting"><strong>Audio Connected</strong></span>
+  <span [class.loading]="connecting">{{ audio.channel.name }}</span>
+  <app-loading-spinner [loading]="isConnecting()">
+    <button (click)="disconnect()">Disconnect</button>
+  </app-loading-spinner>
 }

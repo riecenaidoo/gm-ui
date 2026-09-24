@@ -1,7 +1,12 @@
 import { Directive, Input, OnDestroy } from "@angular/core";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { debounceTime } from "rxjs"; // used in documentation @link
 
 /**
  * A directive that debounces User interaction to limit processing, event publishing, API calls, etc.
+ *
+ * @deprecated See Rxjs {@link debounceTime}, {@link debounced} utility.
+ *
  */
 @Directive()
 export abstract class DebounceDirective implements OnDestroy {

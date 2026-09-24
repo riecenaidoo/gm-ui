@@ -27,14 +27,18 @@ export class DiscordStatusComponent {
   readonly #bot: AudioBot = inject(AudioStateService);
 
   // ==========================================================================
-  // State
+  // Internal State
+  // ==========================================================================
+
+  protected readonly reconnecting: WritableSignal<boolean> = signal(false);
+
+  // ==========================================================================
+  // Derived State
   // ==========================================================================
 
   protected readonly connected: Signal<boolean> = computed(
     () => this.#bot.audioBot() !== undefined,
   );
-
-  protected readonly reconnecting: WritableSignal<boolean> = signal(false);
 
   // ==========================================================================
   // Initialisation

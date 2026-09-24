@@ -8,7 +8,7 @@ export const routes: Routes = [
     component: CataloguePageComponent,
   },
   {
-    path: "playlists/:id",
+    path: "playlists/:playlist-id",
     component: PlaylistPageComponent,
   },
 ];

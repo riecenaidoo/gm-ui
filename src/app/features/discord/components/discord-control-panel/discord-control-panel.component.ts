@@ -29,7 +29,7 @@ export class DiscordControlPanelComponent {
   readonly #bot: AudioBot = inject(AudioStateService);
 
   // ==========================================================================
-  // External State
+  // Derived State
   // ==========================================================================
 
   protected readonly service: Signal<AudioService | undefined> =
